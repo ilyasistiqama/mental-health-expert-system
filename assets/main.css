@@ -1,0 +1,134 @@
+body {
+    background-image: url('../assets/background.jpg');
+    font-family: Arial, sans-serif;
+}
+
+ul {
+    display: flex;
+    /* Mengatur item menjadi berjajar */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    background-color: #f1f1f1;
+    overflow: hidden;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #3a3838;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+#bingkai {
+    display: block;
+    padding: 15px;
+}
+
+#margin {
+    display: block;
+    background-color: #ffffff;
+    border: 3px solid black;
+    box-shadow: 6px 6px 10px black;
+    min-height: 90vh;
+}
+
+#judul {
+    padding: 25px 0;
+    display: block;
+    color: #ffffff;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+    background: purple;
+    overflow: auto;
+}
+
+#content {
+    height: auto;
+    background-color: #ffffff;
+    display: block;
+    padding: 0 25px;
+    overflow: auto;
+}
+
+#content p {
+    text-align: justify;
+}
+
+#footer {
+    font-style: initial;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    background: red;
+}
+
+#before-box {
+    padding: 100px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#box {
+    height: 100%;
+    width: 70%;
+    padding: 20px 20px;
+    border: 2px solid black;
+    border-radius: 15px;
+    box-shadow: 4px 4px 6px black;
+    text-align: center;
+}
+
+.form-content {
+    padding: 15px 0;
+    display: block;
+}
+
+.form-control {
+    width: 50%;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+button {
+    width: 20%;
+    height: auto;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px;
+
+    box-shadow: 4px 4px 6px black;
+}
+
+@media screen and (max-width:1100px) {
+    #margin {
+        min-height: 100%;
+    }
+
+    #box {
+        width: 100%;
+    }
+
+    .form-control {
+        width: 80%;
+    }
+}
