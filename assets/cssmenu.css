@@ -1,0 +1,58 @@
+#bingkai {
+    margin: auto;
+    width: auto;
+    padding: auto;
+}
+
+#margin {
+    background-color: white;
+    
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+#naviup {
+    margin-top: 0px;
+}
+
+#logo {
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    background: white;
+}
+
+#judul {
+    font-style: normal;
+    line-height: 50px;
+    text-align: center;
+    margin: 0 0 0 0px;
+    font-weight: bold;
+    font-size: 30px;
+    background: purple;
+}
+
+#buttonlogin {
+    text-align: center;
+}
+
+#pict {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 280px;
+}
+
+#centerhome {
+    width: 100%;
+    text-align: center;
+}
+
+#footer {
+    font-style: initial;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    background: red;
+}
