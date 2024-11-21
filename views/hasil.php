@@ -42,7 +42,7 @@ $data = mysqli_fetch_assoc($panggil);
                 <?php
                 if (isset($_SESSION["hak_akses"])) {
                 ?>
-                    <li><a class="active">Konsultasi</a></li>
+                    <li><a class="active" href="konsultasi.php">Konsultasi</a></li>
                     <li><a href="../controllers/logout.php">Logout</a></li>
                 <?php
                 } else {

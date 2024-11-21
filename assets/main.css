@@ -99,7 +99,7 @@ li a:hover:not(.active) {
 }
 
 .form-control {
-    padding: 15px 0;
+    padding: 15px 15px;
     width: 50%;
 }
 
