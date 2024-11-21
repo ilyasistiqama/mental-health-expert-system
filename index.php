@@ -27,7 +27,7 @@
         <?php
         } else {
         ?>
-          <li><a href="auth/login.php">Login</a></li>
+          <li><a href="views/auth/login.php">Login</a></li>
         <?php
         }
         ?>

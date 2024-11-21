@@ -39,16 +39,18 @@ if ($_SESSION["hak_akses"] != "user") {
                     Pilih Metode Yang Digunakan:
                 </h2>
 
-                <center>
-                    <a href="pertanyaan/pertanyaan1.php">
+                <div id="box-button-pertanyaan">
+                    <a href="forward.php">
                         <button>
                             <h3>Forward Chaining</h3>
-                        </button></a>
-                    <a href="pertanyaan/backward.php">
+                        </button>
+                    </a>
+                    <a href="backward.php">
                         <button>
                             <h3>Backward Chaining</h3>
-                        </button></a>
-                </center>
+                        </button>
+                    </a>
+                </div>
             </div>
 
         </div>
