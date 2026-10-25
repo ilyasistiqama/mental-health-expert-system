@@ -50,6 +50,8 @@ export default defineConfig({
                 // tampilan aplikasi (termasuk pembuat PDF) disimpan penuh agar bisa dibuka offline
                 globPatterns: ["**/*.{js,css,html,svg}"],
                 navigateFallback: "index.html",
+                // fallback hanya untuk alamat halaman (/artikel), bukan file seperti data/penyakit.json
+                navigateFallbackDenylist: [/\/[^/?]+\.[^/?]+(\?.*)?$/],
                 clientsClaim: true,
                 runtimeCaching: [
                     {

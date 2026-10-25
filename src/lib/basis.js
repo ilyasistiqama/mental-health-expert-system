@@ -1,5 +1,5 @@
 // Alamat dasar aplikasi, misalnya "/" (npm run dev), "/sispak-gangguan-kecemasan/" (GitHub Pages)
-// atau "/folder/dist/" (Apache/Laragon). Build untuk GitHub Pages memakai base absolut; build biasa
+// atau "/folder/dist/" (web server lokal). Build untuk GitHub Pages memakai base absolut; build biasa
 // memakai base relatif "./", sehingga alamatnya dihitung dari lokasi file JavaScript (folder assets/).
 export const BASIS = import.meta.env.BASE_URL.startsWith("/")
     ? import.meta.env.BASE_URL

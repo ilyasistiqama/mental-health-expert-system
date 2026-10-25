@@ -3,7 +3,7 @@ import { BASIS } from "./lib/basis";
 
 const JUDUL = "Sistem Pakar Kecemasan";
 
-// alamat bersih (/artikel); GitHub Pages memakai 404.html dan Apache memakai .htaccess sebagai fallback
+// alamat bersih (/artikel); GitHub Pages memakai salinan per halaman + 404.html, nginx memakai try_files
 const router = createRouter({
     history: createWebHistory(BASIS),
     routes: [

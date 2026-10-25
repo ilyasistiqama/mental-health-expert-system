@@ -67,7 +67,7 @@ MySQL, ataupun konfigurasi server tambahan.
 Untuk mencoba hasil build di komputer sendiri: `npm run preview`.
 
 > `index.html` di root project adalah **file sumber** Vite, bukan aplikasi jadi. Jika folder project
-> dibuka langsung lewat Apache/Laragon atau GitHub Pages, halaman itu otomatis mengarahkan ke `dist/`.
+> dibuka langsung lewat web server, halaman itu otomatis mengarahkan ke `dist/`.
 
 ### Publikasi ke GitHub Pages
 
@@ -83,9 +83,18 @@ Catatan teknis:
   `index.html` (`artikel.html`, `konsultasi.html`, dst.) agar GitHub Pages melayaninya dengan status 200;
   `404.html` menjadi cadangan. Jika menambah halaman baru, tambahkan juga namanya di `HALAMAN`
   pada `vite.config.js`.
-- Untuk Apache/Laragon, `dist/.htaccess` mengarahkan alamat seperti `/artikel` ke `index.html`
-  (butuh `mod_rewrite` aktif).
 - Tautan lama berformat `#/artikel` otomatis diubah ke `/artikel`.
+
+### Publikasi ke VPS (nginx)
+
+1. Jalankan `npm run build`, lalu salin **isi** folder `dist/` ke server, misalnya `/var/www/sispak/dist`.
+2. Pakai contoh konfigurasi di [`deploy/nginx.conf`](deploy/nginx.conf): sesuaikan `server_name` dan
+   `root`, aktifkan, lalu `nginx -t && systemctl reload nginx`.
+3. Pasang HTTPS (misalnya `certbot --nginx`), karena mode offline hanya aktif di HTTPS.
+
+Inti konfigurasinya adalah `try_files $uri $uri.html $uri/ /index.html;` agar alamat seperti `/artikel`
+tetap bisa dibuka langsung dan di-refresh. Jika aplikasi ditaruh di subfolder (misalnya
+`domain.com/sispak/`), build dengan `BASE_PATH=/sispak/ npm run build` dan sesuaikan `location`-nya.
 
 ## Struktur folder
 
