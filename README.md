@@ -48,5 +48,7 @@ Mesin inferensi ada di `lib/SistemPakar.php` (sama persis dengan `src/lib/sistem
   ditanyakan sampai tuntas dengan urutan tetap, lalu durasi keluhan ditanyakan sebagai akhir diagnosa.
   Gejala yang tidak bisa lagi mengubah hasil tidak ditanyakan, sehingga kesimpulan selalu sama untuk
   jawaban yang sama, apa pun urutan acaknya. Bisa menghasilkan lebih dari satu gangguan.
-- **Backward chaining**: pilih satu gangguan sebagai hipotesis, sistem membuktikan kriterianya
-  satu per satu (tidak diacak) dan berhenti begitu satu kriteria tidak mungkin terpenuhi.
+- **Backward chaining**: pilih satu gangguan sebagai hipotesis, sistem membuktikan kriterianya dan berhenti
+  begitu satu kriteria tidak mungkin terpenuhi. Gejala hipotesis ditanyakan dalam urutan acak per sesi;
+  gejala dengan kolom `akhir = 1` (dampak ke kehidupan sehari-hari) selalu ditanyakan paling akhir.
+  Karena itu setiap pertanyaan ditulis agar bisa berdiri sendiri.

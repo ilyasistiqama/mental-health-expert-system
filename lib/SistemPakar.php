@@ -85,6 +85,7 @@ class SistemPakar
         return array_column($this->aturan, 'penyakit');
     }
 
+    // acak: forward = urutan acak pertanyaan penyaring, backward = urutan acak seluruh gejala hipotesis
     public function sesiBaru(string $metode, ?string $target = null): array
     {
         return [
@@ -93,8 +94,21 @@ class SistemPakar
             'fakta' => [],
             'durasi' => [],
             'urutan' => [],
-            'acak' => $metode === 'forward' ? $this->acak($this->gejalaPenyaring()) : [],
+            'acak' => $metode === 'forward' ? $this->acak($this->gejalaPenyaring()) : $this->urutanAcakAturan($target),
         ];
+    }
+
+    // gejala bertanda "akhir" (misalnya dampak ke kehidupan sehari-hari) selalu ditanyakan paling akhir
+    private function urutanAcakAturan(?string $target): array
+    {
+        foreach ($this->aturan as $a) {
+            if ($a['penyakit'] === $target) {
+                $acak = $this->acak(array_values(array_unique(array_merge(...array_column($a['kriteria'], 'gejala')))));
+                $akhir = fn ($k) => (bool) $this->gejala[$k]['akhir'];
+                return [...array_filter($acak, fn ($k) => !$akhir($k)), ...array_filter($acak, $akhir)];
+            }
+        }
+        return [];
     }
 
     public function sesiValid(mixed $sesi, string $metode): bool
@@ -190,8 +204,9 @@ class SistemPakar
     /**
      * Menentukan pertanyaan berikutnya, atau kesimpulan jika inferensi selesai. Prioritasnya:
      * 1. gangguan yang semua kriterianya terpenuhi langsung ditanyakan durasinya (akhir diagnosa),
-     * 2. gangguan yang pertanyaan penyaringnya sudah terpenuhi ditelusuri sampai tuntas dengan urutan tetap,
-     * 3. selain itu tanyakan pertanyaan penyaring berikutnya sesuai urutan acak sesi (forward chaining).
+     * 2. backward chaining: gejala hipotesis yang masih relevan sesuai urutan acak sesi,
+     * 3. forward chaining: gangguan yang pertanyaan penyaringnya sudah terpenuhi ditelusuri sampai tuntas
+     *    dengan urutan tetap, selain itu tanyakan pertanyaan penyaring berikutnya sesuai urutan acak sesi.
      * Gejala yang tidak bisa lagi mengubah status aturan tidak ditanyakan, sehingga kesimpulan
      * selalu sama dengan menanyakan semua gejala, apa pun urutan acaknya.
      */
@@ -220,6 +235,16 @@ class SistemPakar
 
         if ($tanpaDurasi) {
             return ['jenis' => 'durasi', 'penyakit' => $tanpaDurasi[0]['penyakit'], 'sisa' => $sisa];
+        }
+
+        if ($terbuka && $sesi['metode'] === 'backward') {
+            $relevan = $this->gejalaRelevan($terbuka[0], $sesi['fakta']);
+            // gejala yang tidak ada di urutan acak (data ditambah setelah sesi dibuat) ditanyakan sesudahnya
+            foreach ([...$sesi['acak'], ...$relevan] as $kode) {
+                if (in_array($kode, $relevan, true)) {
+                    return ['jenis' => 'gejala', 'kode' => $kode, 'sisa' => $sisa];
+                }
+            }
         }
 
         if ($terbuka) {
@@ -264,7 +289,7 @@ class SistemPakar
                 }
             }
         }
-        // backward chaining tidak diacak; penyaring baru (data ditambah setelah sesi dibuat) ditaruh di akhir
+        // penyaring baru (data ditambah setelah sesi dibuat) ditaruh di akhir
         foreach ([...$sesi['acak'], ...array_keys($this->gejala)] as $kode) {
             if (isset($relevan[$kode])) {
                 return $kode;
