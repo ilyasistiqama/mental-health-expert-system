@@ -28,6 +28,6 @@ require __DIR__ . '/partials/header.php';
 </p>
 
 <div class="wadah-sempit">
-    <?php require __DIR__ . '/partials/pertanyaan.php'; ?>
+    <?php require __DIR__ . (perlu_petunjuk($metode, $sesi) ? '/partials/petunjuk.php' : '/partials/pertanyaan.php'); ?>
 </div>
 <?php require __DIR__ . '/partials/footer.php'; ?>

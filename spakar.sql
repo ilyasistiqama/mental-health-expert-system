@@ -93,13 +93,13 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- tabel `riwayat` dari versi sebelumnya dihapus: hasil diagnosa bersifat rahasia dan tidak disimpan
+-- tabel `riwayat` dari versi sebelumnya dihapus: hasil pemeriksaan bersifat rahasia dan tidak disimpan
 
 INSERT INTO `penyakit` (`id_penyakit`, `nama_penyakit`, `kategori`, `deskripsi`, `durasi_minimal`, `catatan_durasi`, `rujukan`) VALUES
-('P0', 'Tidak Terdeteksi Gangguan Kecemasan', '-', 'Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan gangguan kecemasan. Rasa cemas sesekali adalah hal yang normal dan bahkan bisa membantu kita lebih waspada.', 0, NULL, ''),
-('P1', 'Gangguan Panik', 'Gangguan Kecemasan', 'Serangan panik yang berulang dan tidak terduga, yaitu gelombang rasa takut atau tidak nyaman yang sangat hebat dan memuncak dalam hitungan menit, disertai gejala fisik yang kuat. Setelahnya penderita terus khawatir akan serangan berikutnya atau mengubah perilaku untuk menghindarinya.', 30, NULL, 'DSM-5-TR: Panic Disorder · ICD-11: 6B01 · PPDGJ-III: F41.0'),
+('P0', 'Tidak Menunjukkan Kecenderungan Gangguan Kecemasan', '-', 'Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan pada gangguan kecemasan yang diperiksa. Hasil ini tidak menjamin anda bebas dari gangguan kecemasan maupun masalah kesehatan mental lain, karena sistem ini hanya alat skrining yang terbatas. Jika anda tetap merasa cemas, sedih, atau terganggu, sebaiknya tetap berbicara dengan psikolog.', 0, NULL, ''),
+('P1', 'Gangguan Panik', 'Gangguan Kecemasan', 'Serangan panik yang berulang dan tidak terduga, yaitu gelombang rasa takut atau tidak nyaman yang sangat hebat dan memuncak dalam hitungan menit, disertai gejala fisik yang kuat. Setelahnya, orang yang mengalaminya terus khawatir akan serangan berikutnya atau mengubah perilaku untuk menghindarinya.', 30, NULL, 'DSM-5-TR: Panic Disorder · ICD-11: 6B01 · PPDGJ-III: F41.0'),
 ('P2', 'Gangguan Kecemasan Menyeluruh', 'Gangguan Kecemasan', 'Kecemasan dan kekhawatiran berlebihan tentang berbagai hal yang berlangsung hampir setiap hari, sulit dikendalikan, dan disertai keluhan seperti gelisah, mudah lelah, sulit berkonsentrasi, mudah marah, otot tegang, atau gangguan tidur.', 180, NULL, 'DSM-5-TR: Generalized Anxiety Disorder · ICD-11: 6B00 · PPDGJ-III: F41.1'),
-('P3', 'Fobia Spesifik', 'Gangguan Kecemasan', 'Ketakutan yang berlebihan dan tidak sebanding dengan bahaya sebenarnya terhadap objek atau situasi tertentu, misalnya hewan, ketinggian, darah, atau jarum suntik. Rasa takut hampir selalu muncul saat berhadapan dengan pemicunya sehingga penderita berusaha menghindarinya.', 180, NULL, 'DSM-5-TR: Specific Phobia · ICD-11: 6B03 · PPDGJ-III: F40.2'),
+('P3', 'Fobia Spesifik', 'Gangguan Kecemasan', 'Ketakutan yang berlebihan dan tidak sebanding dengan bahaya sebenarnya terhadap objek atau situasi tertentu, misalnya hewan, ketinggian, darah, atau jarum suntik. Rasa takut hampir selalu muncul saat berhadapan dengan pemicunya sehingga orang yang mengalaminya berusaha menghindarinya.', 180, NULL, 'DSM-5-TR: Specific Phobia · ICD-11: 6B03 · PPDGJ-III: F40.2'),
 ('P4', 'Gangguan Obsesif-Kompulsif', 'Gangguan Obsesif-Kompulsif dan Terkait', 'Munculnya obsesi (pikiran, bayangan, atau dorongan berulang yang tidak diinginkan) dan/atau kompulsi (tindakan atau ritual berulang yang dirasa harus dilakukan untuk meredakan cemas) yang menyita waktu atau sangat mengganggu. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.', 14, NULL, 'DSM-5-TR: Obsessive-Compulsive Disorder · ICD-11: 6B20 · PPDGJ-III: F42'),
 ('P5', 'Gangguan Stres Pascatrauma (PTSD)', 'Gangguan Terkait Trauma dan Stresor', 'Reaksi berkepanjangan setelah mengalami atau menyaksikan peristiwa traumatis, berupa ingatan atau mimpi buruk yang terus muncul, menghindari hal yang mengingatkan peristiwa, perubahan pikiran dan perasaan menjadi negatif, serta selalu waspada atau mudah kaget. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.', 30, 'Jika keluhan muncul kurang dari 1 bulan setelah peristiwa traumatis, kondisi ini dapat termasuk Gangguan Stres Akut. Tetap konsultasikan dengan psikolog atau psikiater.', 'DSM-5-TR: Posttraumatic Stress Disorder · ICD-11: 6B40 · PPDGJ-III: F43.1'),
 ('P6', 'Gangguan Kecemasan Sosial', 'Gangguan Kecemasan', 'Ketakutan yang kuat dan menetap terhadap situasi sosial ketika seseorang mungkin diperhatikan atau dinilai orang lain, karena takut dipermalukan atau ditolak. Situasi tersebut dihindari atau dijalani dengan kecemasan yang sangat hebat.', 180, NULL, 'DSM-5-TR: Social Anxiety Disorder · ICD-11: 6B04 · PPDGJ-III: F40.1'),
@@ -257,29 +257,29 @@ INSERT INTO `pengobatan` (`id_penyakit`, `urutan`, `isi`) VALUES
 ('P0', 3, 'Batasi konsumsi alkohol dan hindari narkoba.'),
 ('P0', 4, 'Jika suatu saat rasa cemas mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog atau puskesmas terdekat.'),
 ('P1', 1, 'Psikoterapi berupa terapi kognitif perilaku (CBT) merupakan penanganan utama untuk gangguan panik.'),
-('P1', 2, 'Antidepresan golongan SSRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater. Benzodiazepin umumnya tidak direkomendasikan untuk gangguan kecemasan.'),
+('P1', 2, 'Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.'),
 ('P1', 3, 'Latihan pernapasan perlahan dan relaksasi dapat membantu meredakan gejala saat serangan muncul.'),
 ('P2', 1, 'Psikoterapi berupa terapi kognitif perilaku (CBT) atau relaksasi terapan (applied relaxation) merupakan penanganan utama.'),
-('P2', 2, 'Antidepresan golongan SSRI (misalnya sertraline) atau SNRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater.'),
+('P2', 2, 'Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.'),
 ('P2', 3, 'Olahraga teratur, tidur cukup, teknik relaksasi, serta membatasi kafein dan alkohol dapat membantu meringankan gejala.'),
 ('P3', 1, 'Psikoterapi, terutama terapi kognitif perilaku dengan pemaparan bertahap terhadap objek atau situasi yang ditakuti (exposure therapy), merupakan penanganan utama.'),
 ('P3', 2, 'Teknik relaksasi dapat membantu mengendalikan rasa takut selama proses terapi.'),
-('P3', 3, 'Obat umumnya bukan penanganan utama untuk fobia spesifik; konsultasikan dengan psikiater bila diperlukan.'),
+('P3', 3, 'Obat umumnya bukan penanganan utama untuk fobia spesifik; bila diperlukan, psikiater atau dokter yang akan menentukannya.'),
 ('P4', 1, 'Terapi kognitif perilaku dengan teknik exposure and response prevention (ERP) merupakan penanganan utama.'),
-('P4', 2, 'Antidepresan golongan SSRI atau clomipramine dapat dipertimbangkan sesuai resep dan pengawasan psikiater.'),
+('P4', 2, 'Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.'),
 ('P4', 3, 'Dukungan keluarga dan edukasi tentang gangguan ini membantu proses pemulihan.'),
 ('P5', 1, 'Psikoterapi yang berfokus pada trauma merupakan penanganan utama, misalnya cognitive processing therapy (CPT), prolonged exposure (PE), trauma-focused CBT, atau eye movement desensitization and reprocessing (EMDR).'),
-('P5', 2, 'Antidepresan golongan SSRI (misalnya sertraline) atau venlafaxine dapat dipertimbangkan sesuai resep dan pengawasan psikiater.'),
+('P5', 2, 'Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.'),
 ('P5', 3, 'Dukungan sosial dan kelompok dukungan sesama penyintas dapat membantu pemulihan.'),
 ('P6', 1, 'Terapi kognitif perilaku (CBT) individual yang dirancang khusus untuk kecemasan sosial merupakan penanganan utama.'),
-('P6', 2, 'Antidepresan golongan SSRI (misalnya escitalopram atau sertraline) dapat dipertimbangkan sesuai resep dan pengawasan psikiater.'),
+('P6', 2, 'Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.'),
 ('P6', 3, 'Latihan menghadapi situasi sosial secara bertahap dapat membantu meningkatkan rasa percaya diri.'),
 ('P7', 1, 'Terapi kognitif perilaku (CBT) dengan pemaparan bertahap terhadap situasi yang ditakuti merupakan penanganan utama.'),
-('P7', 2, 'Antidepresan golongan SSRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater, terutama bila disertai serangan panik.'),
+('P7', 2, 'Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.'),
 ('P7', 3, 'Mulailah menghadapi situasi yang ditakuti secara perlahan, misalnya dengan ditemani orang yang dipercaya.'),
 ('P8', 1, 'Psikoterapi, terutama terapi kognitif perilaku (CBT) dengan latihan menghadapi perpisahan secara bertahap, merupakan penanganan utama.'),
 ('P8', 2, 'Pada anak dan remaja, terapi melibatkan orang tua atau keluarga.'),
-('P8', 3, 'Obat dapat dipertimbangkan oleh psikiater bila gejala berat atau psikoterapi saja belum cukup.');
+('P8', 3, 'Bila gejala berat, psikiater atau dokter dapat mempertimbangkan obat. Jangan mengonsumsi obat tanpa resep dan pengawasan dokter.');
 
 INSERT INTO `sumber` (`id_sumber`, `nomor`, `penulis`, `tahun`, `judul`, `penerbit`, `url`, `diakses`) VALUES
 ('dsm5tr', 1, 'American Psychiatric Association', '2022', 'Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition, Text Revision (DSM-5-TR)', 'American Psychiatric Association Publishing', 'https://www.psychiatry.org/psychiatrists/practice/dsm', '26 Oktober 2026'),

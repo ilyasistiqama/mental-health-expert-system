@@ -63,7 +63,13 @@ function rujukan(array $ids, string $dasar): string
     return '<sup class="rujukan">[' . implode(', ', $tautan) . ']</sup>';
 }
 
-// Hasil diagnosa bersifat rahasia: tidak disimpan ke database. Hasil dititipkan di session hanya
+// petunjuk pengisian tampil sebelum pertanyaan pertama; dilewati jika melanjutkan konsultasi
+function perlu_petunjuk(string $metode, array $sesi): bool
+{
+    return !$sesi['urutan'] && ($_SESSION['petunjuk'][$metode] ?? null) !== ($sesi['target'] ?? '');
+}
+
+// Hasil pemeriksaan bersifat rahasia: tidak disimpan ke database. Hasil dititipkan di session hanya
 // sampai halaman hasil dibuka, lalu langsung dihapus. Progres jawaban juga dihapus.
 function selesaikan_konsultasi(string $metode, array $sesi, array $kesimpulan, string $dasar): never
 {
@@ -76,7 +82,7 @@ function selesaikan_konsultasi(string $metode, array $sesi, array $kesimpulan, s
         'durasi' => $kesimpulan['durasi'],
         'jawaban' => sistem_pakar()->daftarJawaban($sesi),
     ];
-    unset($_SESSION['sesi'][$metode]);
+    unset($_SESSION['sesi'][$metode], $_SESSION['petunjuk'][$metode]);
 
     header("location: {$dasar}views/hasil.php");
     exit;

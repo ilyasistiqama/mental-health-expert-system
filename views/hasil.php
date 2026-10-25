@@ -34,7 +34,7 @@ if ($terdiagnosa) {
     $penjelasan = 'Ini adalah kecenderungan berdasarkan jawaban anda, bukan diagnosis. Diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater setelah bertemu dan berbicara langsung dengan anda.'
         . (count($terdiagnosa) > 1 ? ' Beberapa gangguan kecemasan memang dapat muncul bersamaan; profesional akan menentukan diagnosis utamanya.' : '');
 } elseif ($r['metode'] === 'backward' && !$belumCukup) {
-    $penjelasan = 'Tidak semua kriteria gangguan tersebut terpenuhi. Anda bisa mengecek gangguan lain, atau memakai Cek Menyeluruh.';
+    $penjelasan = 'Tidak semua kriteria gangguan tersebut terpenuhi. Hasil ini tidak menjamin anda bebas dari gangguan tersebut; jika anda tetap merasa terganggu, sebaiknya tetap berbicara dengan psikolog. Anda juga bisa mengecek gangguan lain atau memakai Cek Menyeluruh.';
 } elseif (!$belumCukup) {
     $penjelasan = $normal['deskripsi'];
 } else {

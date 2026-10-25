@@ -26,7 +26,9 @@ $aksi = $_POST['aksi'] ?? '';
 $nilai = $_POST['nilai'] ?? '';
 $langkah = $sp->langkahBerikutnya($sesi);
 
-if ($aksi === 'kembali') {
+if ($aksi === 'mulai') {
+    $_SESSION['petunjuk'][$metode] = $sesi['target'] ?? '';
+} elseif ($aksi === 'kembali') {
     $sesi = $sp->batalkan($sesi);
 } elseif ($aksi === 'ulang') {
     $sesi = $sp->sesiBaru($metode, $sesi['target']);

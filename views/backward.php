@@ -53,7 +53,7 @@ require __DIR__ . '/partials/header.php';
             <?php $kodePenyakit = $target; require __DIR__ . '/partials/kriteria.php'; ?>
         </details>
 
-        <?php require __DIR__ . '/partials/pertanyaan.php'; ?>
+        <?php require __DIR__ . (perlu_petunjuk($metode, $sesi) ? '/partials/petunjuk.php' : '/partials/pertanyaan.php'); ?>
     <?php } ?>
 </div>
 <?php require __DIR__ . '/partials/footer.php'; ?>

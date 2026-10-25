@@ -391,7 +391,7 @@ class SistemPakar
             return implode(', ', array_map(fn ($k) => $this->penyakit[$k]['nama_penyakit'] ?? $k, $hasil['penyakit']));
         }
         if ($metode === 'backward') {
-            return 'Gejala anda tidak sesuai dengan ' . ($this->penyakit[$target]['nama_penyakit'] ?? $target);
+            return 'Jawaban anda belum menunjukkan kecenderungan ' . ($this->penyakit[$target]['nama_penyakit'] ?? $target);
         }
         return $this->penyakit[self::KODE_NORMAL]['nama_penyakit'];
     }

@@ -45,6 +45,15 @@ halaman Sumber). Isinya identik dengan `public/data/*.json` di branch `main`.
   menutup tab atau memuat ulang halaman hasil tetap dialog bawaan browser, karena browser tidak mengizinkan
   situs menggantinya.
 
+## Keamanan isi
+
+- Hasil tanpa kecenderungan ditulis "Tidak Menunjukkan Kecenderungan Gangguan Kecemasan" disertai penjelasan
+  bahwa hasil skrining tidak menjamin bebas dari gangguan; hal sama untuk Cek Gangguan Tertentu yang tidak sesuai.
+- Saran penanganan tidak menyebut nama obat; obat selalu dirujuk ke resep dan pengawasan dokter/psikiater.
+- Sebelum pertanyaan pertama, pengguna diberi petunjuk untuk menjawab sejujurnya agar hasil akurat.
+- Halaman **Tentang & batasan** (`views/tentang.php`) menjelaskan tujuan, batasan, dan perlakuan data.
+- Basis pengetahuan merujuk pada sumber di tabel `sumber` (sama dengan `public/data/sumber.json` di branch `main`).
+
 ## Metode inferensi
 
 Untuk pengguna, kedua metode diberi nama awam: **Cek Menyeluruh** (forward chaining) dan

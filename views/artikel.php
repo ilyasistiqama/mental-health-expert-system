@@ -41,7 +41,7 @@ require __DIR__ . '/partials/header.php';
     </ul>
 
     <h2>Gejala yang perlu dikenali</h2>
-    <p>Selain rasa takut dan khawatir yang berlebihan, penderita gangguan kecemasan dapat mengalami sulit berkonsentrasi atau mengambil keputusan, mudah tersinggung atau gelisah, mual, jantung berdebar, berkeringat atau gemetar, gangguan tidur, serta perasaan akan terjadi bahaya atau malapetaka.<?= $r('who-anxiety-2026') ?></p>
+    <p>Selain rasa takut dan khawatir yang berlebihan, orang dengan gangguan kecemasan dapat mengalami sulit berkonsentrasi atau mengambil keputusan, mudah tersinggung atau gelisah, mual, jantung berdebar, berkeringat atau gemetar, gangguan tidur, serta perasaan akan terjadi bahaya atau malapetaka.<?= $r('who-anxiety-2026') ?></p>
 
     <h2>Klasifikasi terbaru</h2>
     <p>
@@ -59,7 +59,8 @@ require __DIR__ . '/partials/header.php';
     <h2>Penanganan</h2>
     <p>
         Gangguan kecemasan dapat ditangani dengan efektif. Psikoterapi merupakan penanganan yang esensial, terutama terapi kognitif perilaku (CBT).
-        Pada orang dewasa, antidepresan golongan SSRI juga dapat membantu, sedangkan benzodiazepin umumnya tidak direkomendasikan.<?= $r('who-anxiety-2026', 'nice-cg113') ?>
+        Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai; jangan mengonsumsi obat apa pun, termasuk obat penenang,
+        tanpa resep dan pengawasan dokter.<?= $r('who-anxiety-2026', 'nice-cg113') ?>
         WHO juga menganjurkan perawatan diri: mengurangi alkohol dan menghindari narkoba, berolahraga teratur, menjaga pola makan dan tidur,
         berlatih relaksasi seperti pernapasan perlahan, serta membiasakan meditasi mindfulness.<?= $r('who-anxiety-2026') ?>
     </p>

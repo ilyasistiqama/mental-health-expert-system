@@ -9,8 +9,8 @@ require __DIR__ . '/views/partials/header.php';
 ?>
 <h1 class="judul-halaman">Selamat Datang</h1>
 <p>
-    Selamat datang di sistem pakar berbasis web untuk mendiagnosa psikologi kecenderungan gangguan kecemasan. Sistem dapat membantu anda
-    untuk mengetahui kecenderungan gangguan kecemasan yang dihadapi melalui dua jenis pemeriksaan: Cek Menyeluruh dan Cek Gangguan Tertentu.
+    Selamat datang di sistem pakar berbasis web untuk mengenali kecenderungan gangguan kecemasan. Sistem ini adalah alat bantu edukasi
+    dan skrining mandiri, bukan alat diagnosis, melalui dua jenis pemeriksaan: Cek Menyeluruh dan Cek Gangguan Tertentu.
 </p>
 <p>
     Gangguan kecemasan adalah gangguan mental yang paling umum di dunia, dialami sekitar 470 juta orang pada 2023, namun hanya sekitar

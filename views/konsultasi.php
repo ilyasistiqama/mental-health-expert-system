@@ -20,6 +20,7 @@ require __DIR__ . '/partials/header.php';
     <strong>Sebelum mulai:</strong> sistem ini adalah alat bantu untuk mengenali kecenderungan, bukan alat diagnosis dan bukan
     rujukan ke dokter. Apa pun hasilnya, anggaplah sebagai ajakan untuk lebih memperhatikan diri dan, bila perlu, berbicara
     dengan psikolog. Jawablah dengan santai dan jujur; anda boleh berhenti kapan saja.
+    <a href="tentang.php">Baca batasan sistem ini</a>.
 </p>
 
 <?php if ($sp->sesiValid($sesiForward, 'forward') && $sesiForward['urutan']) { ?>
@@ -51,7 +52,7 @@ require __DIR__ . '/partials/header.php';
 </div>
 
 <p class="catatan-penting">
-    <strong>Privasi:</strong> hasil diagnosa tidak disimpan di mana pun dan hanya ditampilkan sekali setelah konsultasi selesai.
+    <strong>Privasi:</strong> hasil pemeriksaan tidak disimpan di mana pun dan hanya ditampilkan sekali setelah konsultasi selesai.
     Unduh PDF jika ingin menyimpannya.
 </p>
 <?php require __DIR__ . '/partials/footer.php'; ?>
