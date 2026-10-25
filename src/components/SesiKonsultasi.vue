@@ -19,6 +19,16 @@ function lanjutkanAtauBaru(tersimpan) {
 }
 
 const sesi = ref(lanjutkanAtauBaru(ambilSesi(props.metode)));
+// petunjuk pengisian tampil sebelum pertanyaan pertama; dilewati jika melanjutkan konsultasi
+const siap = ref(sesi.value.urutan.length > 0);
+
+const petunjuk = [
+    "Jawablah dengan jujur sesuai yang benar-benar anda rasakan, bukan yang menurut anda seharusnya atau yang diharapkan orang lain. Tidak ada jawaban benar atau salah.",
+    "Pikirkan apa yang biasanya anda alami belakangan ini, bukan hanya perasaan hari ini atau satu kejadian saja.",
+    "Baca setiap pertanyaan dengan teliti. Jika ragu, pilih jawaban yang paling mendekati keadaan anda.",
+    "Isilah di tempat yang tenang tanpa terburu-buru. Anda boleh berhenti kapan saja; jawaban tersimpan dan bisa dilanjutkan.",
+    "Jawaban hanya disimpan sementara di perangkat ini dan tidak dikirim ke mana pun."
+];
 const langkah = computed(() => langkahBerikutnya(sesi.value));
 const progres = computed(() => (sesi.value.urutan.length / (sesi.value.urutan.length + (langkah.value.sisa ?? 0))) * 100);
 const jawaban = computed(() => daftarJawaban(sesi.value));
@@ -55,6 +65,8 @@ async function sinkronkan() {
     if (tersimpan?.target !== props.target && tersimpan) return;
     const terbaru = lanjutkanAtauBaru(tersimpan);
     if (!sesiSama(terbaru, sesi.value)) sesi.value = terbaru;
+    // konsultasi sudah dimulai di tab lain, petunjuk tidak perlu ditampilkan lagi
+    if (terbaru.urutan.length > 0) siap.value = true;
 }
 
 function onVisibility() {
@@ -62,7 +74,7 @@ function onVisibility() {
 }
 
 function onKeydown(e) {
-    if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!siap.value || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
     const key = e.key.toLowerCase();
     if (langkah.value.jenis === "gejala") {
         if (key === "y") pilih(true);
@@ -88,7 +100,22 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div v-if="langkah.jenis !== 'selesai'">
+    <section v-if="!siap && langkah.jenis !== 'selesai'" class="card px-5 py-7 sm:px-8 sm:py-9" aria-labelledby="judul-petunjuk">
+        <h2 id="judul-petunjuk" class="mb-2 text-2xl font-extrabold">Sebelum mulai mengisi</h2>
+        <p class="mb-4 text-muted">Agar hasilnya mendekati kondisi anda yang sebenarnya, perhatikan hal berikut:</p>
+        <ol class="mb-5 space-y-3">
+            <li v-for="(p, i) in petunjuk" :key="i" class="flex gap-3">
+                <span class="grid size-7 flex-none place-items-center rounded-lg bg-primary-soft text-sm font-extrabold text-primary-strong">{{ i + 1 }}</span>
+                <span>{{ p }}</span>
+            </li>
+        </ol>
+        <p class="mb-6 rounded-xl bg-surface-2 px-4 py-3 text-[.95rem] text-muted">
+            Sejujur apa pun jawaban anda, hasilnya tetap gambaran awal, bukan diagnosis.
+        </p>
+        <button class="btn btn-primary w-full py-4 text-lg sm:w-auto sm:px-8" type="button" @click="siap = true">Saya mengerti, mulai</button>
+    </section>
+
+    <div v-else-if="langkah.jenis !== 'selesai'">
         <div class="card px-5 py-7 sm:px-8 sm:py-9" aria-live="polite">
             <div class="mb-5 h-1.5 overflow-hidden rounded-full bg-surface-2" role="progressbar" :aria-valuenow="Math.round(progres)" aria-valuemin="0" aria-valuemax="100">
                 <span class="block h-full rounded-full bg-primary transition-[width] duration-300" :style="{ width: `${progres}%` }"></span>

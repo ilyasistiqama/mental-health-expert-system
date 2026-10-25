@@ -25,9 +25,10 @@ Tidak memakai database dan tidak perlu login. Untuk pengguna, kedua metode diber
 - Hasil tanpa kecenderungan tidak ditulis sebagai "tidak terdeteksi", melainkan "tidak menunjukkan
   kecenderungan", disertai penjelasan bahwa hasil skrining tidak menjamin bebas dari gangguan.
 - Saran penanganan tidak menyebut nama obat; obat selalu dirujuk ke resep dan pengawasan dokter/psikiater.
+- Sebelum pertanyaan pertama, pengguna diberi petunjuk untuk menjawab sejujurnya agar hasil akurat
+  (dilewati jika melanjutkan konsultasi).
 - Halaman **Tentang & batasan** (`/tentang`) menjelaskan tujuan, batasan (bukan diagnosis, gangguan yang
   diperiksa, bukan untuk keadaan darurat, pengguna di bawah 18 tahun didampingi), dan perlakuan data.
-  Tambahkan nama pembuat dan validator ahli di `src/views/TentangView.vue` bila sudah ada.
 
 ## Disclaimer dan pesan dukungan
 
@@ -160,7 +161,7 @@ baru; APA baru merilis rencana revisinya (roadmap Januari 2026).
 
 Pertanyaan merupakan penyederhanaan kriteria untuk skrining mandiri. Pada kriteria yang beberapa
 gejalanya digabung (misalnya "berkeringat atau gemetar"), batas minimalnya dipilih sehingga tetap
-memenuhi batas minimal DSM-5-TR. Isi basis pengetahuan sebaiknya divalidasi oleh pakar (psikolog/psikiater).
+memenuhi batas minimal DSM-5-TR. Seluruh isi basis pengetahuan merujuk pada sumber di `public/data/sumber.json`.
 
 ## Metode inferensi
 
