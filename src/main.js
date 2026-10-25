@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { muatBasisPengetahuan } from "./lib/sistemPakar";
-import { penyimpananAktif } from "./lib/penyimpanan";
+import { muatBasisPengetahuan, muatProgres } from "./lib/sistemPakar";
+import { siapkanPenyimpanan } from "./lib/penyimpanan";
 import "./assets/main.css";
 
 const wadah = document.getElementById("app");
@@ -19,25 +19,37 @@ function tampilkanPesan(judul, isi) {
         </main>`;
 }
 
-// tanpa localStorage progres dan hasil konsultasi tidak bisa disimpan, jadi sistem tidak dijalankan
-if (!penyimpananAktif()) {
+async function mulai() {
+    // tanpa penyimpanan browser progres konsultasi bisa hilang di tengah jalan, jadi sistem tidak dijalankan
+    if (!(await siapkanPenyimpanan())) {
+        tampilkanPesanPenyimpanan();
+        return;
+    }
+    try {
+        await muatBasisPengetahuan();
+        await muatProgres();
+    } catch (e) {
+        console.error(e);
+        tampilkanPesan("Basis pengetahuan gagal dimuat", `
+            <p class="text-muted">File <code>data/penyakit.json</code>, <code>data/gejala.json</code>, atau <code>data/sumber.json</code>
+            tidak dapat dibaca. Periksa koneksi internet anda, atau hubungi pengelola situs.</p>`);
+        return;
+    }
+    createApp(App).use(router).mount(wadah);
+}
+
+function tampilkanPesanPenyimpanan() {
     tampilkanPesan("Penyimpanan browser tidak aktif", `
-        <p class="mb-4 text-muted">Sistem ini membutuhkan <strong class="text-ink">penyimpanan browser (localStorage)</strong> untuk menyimpan progres
-        konsultasi dan riwayat hasil di perangkat anda. Data tidak dikirim ke server mana pun.</p>
+        <p class="mb-4 text-muted">Sistem ini membutuhkan <strong class="text-ink">penyimpanan browser</strong> untuk menyimpan jawaban anda
+        sementara, supaya konsultasi bisa dilanjutkan jika browser tertutup. Jawaban hanya disimpan di perangkat anda, tidak dikirim
+        ke mana pun, dan langsung dihapus begitu hasil keluar. Hasil diagnosa tidak pernah disimpan.</p>
         <p class="mb-2 font-bold">Cara mengaktifkan:</p>
         <ul class="list-disc space-y-1 pl-5 text-muted">
             <li><strong class="text-ink">Chrome / Edge:</strong> Setelan → Privasi dan keamanan → Setelan situs → izinkan situs menyimpan data di perangkat.</li>
             <li><strong class="text-ink">Firefox:</strong> Setelan → Privasi & Keamanan → jangan blokir cookie dan data situs untuk situs ini.</li>
             <li><strong class="text-ink">Safari (iPhone/iPad):</strong> Pengaturan → Safari → matikan "Blokir Semua Cookie".</li>
         </ul>
-        <p class="mt-4 text-sm text-muted">Setelah diaktifkan, muat ulang halaman ini.</p>`);
-} else {
-    muatBasisPengetahuan()
-        .then(() => createApp(App).use(router).mount(wadah))
-        .catch((e) => {
-            console.error(e);
-            tampilkanPesan("Basis pengetahuan gagal dimuat", `
-                <p class="text-muted">File <code>data/penyakit.json</code>, <code>data/gejala.json</code>, atau <code>data/sumber.json</code>
-                tidak dapat dibaca. Periksa koneksi internet anda, atau hubungi pengelola situs.</p>`);
-        });
+        <p class="mt-4 text-sm text-muted">Setelah diaktifkan, muat ulang halaman ini. Mode penyamaran (incognito) pada beberapa browser juga dapat memblokir penyimpanan.</p>`);
 }
+
+mulai();

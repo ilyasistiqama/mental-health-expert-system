@@ -4,10 +4,19 @@ Sistem pakar berbasis web untuk mengenali kecenderungan gangguan kecemasan denga
 **Forward Chaining** dan **Backward Chaining**. Dibuat dengan [Vue 3](https://vuejs.org),
 [Vite](https://vite.dev), dan [Tailwind CSS 4](https://tailwindcss.com).
 
-Tidak memakai database dan tidak perlu login. Progres konsultasi dan riwayat hasil disimpan
-di **localStorage** browser masing-masing pengguna. Jika localStorage dimatikan, sistem tidak
-dijalankan dan pengguna diberi petunjuk cara mengaktifkannya. Hasil konsultasi dapat diunduh
-sebagai PDF.
+Tidak memakai database dan tidak perlu login. Untuk pengguna, kedua metode diberi nama awam:
+**Cek Menyeluruh** (forward chaining) dan **Cek Gangguan Tertentu** (backward chaining).
+
+## Privasi dan penyimpanan
+
+- **Hasil diagnosa tidak pernah disimpan**, baik di browser maupun di server. Hasil hanya ada di
+  memori halaman dan hilang saat halaman ditutup atau dimuat ulang; pengguna bisa mengunduh PDF.
+- **Jawaban yang belum selesai** disimpan sementara di IndexedDB perangkat pengguna agar konsultasi
+  bisa dilanjutkan jika browser tertutup, lalu **dihapus otomatis begitu hasil keluar**. IndexedDB
+  dipakai dengan `durability: "strict"` karena localStorage ditulis ke disk secara tertunda dan
+  progres bisa hilang jika browser ditutup paksa (misalnya aplikasi browser di HP di-swipe).
+- Jika penyimpanan browser diblokir, sistem tidak dijalankan dan pengguna diberi petunjuk.
+- Tab lain yang masih terbuka ikut tersinkron, sehingga progres tidak tertimpa versi lama.
 
 > Versi PHP + MySQL + login ada di branch `sispak-v1`. Kode asli sebelum perbaikan disimpan
 > pada tag `backup-asli`.
@@ -58,7 +67,7 @@ src/
   assets/main.css        seluruh tampilan
   lib/sistemPakar.js     mesin inferensi forward/backward chaining + riwayat
   components/SesiKonsultasi.vue  tampilan tanya-jawab (dipakai forward & backward)
-  lib/penyimpanan.js     pembungkus localStorage + pengecekan aktif/tidaknya
+  lib/penyimpanan.js     penyimpanan progres di IndexedDB + pengecekan aktif/tidaknya
   lib/pdf.js             pembuat PDF hasil konsultasi (jsPDF)
   components/            komponen kecil yang dipakai ulang
   views/                 satu file per halaman
@@ -159,8 +168,9 @@ Catatan:
 
 ## Data yang disimpan di browser
 
-| Key localStorage  | Isi                                             |
-|-------------------|-------------------------------------------------|
-| `sispak.sesi.forward`  | Progres forward chaining yang belum selesai  |
-| `sispak.sesi.backward` | Progres backward chaining yang belum selesai |
-| `sispak.riwayat`  | 20 hasil konsultasi terakhir                    |
+| IndexedDB `sispak` → store `sesi` | Isi |
+|-----------------------------------|-----|
+| `sispak.sesi.forward`  | Jawaban Cek Menyeluruh yang belum selesai (dihapus saat hasil keluar) |
+| `sispak.sesi.backward` | Jawaban Cek Gangguan Tertentu yang belum selesai (dihapus saat hasil keluar) |
+
+Data versi lama di localStorage (termasuk riwayat hasil) dihapus otomatis saat aplikasi dibuka.

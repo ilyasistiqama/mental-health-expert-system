@@ -1,24 +1,19 @@
 <script setup>
-import { computed, ref } from "vue";
-import { useRoute } from "vue-router";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import CatatanPenting from "@/components/CatatanPenting.vue";
 import DaftarKriteria from "@/components/DaftarKriteria.vue";
 import Rujukan from "@/components/Rujukan.vue";
-import { KODE_NORMAL, PENYAKIT, ambilRiwayat, formatTanggal, judulHasil, labelDurasi, namaMetode } from "@/lib/sistemPakar";
+import { KODE_NORMAL, PENYAKIT, formatTanggal, hasilTerakhir, judulHasil, labelDurasi, namaMetode } from "@/lib/sistemPakar";
 
-const route = useRoute();
-
-// ?r=<waktu> menunjuk entri riwayat, tanpa parameter tampilkan hasil terakhir
-const entri = computed(() => {
-    const riwayat = ambilRiwayat();
-    return riwayat.find((e) => String(e.waktu) === route.query.r) ?? (route.query.r ? null : riwayat[0] ?? null);
-});
+// hasil hanya ada di memori halaman, tidak pernah disimpan
+const entri = hasilTerakhir;
 
 const terdiagnosa = computed(() => entri.value.penyakit.filter((k) => PENYAKIT[k]).map((k) => PENYAKIT[k]));
 const belumCukup = computed(() => entri.value.belumCukup.filter((k) => PENYAKIT[k]).map((k) => PENYAKIT[k]));
 
 const membuatPdf = ref(false);
 const gagalPdf = ref(false);
+const sudahDiunduh = ref(false);
 
 async function unduhPdf() {
     membuatPdf.value = true;
@@ -26,6 +21,7 @@ async function unduhPdf() {
     try {
         const { unduhPdfHasil } = await import("@/lib/pdf");
         await unduhPdfHasil(entri.value);
+        sudahDiunduh.value = true;
     } catch (e) {
         console.error(e);
         gagalPdf.value = true;
@@ -33,14 +29,28 @@ async function unduhPdf() {
         membuatPdf.value = false;
     }
 }
+
+// hasil hilang jika halaman ditutup atau dimuat ulang, jadi minta konfirmasi bila PDF belum diunduh
+function cegahTutup(e) {
+    if (entri.value && !sudahDiunduh.value) {
+        e.preventDefault();
+        e.returnValue = "";
+    }
+}
+
+onMounted(() => window.addEventListener("beforeunload", cegahTutup));
+onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
 </script>
 
 <template>
     <div class="container-page py-8 sm:py-10">
         <div v-if="!entri">
-            <header class="mb-6">
-                <h1 class="mb-2 text-3xl font-extrabold sm:text-4xl">Belum ada hasil</h1>
-                <p class="text-muted">Hasil konsultasi tidak ditemukan di perangkat ini.</p>
+            <header class="mb-6 max-w-2xl">
+                <h1 class="mb-2 text-3xl font-extrabold sm:text-4xl">Hasil tidak tersedia</h1>
+                <p class="text-muted">
+                    Demi menjaga kerahasiaan, hasil konsultasi tidak disimpan di mana pun dan hanya tampil sekali setelah konsultasi selesai.
+                    Hasil hilang jika halaman dimuat ulang atau ditutup. Silakan lakukan konsultasi kembali.
+                </p>
             </header>
             <RouterLink class="btn btn-primary px-7 py-4" to="/konsultasi">Mulai Konsultasi</RouterLink>
         </div>
@@ -55,12 +65,12 @@ async function unduhPdf() {
                 </span>
                 <h1 class="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl">{{ judulHasil(entri) }}</h1>
                 <p v-if="terdiagnosa.length" class="mb-3 max-w-3xl text-muted">
-                    Jawaban anda memenuhi aturan untuk {{ terdiagnosa.length > 1 ? "gangguan-gangguan" : "gangguan" }} berikut. Hasil ini adalah
+                    Jawaban anda memenuhi kriteria untuk {{ terdiagnosa.length > 1 ? "gangguan-gangguan" : "gangguan" }} berikut. Hasil ini adalah
                     kecenderungan, bukan diagnosis; diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater.
                     <template v-if="terdiagnosa.length > 1">Beberapa gangguan kecemasan memang dapat muncul bersamaan; profesional akan menentukan diagnosis utamanya.</template>
                 </p>
                 <p v-else-if="entri.metode === 'backward' && belumCukup.length === 0" class="mb-3 max-w-3xl text-muted">
-                    Tidak semua kriteria dari hipotesis tersebut terpenuhi. Coba hipotesis lain atau gunakan Forward Chaining.
+                    Tidak semua kriteria gangguan tersebut terpenuhi. Anda bisa mengecek gangguan lain, atau memakai Cek Menyeluruh.
                 </p>
                 <p v-else-if="belumCukup.length === 0" class="mb-3 max-w-3xl text-muted">{{ PENYAKIT[KODE_NORMAL].deskripsi }}</p>
                 <p class="mb-5 text-sm text-muted">{{ namaMetode(entri.metode) }} · {{ formatTanggal(entri.waktu) }}</p>
@@ -72,10 +82,21 @@ async function unduhPdf() {
                         </svg>
                         {{ membuatPdf ? "Membuat PDF..." : "Unduh PDF" }}
                     </button>
-                    <RouterLink class="btn btn-ghost flex-1 sm:flex-none" to="/forward">Konsultasi lagi</RouterLink>
+                    <RouterLink class="btn btn-ghost flex-1 sm:flex-none" to="/konsultasi">Konsultasi lagi</RouterLink>
                 </div>
                 <p v-if="gagalPdf" class="mt-3 text-sm text-no" role="alert">PDF gagal dibuat. Periksa koneksi internet anda lalu coba lagi.</p>
             </section>
+
+            <div class="mb-5 flex items-start gap-3 rounded-2xl border border-line bg-surface px-5 py-4 text-[.95rem] print:hidden" role="note">
+                <svg class="mt-0.5 size-5 flex-none text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="4" y="11" width="16" height="10" rx="2" />
+                    <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                </svg>
+                <p>
+                    <strong>Hasil ini tidak disimpan di mana pun</strong> demi menjaga kerahasiaan anda, dan akan hilang jika halaman ditutup atau dimuat ulang.
+                    Unduh PDF jika ingin menyimpannya.
+                </p>
+            </div>
 
             <div v-for="p in belumCukup" :key="p.kode" class="mb-5 rounded-2xl bg-accent-soft px-5 py-4 text-[.95rem]">
                 <p>
@@ -123,7 +144,7 @@ async function unduhPdf() {
 
                 <div class="grid gap-5">
                     <section v-for="p in terdiagnosa" :key="p.kode" class="card">
-                        <h3 class="mb-4 font-bold">Aturan {{ p.nama }}</h3>
+                        <h3 class="mb-4 font-bold">Kriteria {{ p.nama }}</h3>
                         <DaftarKriteria :kode="p.kode" />
                     </section>
                     <CatatanPenting>
@@ -131,7 +152,6 @@ async function unduhPdf() {
                         Kunjungi psikolog klinis, psikiater, atau puskesmas terdekat untuk pemeriksaan lebih lanjut.
                         Butuh bantuan segera? Hubungi <strong>119 ext 8</strong>.<Rujukan :ids="['healing119']" />
                     </CatatanPenting>
-                    <RouterLink class="btn btn-ghost" to="/konsultasi">Lihat riwayat konsultasi</RouterLink>
                 </div>
             </div>
         </div>

@@ -5,9 +5,9 @@ import Rujukan from "@/components/Rujukan.vue";
 import { daftarPenyakit } from "@/lib/sistemPakar";
 
 const langkah = [
-    { judul: "Pilih metode", isi: "Forward chaining menelusuri dari gejala, backward chaining membuktikan satu gangguan tertentu." },
-    { judul: "Jawab dengan jujur", isi: "Pertanyaan penyaring diacak; gejala lanjutan ditanyakan berurutan. Jawaban bisa dibatalkan kapan saja." },
-    { judul: "Lihat hasil & saran", isi: "Sistem menanyakan durasi keluhan, lalu memberi gambaran kecenderungan, saran penanganan, dan PDF hasil." }
+    { judul: "Pilih jenis pemeriksaan", isi: "Cek Menyeluruh jika belum tahu apa yang dialami, atau Cek Gangguan Tertentu jika sudah menduga satu gangguan." },
+    { judul: "Jawab dengan jujur", isi: "Jawaban bisa dibatalkan kapan saja, dan konsultasi bisa dilanjutkan jika browser tertutup." },
+    { judul: "Lihat hasil & saran", isi: "Dapatkan gambaran kecenderungan dan saran penanganan. Hasil tidak disimpan di mana pun; unduh PDF jika ingin menyimpannya." }
 ];
 </script>
 
@@ -26,7 +26,7 @@ const langkah = [
                     Jawab beberapa pertanyaan untuk mengenali kecenderungan anda.
                 </p>
                 <div class="flex flex-wrap gap-3">
-                    <RouterLink class="btn btn-primary flex-1 px-7 py-4 text-[1.05rem] sm:flex-none" to="/forward">Mulai Konsultasi</RouterLink>
+                    <RouterLink class="btn btn-primary flex-1 px-7 py-4 text-[1.05rem] sm:flex-none" to="/konsultasi">Mulai Konsultasi</RouterLink>
                     <RouterLink class="btn btn-ghost flex-1 px-7 py-4 text-[1.05rem] sm:flex-none" to="/artikel">Pelajari Kecemasan</RouterLink>
                 </div>
             </div>
@@ -63,7 +63,7 @@ const langkah = [
                 <span class="eyebrow">Basis pengetahuan</span>
                 <h2 class="mb-2 text-2xl font-extrabold sm:text-3xl">{{ daftarPenyakit().length }} gangguan yang dapat dikenali</h2>
                 <p class="text-muted">
-                    Aturan setiap gangguan disusun berdasarkan kriteria DSM-5-TR, ICD-11, dan PPDGJ-III, termasuk durasi minimal keluhan.<Rujukan :ids="['dsm5tr', 'icd11', 'ppdgj3']" />
+                    Kriteria setiap gangguan disusun berdasarkan DSM-5-TR, ICD-11, dan PPDGJ-III, termasuk durasi minimal keluhan.<Rujukan :ids="['dsm5tr', 'icd11', 'ppdgj3']" />
                 </p>
             </div>
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -74,7 +74,7 @@ const langkah = [
 
     <section class="py-10 sm:py-14">
         <div class="container-page">
-            <CatatanPenting>hasil dari sistem ini hanya gambaran awal, bukan diagnosis. Data konsultasi hanya disimpan di browser anda dan tidak dikirim ke mana pun. Untuk diagnosis yang tepat, konsultasikan dengan psikolog klinis atau psikiater.</CatatanPenting>
+            <CatatanPenting>hasil dari sistem ini hanya gambaran awal, bukan diagnosis. Hasil diagnosa anda tidak disimpan maupun dikirim ke mana pun. Untuk diagnosis yang tepat, konsultasikan dengan psikolog klinis atau psikiater.</CatatanPenting>
         </div>
     </section>
 </template>

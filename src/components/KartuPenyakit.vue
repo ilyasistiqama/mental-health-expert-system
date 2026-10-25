@@ -19,8 +19,8 @@ const penyakit = PENYAKIT[props.id];
         <p class="mb-4 flex-1 text-[.95rem] text-muted">
             {{ penyakit.deskripsi }}<Rujukan :ids="penyakit.sumber.slice(0, 2)" />
         </p>
-        <RouterLink class="font-bold no-underline hover:underline" :to="{ path: '/backward', query: { id } }">
-            Buktikan dengan Backward Chaining →
+        <RouterLink class="font-bold no-underline hover:underline" :to="{ path: '/cek-gangguan', query: { id } }">
+            Cek gangguan ini →
         </RouterLink>
     </article>
 </template>

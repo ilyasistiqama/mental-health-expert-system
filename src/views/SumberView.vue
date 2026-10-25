@@ -8,7 +8,7 @@ import { DAFTAR_SUMBER } from "@/lib/sistemPakar";
             <span class="eyebrow">Sumber & Rujukan</span>
             <h1 class="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl">Daftar pustaka</h1>
             <p class="text-muted">
-                Kriteria diagnosis, aturan, saran penanganan, dan isi artikel pada sistem ini disusun dari sumber-sumber berikut.
+                Kriteria diagnosis, saran penanganan, dan isi artikel pada sistem ini disusun dari sumber-sumber berikut.
                 Nomor di sini sama dengan nomor rujukan [n] di seluruh halaman.
             </p>
         </header>

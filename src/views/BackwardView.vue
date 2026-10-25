@@ -12,12 +12,12 @@ const target = computed(() => (daftarPenyakit().includes(route.query.id) ? route
 <template>
     <div class="container-page max-w-3xl py-8 sm:py-10 2xl:max-w-3xl">
         <header class="mb-6">
-            <span class="eyebrow">Backward Chaining</span>
-            <h1 class="mb-3 text-3xl font-extrabold sm:text-4xl">Pilih gangguan yang ingin dibuktikan</h1>
-            <p class="text-muted">Gangguan yang dipilih menjadi hipotesis. Sistem akan menanyakan kriterianya satu per satu untuk membuktikan hipotesis tersebut.</p>
+            <span class="eyebrow">Cek Gangguan Tertentu</span>
+            <h1 class="mb-3 text-3xl font-extrabold sm:text-4xl">Pilih gangguan yang ingin anda cek</h1>
+            <p class="text-muted">Sudah menduga gangguan tertentu? Pilih gangguannya, lalu sistem akan menanyakan kriterianya satu per satu untuk memastikan apakah gejala anda sesuai.</p>
         </header>
 
-        <nav class="mb-7 flex flex-wrap gap-2" aria-label="Pilih hipotesis">
+        <nav class="mb-7 flex flex-wrap gap-2" aria-label="Pilih gangguan">
             <RouterLink
                 v-for="k in daftarPenyakit()"
                 :key="k"
@@ -30,14 +30,14 @@ const target = computed(() => (daftarPenyakit().includes(route.query.id) ? route
             </RouterLink>
         </nav>
 
-        <p v-if="!target" class="empty">Pilih salah satu gangguan di atas sebagai hipotesis.</p>
+        <p v-if="!target" class="empty">Pilih salah satu gangguan di atas untuk mulai mengecek.</p>
 
         <template v-else>
             <details class="card group mb-5">
                 <summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                    <span class="eyebrow">Hipotesis</span>
+                    <span class="eyebrow">Gangguan yang dicek</span>
                     <h2 class="text-2xl font-extrabold">{{ PENYAKIT[target].nama }}</h2>
-                    <span class="text-sm text-muted underline">Lihat aturan pembuktian</span>
+                    <span class="text-sm text-muted underline">Lihat kriteria gangguan ini</span>
                 </summary>
                 <div class="pt-5">
                     <DaftarKriteria :kode="target" />

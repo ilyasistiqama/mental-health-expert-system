@@ -2,8 +2,8 @@
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import {
-    GEJALA, OPSI_DURASI, ambilSesi, batalkan, catatHasil, daftarJawaban, hapusSesi,
-    jawab, langkahBerikutnya, ruteHasil, sesiBaru, simpanSesi, teksDurasi
+    GEJALA, OPSI_DURASI, ambilSesi, batalkan, buatHasil, daftarJawaban, dengarPerubahanTabLain, hapusSesi,
+    jawab, langkahBerikutnya, muatUlangSesi, sesiBaru, sesiSama, simpanSesi, teksDurasi
 } from "@/lib/sistemPakar";
 
 const props = defineProps({
@@ -13,23 +13,23 @@ const props = defineProps({
 
 const router = useRouter();
 
-function mulai() {
-    const tersimpan = ambilSesi(props.metode);
+function lanjutkanAtauBaru(tersimpan) {
     return tersimpan && tersimpan.target === props.target ? tersimpan : sesiBaru(props.metode, props.target);
 }
 
-const sesi = ref(mulai());
+const sesi = ref(lanjutkanAtauBaru(ambilSesi(props.metode)));
 const langkah = computed(() => langkahBerikutnya(sesi.value));
 const progres = computed(() => (sesi.value.urutan.length / (sesi.value.urutan.length + (langkah.value.sisa ?? 0))) * 100);
 const jawaban = computed(() => daftarJawaban(sesi.value));
 
 watch(sesi, simpanSesi, { immediate: true });
 
-// kesimpulan langsung dicatat begitu inferensi selesai
+// hasil hanya disimpan di memori; progres dihapus begitu hasil keluar
 watch(langkah, (l) => {
     if (l.jenis !== "selesai") return;
+    buatHasil(sesi.value, l);
     hapusSesi(props.metode);
-    router.push(ruteHasil(catatHasil(sesi.value, l)));
+    router.push("/hasil");
 }, { immediate: true });
 
 function pilih(nilai) {
@@ -40,6 +40,19 @@ function ulang() {
     if (sesi.value.urutan.length === 0 || confirm("Mulai ulang konsultasi? Jawaban yang sudah diisi akan dihapus.")) {
         sesi.value = sesiBaru(props.metode, props.target);
     }
+}
+
+// Tab yang lama tidak aktif (misalnya browser HP ditinggal ke aplikasi lain, atau ada tab kedua)
+// bisa menampilkan progres usang. Saat tab aktif kembali, progres dibaca ulang dari penyimpanan.
+async function sinkronkan() {
+    const tersimpan = await muatUlangSesi(props.metode);
+    if (tersimpan?.target !== props.target && tersimpan) return;
+    const terbaru = lanjutkanAtauBaru(tersimpan);
+    if (!sesiSama(terbaru, sesi.value)) sesi.value = terbaru;
+}
+
+function onVisibility() {
+    if (document.visibilityState === "visible") sinkronkan();
 }
 
 function onKeydown(e) {
@@ -53,8 +66,19 @@ function onKeydown(e) {
     }
 }
 
-onMounted(() => document.addEventListener("keydown", onKeydown));
-onUnmounted(() => document.removeEventListener("keydown", onKeydown));
+let berhentiMendengar = null;
+onMounted(() => {
+    document.addEventListener("keydown", onKeydown);
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pageshow", sinkronkan);
+    berhentiMendengar = dengarPerubahanTabLain((metode) => metode === props.metode && sinkronkan());
+});
+onUnmounted(() => {
+    document.removeEventListener("keydown", onKeydown);
+    document.removeEventListener("visibilitychange", onVisibility);
+    window.removeEventListener("pageshow", sinkronkan);
+    berhentiMendengar?.();
+});
 </script>
 
 <template>
@@ -101,7 +125,8 @@ onUnmounted(() => document.removeEventListener("keydown", onKeydown));
         </div>
 
         <section v-if="jawaban.length" class="pt-10">
-            <h3 class="mb-3 text-lg font-bold">Jawaban anda sejauh ini</h3>
+            <h3 class="mb-1 text-lg font-bold">Jawaban anda sejauh ini</h3>
+            <p class="mb-3 text-sm text-muted">Jawaban disimpan sementara hanya di perangkat ini agar bisa dilanjutkan, dan dihapus otomatis begitu hasil keluar.</p>
             <ol class="grid list-none gap-2 p-0">
                 <li v-for="j in jawaban" :key="j.kode" class="flex flex-col gap-1.5 rounded-xl border border-line bg-surface px-4 py-3 text-[.95rem] sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                     <span>{{ j.pertanyaan }}</span>

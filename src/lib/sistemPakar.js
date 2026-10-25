@@ -1,8 +1,8 @@
-import { baca, hapus, simpan } from "./penyimpanan";
+import { shallowRef } from "vue";
+import { baca, bersihkanDataLama, hapus, simpan } from "./penyimpanan";
 
 const KEY_SESI = "sispak.sesi";
-const KEY_RIWAYAT = "sispak.riwayat";
-const MAKS_RIWAYAT = 20;
+const METODE = ["forward", "backward"];
 
 export const KODE_NORMAL = "P0";
 const AWALAN_DURASI = "durasi:";
@@ -247,43 +247,80 @@ export function daftarJawaban(sesi) {
     });
 }
 
-/* ---------- Penyimpanan sesi ---------- */
+/* ---------- Progres konsultasi ---------- */
+
+// Progres yang belum selesai disimpan di IndexedDB agar bisa dilanjutkan setelah browser ditutup,
+// lalu dihapus begitu hasil keluar. Salinannya disimpan di memori supaya bisa dibaca langsung.
+const cacheSesi = {};
+const saluran = globalThis.BroadcastChannel ? new BroadcastChannel("sispak") : null;
 
 function sesiValid(sesi) {
-    return sesi && ["forward", "backward"].includes(sesi.metode) && Array.isArray(sesi.urutan)
+    return sesi && METODE.includes(sesi.metode) && Array.isArray(sesi.urutan)
         && sesi.fakta && typeof sesi.fakta === "object" && sesi.durasi && typeof sesi.durasi === "object" && Array.isArray(sesi.acak)
         && sesi.urutan.every((k) => GEJALA[k] || (k.startsWith(AWALAN_DURASI) && PENYAKIT[k.slice(AWALAN_DURASI.length)]));
 }
 
-export function ambilSesi(metode) {
-    const sesi = baca(`${KEY_SESI}.${metode}`, null);
-    return sesiValid(sesi) && sesi.metode === metode ? sesi : null;
+// dipanggil sekali saat aplikasi dimulai, setelah basis pengetahuan dimuat
+export async function muatProgres() {
+    await bersihkanDataLama(METODE.map((m) => `${KEY_SESI}.${m}`));
+    await Promise.all(METODE.map(muatUlangSesi));
 }
 
+// membaca ulang dari IndexedDB, misalnya saat tab kembali aktif atau tab lain mengubah progres
+export async function muatUlangSesi(metode) {
+    const sesi = await baca(`${KEY_SESI}.${metode}`);
+    cacheSesi[metode] = sesiValid(sesi) && sesi.metode === metode ? sesi : null;
+    return cacheSesi[metode];
+}
+
+export function ambilSesi(metode) {
+    return cacheSesi[metode] ?? null;
+}
+
+export function sesiSama(a, b) {
+    return JSON.stringify([a?.target, a?.urutan, a?.fakta, a?.durasi, a?.acak]) === JSON.stringify([b?.target, b?.urutan, b?.fakta, b?.durasi, b?.acak]);
+}
+
+function kabariTabLain(metode) {
+    saluran?.postMessage({ metode });
+}
+
+// progres baru disimpan setelah pengguna menjawab minimal satu pertanyaan
 export function simpanSesi(sesi) {
-    simpan(`${KEY_SESI}.${sesi.metode}`, sesi);
+    if (sesi.urutan.length === 0) {
+        if (cacheSesi[sesi.metode] !== null) hapusSesi(sesi.metode);
+        return;
+    }
+    if (sesiSama(cacheSesi[sesi.metode], sesi)) return;
+    const salinan = JSON.parse(JSON.stringify(sesi));
+    cacheSesi[sesi.metode] = salinan;
+    simpan(`${KEY_SESI}.${sesi.metode}`, salinan)
+        .then(() => kabariTabLain(sesi.metode))
+        .catch((e) => console.warn("Progres gagal disimpan", e));
 }
 
 export function hapusSesi(metode) {
-    hapus(`${KEY_SESI}.${metode}`);
+    cacheSesi[metode] = null;
+    hapus(`${KEY_SESI}.${metode}`)
+        .then(() => kabariTabLain(metode))
+        .catch((e) => console.warn("Progres gagal dihapus", e));
 }
 
-/* ---------- Riwayat konsultasi ---------- */
+export function dengarPerubahanTabLain(fungsi) {
+    const tangani = (e) => fungsi(e.data?.metode);
+    saluran?.addEventListener("message", tangani);
+    return () => saluran?.removeEventListener("message", tangani);
+}
+
+/* ---------- Hasil konsultasi ---------- */
+
+// Hasil diagnosa bersifat rahasia: hanya disimpan di memori halaman, tidak pernah ditulis ke
+// penyimpanan browser maupun dikirim ke server. Hasil hilang saat halaman dimuat ulang atau ditutup.
+export const hasilTerakhir = shallowRef(null);
 
 // entri = { waktu, metode, target, penyakit: [terdiagnosa], belumCukup: [kriteria terpenuhi tapi durasi kurang], durasi, jawaban }
-export function ambilRiwayat() {
-    const riwayat = baca(KEY_RIWAYAT, []);
-    return Array.isArray(riwayat)
-        ? riwayat.filter((e) => e && Number.isFinite(e.waktu) && Array.isArray(e.penyakit) && Array.isArray(e.belumCukup) && Array.isArray(e.jawaban))
-        : [];
-}
-
-export function hapusRiwayat() {
-    hapus(KEY_RIWAYAT);
-}
-
-export function catatHasil(sesi, kesimpulan) {
-    const entri = {
+export function buatHasil(sesi, kesimpulan) {
+    hasilTerakhir.value = {
         waktu: Date.now(),
         metode: sesi.metode,
         target: sesi.target,
@@ -292,20 +329,27 @@ export function catatHasil(sesi, kesimpulan) {
         durasi: kesimpulan.durasi,
         jawaban: daftarJawaban(sesi)
     };
-    simpan(KEY_RIWAYAT, [entri, ...ambilRiwayat()].slice(0, MAKS_RIWAYAT));
-    return entri;
+    return hasilTerakhir.value;
 }
 
-export function ruteHasil(entri) {
-    return { path: "/hasil", query: { r: String(entri.waktu) } };
-}
+/* ---------- Penamaan untuk pengguna ---------- */
+
+// nama awam untuk pengguna; istilah teknisnya forward chaining dan backward chaining
+export const METODE_INFO = {
+    forward: { nama: "Cek Menyeluruh", rute: "/cek-menyeluruh", teknis: "forward chaining" },
+    backward: { nama: "Cek Gangguan Tertentu", rute: "/cek-gangguan", teknis: "backward chaining" }
+};
 
 export function namaMetode(metode) {
-    return metode === "backward" ? "Backward Chaining" : "Forward Chaining";
+    return METODE_INFO[metode]?.nama ?? metode;
+}
+
+export function ruteMetode(metode, target = null) {
+    return target ? { path: METODE_INFO[metode].rute, query: { id: target } } : METODE_INFO[metode].rute;
 }
 
 export function judulHasil(entri) {
     if (entri.penyakit.length > 0) return entri.penyakit.map((k) => PENYAKIT[k]?.nama ?? k).join(", ");
-    if (entri.metode === "backward") return `Hipotesis ${PENYAKIT[entri.target]?.nama ?? entri.target} tidak terbukti`;
+    if (entri.metode === "backward") return `Gejala anda tidak sesuai dengan ${PENYAKIT[entri.target]?.nama ?? entri.target}`;
     return PENYAKIT[KODE_NORMAL].nama;
 }

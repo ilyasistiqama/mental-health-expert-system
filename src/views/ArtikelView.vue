@@ -147,7 +147,7 @@ const perawatanDiri = [
         <div class="container-page">
             <div class="mb-7 max-w-3xl">
                 <h2 class="mb-2 text-2xl font-extrabold sm:text-3xl">Gangguan yang dapat dikenali sistem ini</h2>
-                <p class="text-muted">Pilih salah satu untuk membuktikannya dengan metode backward chaining.</p>
+                <p class="text-muted">Pilih salah satu untuk mengecek apakah gejala anda sesuai dengan gangguan tersebut.</p>
             </div>
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <KartuPenyakit v-for="id in daftarPenyakit()" :key="id" :id="id" />
