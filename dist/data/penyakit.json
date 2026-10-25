@@ -1,0 +1,386 @@
+[
+    {
+        "kode": "P0",
+        "nama": "Tidak Terdeteksi Gangguan Kecemasan",
+        "kategori": "-",
+        "deskripsi": "Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan gangguan kecemasan. Rasa cemas sesekali adalah hal yang normal dan bahkan bisa membantu kita lebih waspada.",
+        "kriteria": [],
+        "durasiMinimal": 0,
+        "pengobatan": [
+            "Jaga pola tidur dan makan yang teratur, serta berolahraga secara rutin.",
+            "Latih teknik relaksasi seperti pernapasan perlahan, dan biasakan meditasi mindfulness.",
+            "Batasi konsumsi alkohol dan hindari narkoba.",
+            "Jika suatu saat rasa cemas mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog atau puskesmas terdekat."
+        ],
+        "rujukan": "",
+        "sumber": [
+            "who-anxiety-2026"
+        ]
+    },
+    {
+        "kode": "P1",
+        "nama": "Gangguan Panik",
+        "kategori": "Gangguan Kecemasan",
+        "deskripsi": "Serangan panik yang berulang dan tidak terduga, yaitu gelombang rasa takut atau tidak nyaman yang sangat hebat dan memuncak dalam hitungan menit, disertai gejala fisik yang kuat. Setelahnya penderita terus khawatir akan serangan berikutnya atau mengubah perilaku untuk menghindarinya.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G01"
+                ]
+            },
+            {
+                "gejala": [
+                    "G10",
+                    "G11",
+                    "G12",
+                    "G13",
+                    "G14",
+                    "G15",
+                    "G16"
+                ],
+                "minimal": 4
+            },
+            {
+                "gejala": [
+                    "G17"
+                ]
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 30,
+        "pengobatan": [
+            "Psikoterapi berupa terapi kognitif perilaku (CBT) merupakan penanganan utama untuk gangguan panik.",
+            "Antidepresan golongan SSRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater. Benzodiazepin umumnya tidak direkomendasikan untuk gangguan kecemasan.",
+            "Latihan pernapasan perlahan dan relaksasi dapat membantu meredakan gejala saat serangan muncul."
+        ],
+        "rujukan": "DSM-5-TR: Panic Disorder · ICD-11: 6B01 · PPDGJ-III: F41.0",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg113",
+            "who-anxiety-2026"
+        ]
+    },
+    {
+        "kode": "P2",
+        "nama": "Gangguan Kecemasan Menyeluruh",
+        "kategori": "Gangguan Kecemasan",
+        "deskripsi": "Kecemasan dan kekhawatiran berlebihan tentang berbagai hal yang berlangsung hampir setiap hari, sulit dikendalikan, dan disertai keluhan seperti gelisah, mudah lelah, sulit berkonsentrasi, mudah marah, otot tegang, atau gangguan tidur.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G02"
+                ]
+            },
+            {
+                "gejala": [
+                    "G18"
+                ]
+            },
+            {
+                "gejala": [
+                    "G19",
+                    "G20",
+                    "G21",
+                    "G22",
+                    "G23",
+                    "G24"
+                ],
+                "minimal": 3
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 180,
+        "pengobatan": [
+            "Psikoterapi berupa terapi kognitif perilaku (CBT) atau relaksasi terapan (applied relaxation) merupakan penanganan utama.",
+            "Antidepresan golongan SSRI (misalnya sertraline) atau SNRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
+            "Olahraga teratur, tidur cukup, teknik relaksasi, serta membatasi kafein dan alkohol dapat membantu meringankan gejala."
+        ],
+        "rujukan": "DSM-5-TR: Generalized Anxiety Disorder · ICD-11: 6B00 · PPDGJ-III: F41.1",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg113",
+            "who-anxiety-2026"
+        ]
+    },
+    {
+        "kode": "P3",
+        "nama": "Fobia Spesifik",
+        "kategori": "Gangguan Kecemasan",
+        "deskripsi": "Ketakutan yang berlebihan dan tidak sebanding dengan bahaya sebenarnya terhadap objek atau situasi tertentu, misalnya hewan, ketinggian, darah, atau jarum suntik. Rasa takut hampir selalu muncul saat berhadapan dengan pemicunya sehingga penderita berusaha menghindarinya.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G03"
+                ]
+            },
+            {
+                "gejala": [
+                    "G25"
+                ]
+            },
+            {
+                "gejala": [
+                    "G26"
+                ]
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 180,
+        "pengobatan": [
+            "Psikoterapi, terutama terapi kognitif perilaku dengan pemaparan bertahap terhadap objek atau situasi yang ditakuti (exposure therapy), merupakan penanganan utama.",
+            "Teknik relaksasi dapat membantu mengendalikan rasa takut selama proses terapi.",
+            "Obat umumnya bukan penanganan utama untuk fobia spesifik; konsultasikan dengan psikiater bila diperlukan."
+        ],
+        "rujukan": "DSM-5-TR: Specific Phobia · ICD-11: 6B03 · PPDGJ-III: F40.2",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "who-anxiety-2026"
+        ]
+    },
+    {
+        "kode": "P4",
+        "nama": "Gangguan Obsesif-Kompulsif",
+        "kategori": "Gangguan Obsesif-Kompulsif dan Terkait",
+        "deskripsi": "Munculnya obsesi (pikiran, bayangan, atau dorongan berulang yang tidak diinginkan) dan/atau kompulsi (tindakan atau ritual berulang yang dirasa harus dilakukan untuk meredakan cemas) yang menyita waktu atau sangat mengganggu. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G04",
+                    "G05"
+                ],
+                "minimal": 1
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 14,
+        "pengobatan": [
+            "Terapi kognitif perilaku dengan teknik exposure and response prevention (ERP) merupakan penanganan utama.",
+            "Antidepresan golongan SSRI atau clomipramine dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
+            "Dukungan keluarga dan edukasi tentang gangguan ini membantu proses pemulihan."
+        ],
+        "rujukan": "DSM-5-TR: Obsessive-Compulsive Disorder · ICD-11: 6B20 · PPDGJ-III: F42",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg31"
+        ]
+    },
+    {
+        "kode": "P5",
+        "nama": "Gangguan Stres Pascatrauma (PTSD)",
+        "kategori": "Gangguan Terkait Trauma dan Stresor",
+        "deskripsi": "Reaksi berkepanjangan setelah mengalami atau menyaksikan peristiwa traumatis, berupa ingatan atau mimpi buruk yang terus muncul, menghindari hal yang mengingatkan peristiwa, perubahan pikiran dan perasaan menjadi negatif, serta selalu waspada atau mudah kaget. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G06"
+                ]
+            },
+            {
+                "gejala": [
+                    "G27",
+                    "G28"
+                ],
+                "minimal": 1
+            },
+            {
+                "gejala": [
+                    "G29"
+                ]
+            },
+            {
+                "gejala": [
+                    "G30",
+                    "G31",
+                    "G32"
+                ],
+                "minimal": 2
+            },
+            {
+                "gejala": [
+                    "G33",
+                    "G22",
+                    "G21",
+                    "G24"
+                ],
+                "minimal": 2
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 30,
+        "catatanDurasi": "Jika keluhan muncul kurang dari 1 bulan setelah peristiwa traumatis, kondisi ini dapat termasuk Gangguan Stres Akut. Tetap konsultasikan dengan psikolog atau psikiater.",
+        "pengobatan": [
+            "Psikoterapi yang berfokus pada trauma merupakan penanganan utama, misalnya cognitive processing therapy (CPT), prolonged exposure (PE), trauma-focused CBT, atau eye movement desensitization and reprocessing (EMDR).",
+            "Antidepresan golongan SSRI (misalnya sertraline) atau venlafaxine dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
+            "Dukungan sosial dan kelompok dukungan sesama penyintas dapat membantu pemulihan."
+        ],
+        "rujukan": "DSM-5-TR: Posttraumatic Stress Disorder · ICD-11: 6B40 · PPDGJ-III: F43.1",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-ng116",
+            "apa-ptsd-2025"
+        ]
+    },
+    {
+        "kode": "P6",
+        "nama": "Gangguan Kecemasan Sosial",
+        "kategori": "Gangguan Kecemasan",
+        "deskripsi": "Ketakutan yang kuat dan menetap terhadap situasi sosial ketika seseorang mungkin diperhatikan atau dinilai orang lain, karena takut dipermalukan atau ditolak. Situasi tersebut dihindari atau dijalani dengan kecemasan yang sangat hebat.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G07"
+                ]
+            },
+            {
+                "gejala": [
+                    "G34"
+                ]
+            },
+            {
+                "gejala": [
+                    "G35"
+                ]
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 180,
+        "pengobatan": [
+            "Terapi kognitif perilaku (CBT) individual yang dirancang khusus untuk kecemasan sosial merupakan penanganan utama.",
+            "Antidepresan golongan SSRI (misalnya escitalopram atau sertraline) dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
+            "Latihan menghadapi situasi sosial secara bertahap dapat membantu meningkatkan rasa percaya diri."
+        ],
+        "rujukan": "DSM-5-TR: Social Anxiety Disorder · ICD-11: 6B04 · PPDGJ-III: F40.1",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg159",
+            "who-anxiety-2026"
+        ]
+    },
+    {
+        "kode": "P7",
+        "nama": "Agorafobia",
+        "kategori": "Gangguan Kecemasan",
+        "deskripsi": "Ketakutan berada di beberapa tempat atau situasi, seperti transportasi umum, ruang terbuka, ruang tertutup, keramaian, atau di luar rumah sendirian, karena khawatir sulit melarikan diri atau tidak mendapat pertolongan bila muncul gejala panik. Situasi tersebut dihindari atau hanya dijalani bila ditemani.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G08"
+                ]
+            },
+            {
+                "gejala": [
+                    "G36",
+                    "G37",
+                    "G38",
+                    "G39",
+                    "G40"
+                ],
+                "minimal": 2
+            },
+            {
+                "gejala": [
+                    "G41"
+                ]
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 180,
+        "pengobatan": [
+            "Terapi kognitif perilaku (CBT) dengan pemaparan bertahap terhadap situasi yang ditakuti merupakan penanganan utama.",
+            "Antidepresan golongan SSRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater, terutama bila disertai serangan panik.",
+            "Mulailah menghadapi situasi yang ditakuti secara perlahan, misalnya dengan ditemani orang yang dipercaya."
+        ],
+        "rujukan": "DSM-5-TR: Agoraphobia · ICD-11: 6B02 · PPDGJ-III: F40.0",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg113",
+            "who-anxiety-2026"
+        ]
+    },
+    {
+        "kode": "P8",
+        "nama": "Gangguan Kecemasan Perpisahan",
+        "kategori": "Gangguan Kecemasan",
+        "deskripsi": "Ketakutan atau kecemasan yang berlebihan dan tidak sesuai usia terhadap perpisahan dengan orang terdekat, misalnya terus khawatir orang terdekat celaka, enggan bepergian, takut sendirian, atau mengalami keluhan fisik saat akan berpisah. Gangguan ini dapat dialami anak-anak maupun orang dewasa.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G09"
+                ]
+            },
+            {
+                "gejala": [
+                    "G42",
+                    "G43",
+                    "G44",
+                    "G45",
+                    "G46",
+                    "G47",
+                    "G48"
+                ],
+                "minimal": 3
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 180,
+        "catatanDurasi": "Pada anak dan remaja, kriteria durasinya adalah minimal 4 minggu. Konsultasikan dengan psikolog anak bila keluhan dialami anak.",
+        "pengobatan": [
+            "Psikoterapi, terutama terapi kognitif perilaku (CBT) dengan latihan menghadapi perpisahan secara bertahap, merupakan penanganan utama.",
+            "Pada anak dan remaja, terapi melibatkan orang tua atau keluarga.",
+            "Obat dapat dipertimbangkan oleh psikiater bila gejala berat atau psikoterapi saja belum cukup."
+        ],
+        "rujukan": "DSM-5-TR: Separation Anxiety Disorder · ICD-11: 6B05 · PPDGJ-III: F93.0",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "who-anxiety-2026"
+        ]
+    }
+]

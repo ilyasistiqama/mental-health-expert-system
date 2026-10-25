@@ -21,6 +21,8 @@ export const OPSI_DURASI = [
 export const PENYAKIT = {};
 export const GEJALA = {};
 export const DAFTAR_GEJALA = [];
+export const SUMBER = {};
+export const DAFTAR_SUMBER = [];
 // aturan produksi: IF semua kriteria terpenuhi THEN penyakit,
 // kriteria terpenuhi jika minimal sejumlah gejalanya dijawab Ya
 export const ATURAN = [];
@@ -32,7 +34,12 @@ async function ambilJson(nama) {
 }
 
 export async function muatBasisPengetahuan() {
-    const [daftarPenyakit, daftarGejala] = await Promise.all([ambilJson("penyakit.json"), ambilJson("gejala.json")]);
+    const [daftarPenyakit, daftarGejala, daftarSumber] = await Promise.all([ambilJson("penyakit.json"), ambilJson("gejala.json"), ambilJson("sumber.json")]);
+
+    daftarSumber.forEach((s, i) => {
+        SUMBER[s.id] = { ...s, nomor: i + 1 };
+        DAFTAR_SUMBER.push(SUMBER[s.id]);
+    });
 
     for (const g of daftarGejala) {
         if (GEJALA[g.kode]) console.warn(`gejala.json: kode ${g.kode} dipakai lebih dari sekali`);
@@ -57,7 +64,12 @@ export async function muatBasisPengetahuan() {
             console.warn(`penyakit.json: durasiMinimal ${p.kode} sebaiknya salah satu dari ${OPSI_DURASI.map((o) => o.hari).join(", ")} hari`);
         }
 
-        PENYAKIT[p.kode] = { ...p, kriteria, durasiMinimal, pengobatan: p.pengobatan ?? [] };
+        const sumber = (p.sumber ?? []).filter((id) => {
+            if (!SUMBER[id]) console.warn(`penyakit.json: sumber ${id} pada ${p.kode} tidak ada di sumber.json`);
+            return SUMBER[id];
+        });
+
+        PENYAKIT[p.kode] = { ...p, kriteria, durasiMinimal, sumber, pengobatan: p.pengobatan ?? [] };
         if (p.kode !== KODE_NORMAL && kriteria.length > 0) {
             ATURAN.push({ penyakit: p.kode, kriteria, durasiMinimal });
         }
@@ -86,9 +98,33 @@ export function labelDurasi(hari) {
 
 /* ---------- Mesin inferensi ---------- */
 
-// sesi = { metode: "forward" | "backward", target, fakta: { G01: true, ... }, durasi: { P1: hari }, urutan: [kode yang dijawab] }
+// sesi = { metode: "forward" | "backward", target, fakta: { G01: true, ... }, durasi: { P1: hari },
+//         urutan: [kode yang dijawab], acak: [urutan acak pertanyaan penyaring] }
 export function sesiBaru(metode, target = null) {
-    return { metode, target, fakta: {}, durasi: {}, urutan: [] };
+    return { metode, target, fakta: {}, durasi: {}, urutan: [], acak: metode === "forward" ? acakUrutan(gejalaPenyaring()) : [] };
+}
+
+// pertanyaan penyaring = gejala pada kriteria pertama setiap aturan
+function gejalaPenyaring() {
+    const penyaring = new Set(ATURAN.flatMap((a) => a.kriteria[0].gejala));
+    return DAFTAR_GEJALA.map((g) => g.kode).filter((k) => penyaring.has(k));
+}
+
+function angkaAcak(batas) {
+    if (globalThis.crypto?.getRandomValues) {
+        return globalThis.crypto.getRandomValues(new Uint32Array(1))[0] % batas;
+    }
+    return Math.floor(Math.random() * batas);
+}
+
+// Fisher-Yates shuffle
+function acakUrutan(daftar) {
+    const hasil = [...daftar];
+    for (let i = hasil.length - 1; i > 0; i--) {
+        const j = angkaAcak(i + 1);
+        [hasil[i], hasil[j]] = [hasil[j], hasil[i]];
+    }
+    return hasil;
 }
 
 function statusKriteria(kriteria, fakta) {
@@ -118,26 +154,32 @@ function aturanKandidat(sesi) {
     return sesi.metode === "backward" ? ATURAN.filter((a) => a.penyakit === sesi.target) : ATURAN;
 }
 
-// Menentukan pertanyaan berikutnya, atau kesimpulan jika inferensi selesai.
-// Gejala yang tidak bisa lagi mengubah status aturan (aturannya sudah gugur atau kriterianya
-// sudah terpenuhi) tidak ditanyakan, sehingga kesimpulan tetap sama dengan menanyakan semua gejala.
+// Menentukan pertanyaan berikutnya, atau kesimpulan jika inferensi selesai. Prioritasnya:
+// 1. gangguan yang semua kriterianya terpenuhi langsung ditanyakan durasinya (akhir diagnosa),
+// 2. gangguan yang pertanyaan penyaringnya sudah terpenuhi ditelusuri sampai tuntas dengan urutan tetap,
+// 3. selain itu tanyakan pertanyaan penyaring berikutnya sesuai urutan acak sesi (forward chaining).
+// Gejala yang tidak bisa lagi mengubah status aturan tidak ditanyakan, sehingga kesimpulan
+// selalu sama dengan menanyakan semua gejala, apa pun urutan acaknya.
 export function langkahBerikutnya(sesi) {
     const kandidat = aturanKandidat(sesi);
-    const terbuka = kandidat.filter((a) => statusAturan(a, sesi.fakta) === "terbuka");
-    const terpenuhi = kandidat.filter((a) => statusAturan(a, sesi.fakta) === "terpenuhi");
+    const status = new Map(kandidat.map((a) => [a, statusAturan(a, sesi.fakta)]));
+    const terbuka = kandidat.filter((a) => status.get(a) === "terbuka");
+    const terpenuhi = kandidat.filter((a) => status.get(a) === "terpenuhi");
     const tanpaDurasi = terpenuhi.filter((a) => !Object.hasOwn(sesi.durasi, a.penyakit));
+    const sisa = () => new Set(terbuka.flatMap((a) => gejalaRelevan(a, sesi.fakta))).size + tanpaDurasi.length + terbuka.length;
 
-    if (terbuka.length > 0) {
-        const relevan = new Set(terbuka.flatMap((a) => gejalaRelevan(a, sesi.fakta)));
-        const kode = sesi.metode === "backward"
-            ? [...relevan][0]
-            : DAFTAR_GEJALA.find((g) => relevan.has(g.kode)).kode;
-        return { jenis: "gejala", kode, sisa: relevan.size + tanpaDurasi.length + terbuka.length };
+    if (tanpaDurasi.length > 0) {
+        return { jenis: "durasi", penyakit: tanpaDurasi[0].penyakit, sisa: sisa() };
     }
 
-    // semua kriteria terpenuhi, durasi keluhan menjadi akhir diagnosa
-    if (tanpaDurasi.length > 0) {
-        return { jenis: "durasi", penyakit: tanpaDurasi[0].penyakit, sisa: tanpaDurasi.length };
+    if (terbuka.length > 0) {
+        const fokus = terbuka
+            .filter((a) => statusKriteria(a.kriteria[0], sesi.fakta) === "terpenuhi")
+            .sort((a, b) => waktuAktif(a, sesi) - waktuAktif(b, sesi))[0];
+        const kode = fokus
+            ? gejalaRelevan(fokus, sesi.fakta)[0]
+            : penyaringBerikutnya(sesi, terbuka);
+        return { jenis: "gejala", kode, sisa: sisa() };
     }
 
     const cukup = (a) => sesi.durasi[a.penyakit] >= a.durasiMinimal;
@@ -147,6 +189,21 @@ export function langkahBerikutnya(sesi) {
         belumCukup: terpenuhi.filter((a) => !cukup(a)).map((a) => a.penyakit),
         durasi: { ...sesi.durasi }
     };
+}
+
+// urutan jawaban saat pertanyaan penyaring sebuah aturan terpenuhi
+function waktuAktif(aturan, sesi) {
+    const posisi = aturan.kriteria[0].gejala.filter((k) => sesi.fakta[k] === true).map((k) => sesi.urutan.indexOf(k));
+    return Math.min(...posisi);
+}
+
+function penyaringBerikutnya(sesi, terbuka) {
+    const relevan = new Set(terbuka.flatMap((a) => statusKriteria(a.kriteria[0], sesi.fakta) === "terbuka"
+        ? a.kriteria[0].gejala.filter((k) => !Object.hasOwn(sesi.fakta, k))
+        : []));
+    // backward chaining tidak diacak; penyaring baru (data ditambah setelah sesi dibuat) ditaruh di akhir
+    const urutan = [...sesi.acak, ...DAFTAR_GEJALA.map((g) => g.kode)];
+    return urutan.find((k) => relevan.has(k));
 }
 
 // nilai: true/false untuk gejala, jumlah hari (OPSI_DURASI) untuk durasi
@@ -194,7 +251,7 @@ export function daftarJawaban(sesi) {
 
 function sesiValid(sesi) {
     return sesi && ["forward", "backward"].includes(sesi.metode) && Array.isArray(sesi.urutan)
-        && sesi.fakta && typeof sesi.fakta === "object" && sesi.durasi && typeof sesi.durasi === "object"
+        && sesi.fakta && typeof sesi.fakta === "object" && sesi.durasi && typeof sesi.durasi === "object" && Array.isArray(sesi.acak)
         && sesi.urutan.every((k) => GEJALA[k] || (k.startsWith(AWALAN_DURASI) && PENYAKIT[k.slice(AWALAN_DURASI.length)]));
 }
 

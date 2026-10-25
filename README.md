@@ -1,12 +1,16 @@
 # Sistem Pakar Gangguan Kecemasan
 
 Sistem pakar berbasis web untuk mengenali kecenderungan gangguan kecemasan dengan metode
-**Forward Chaining** dan **Backward Chaining**. Dibuat dengan [Vue 3](https://vuejs.org) + [Vite](https://vite.dev).
+**Forward Chaining** dan **Backward Chaining**. Dibuat dengan [Vue 3](https://vuejs.org),
+[Vite](https://vite.dev), dan [Tailwind CSS 4](https://tailwindcss.com).
 
 Tidak memakai database dan tidak perlu login. Progres konsultasi dan riwayat hasil disimpan
-di **localStorage** browser masing-masing pengguna.
+di **localStorage** browser masing-masing pengguna. Jika localStorage dimatikan, sistem tidak
+dijalankan dan pengguna diberi petunjuk cara mengaktifkannya. Hasil konsultasi dapat diunduh
+sebagai PDF.
 
-> Versi lama (PHP + MySQL + login) ada di branch `sispak-v1`.
+> Versi PHP + MySQL + login ada di branch `sispak-v1`. Kode asli sebelum perbaikan disimpan
+> pada tag `backup-asli`.
 
 ## Persiapan (sekali saja)
 
@@ -32,8 +36,9 @@ halaman otomatis ter-update.
 npm run build
 ```
 
-Hasilnya ada di folder `dist/`. Upload **isi** folder `dist/` ke hosting (public_html, htdocs,
-atau subfolder mana pun). Tidak butuh PHP, MySQL, ataupun konfigurasi server tambahan.
+Hasilnya ada di folder `dist/` (sudah ikut di-commit di branch `main`). Upload **isi** folder
+`dist/` ke hosting (public_html, htdocs, GitHub Pages, atau subfolder mana pun). Tidak butuh PHP,
+MySQL, ataupun konfigurasi server tambahan.
 
 Untuk mencoba hasil build di komputer sendiri: `npm run preview`.
 
@@ -45,6 +50,7 @@ public/
   favicon.svg
   data/penyakit.json     daftar penyakit + aturan (gejala apa saja) + penanganan
   data/gejala.json       daftar gejala + pertanyaannya
+  data/sumber.json       daftar pustaka; nomor [n] di halaman mengikuti urutan file ini
 src/
   main.js                titik masuk aplikasi
   App.vue                layout: navigasi + footer
@@ -52,7 +58,8 @@ src/
   assets/main.css        seluruh tampilan
   lib/sistemPakar.js     mesin inferensi forward/backward chaining + riwayat
   components/SesiKonsultasi.vue  tampilan tanya-jawab (dipakai forward & backward)
-  lib/penyimpanan.js     pembungkus localStorage
+  lib/penyimpanan.js     pembungkus localStorage + pengecekan aktif/tidaknya
+  lib/pdf.js             pembuat PDF hasil konsultasi (jsPDF)
   components/            komponen kecil yang dipakai ulang
   views/                 satu file per halaman
 ```
@@ -96,9 +103,16 @@ dialami. Durasi menjadi akhir diagnosa: jika mencapai `durasiMinimal` gangguan t
 disimpulkan; jika belum, hasilnya "belum dapat disimpulkan".
 
 - **Forward chaining** (data-driven): sistem mengumpulkan fakta gejala lalu menjalankan semua aturan
-  yang terpenuhi, sehingga bisa menghasilkan lebih dari satu gangguan. Gejala yang tidak bisa lagi
-  mengubah hasil (aturannya sudah gugur atau kriterianya sudah terpenuhi) tidak ditanyakan; kesimpulannya
-  tetap sama dengan menanyakan semua gejala, hanya lebih singkat.
+  yang terpenuhi, sehingga bisa menghasilkan lebih dari satu gangguan. Urutan pertanyaan:
+  1. jika semua kriteria sebuah gangguan sudah terpenuhi, durasinya langsung ditanyakan;
+  2. jika pertanyaan penyaring sebuah gangguan dijawab *Ya*, gejala lanjutannya ditanyakan sampai
+     tuntas dengan urutan tetap (tidak diacak) agar alur pertanyaan tetap runtut;
+  3. selain itu, pertanyaan penyaring (kriteria pertama tiap gangguan) ditanyakan dalam **urutan acak**
+     yang dibuat sekali di awal sesi dan disimpan, sehingga tetap sama walaupun halaman dimuat ulang.
+
+  Gejala yang tidak bisa lagi mengubah hasil (aturannya sudah gugur atau kriterianya sudah terpenuhi)
+  tidak ditanyakan. Karena itu kesimpulan **selalu sama** untuk jawaban yang sama, apa pun urutan acaknya,
+  dan sama dengan menanyakan semua gejala.
 - **Backward chaining** (goal-driven): pengguna memilih satu gangguan sebagai hipotesis, lalu sistem
   membuktikan kriterianya satu per satu dan berhenti begitu satu kriteria tidak mungkin terpenuhi.
 

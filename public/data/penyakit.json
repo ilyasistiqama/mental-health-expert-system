@@ -7,11 +7,15 @@
         "kriteria": [],
         "durasiMinimal": 0,
         "pengobatan": [
-            "Jaga pola tidur, makan teratur, dan aktivitas fisik secara rutin.",
-            "Luangkan waktu untuk relaksasi, misalnya latihan pernapasan atau meditasi.",
-            "Jika suatu saat rasa cemas mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog."
+            "Jaga pola tidur dan makan yang teratur, serta berolahraga secara rutin.",
+            "Latih teknik relaksasi seperti pernapasan perlahan, dan biasakan meditasi mindfulness.",
+            "Batasi konsumsi alkohol dan hindari narkoba.",
+            "Jika suatu saat rasa cemas mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog atau puskesmas terdekat."
         ],
-        "rujukan": ""
+        "rujukan": "",
+        "sumber": [
+            "who-anxiety-2026"
+        ]
     },
     {
         "kode": "P1",
@@ -49,11 +53,18 @@
         ],
         "durasiMinimal": 30,
         "pengobatan": [
-            "Psikoterapi, terutama terapi kognitif perilaku (CBT) untuk gangguan panik, merupakan penanganan utama.",
-            "Obat golongan SSRI (misalnya sertraline atau escitalopram) atau SNRI (misalnya venlafaxine) sesuai resep dan pengawasan psikiater. Benzodiazepin hanya untuk jangka pendek karena berisiko menimbulkan ketergantungan.",
-            "Latihan pernapasan dan relaksasi untuk membantu meredakan gejala saat serangan muncul."
+            "Psikoterapi berupa terapi kognitif perilaku (CBT) merupakan penanganan utama untuk gangguan panik.",
+            "Antidepresan golongan SSRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater. Benzodiazepin umumnya tidak direkomendasikan untuk gangguan kecemasan.",
+            "Latihan pernapasan perlahan dan relaksasi dapat membantu meredakan gejala saat serangan muncul."
         ],
-        "rujukan": "DSM-5-TR: Panic Disorder · ICD-11: 6B01 · PPDGJ-III: F41.0"
+        "rujukan": "DSM-5-TR: Panic Disorder · ICD-11: 6B01 · PPDGJ-III: F41.0",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg113",
+            "who-anxiety-2026"
+        ]
     },
     {
         "kode": "P2",
@@ -90,11 +101,18 @@
         ],
         "durasiMinimal": 180,
         "pengobatan": [
-            "Psikoterapi, terutama terapi kognitif perilaku (CBT), merupakan penanganan utama.",
-            "Obat golongan SSRI (misalnya escitalopram atau sertraline) atau SNRI (misalnya venlafaxine atau duloxetine) sesuai resep dan pengawasan psikiater.",
-            "Teknik relaksasi, olahraga teratur, cukup tidur, serta mengurangi kafein dapat membantu meringankan gejala."
+            "Psikoterapi berupa terapi kognitif perilaku (CBT) atau relaksasi terapan (applied relaxation) merupakan penanganan utama.",
+            "Antidepresan golongan SSRI (misalnya sertraline) atau SNRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
+            "Olahraga teratur, tidur cukup, teknik relaksasi, serta membatasi kafein dan alkohol dapat membantu meringankan gejala."
         ],
-        "rujukan": "DSM-5-TR: Generalized Anxiety Disorder · ICD-11: 6B00 · PPDGJ-III: F41.1"
+        "rujukan": "DSM-5-TR: Generalized Anxiety Disorder · ICD-11: 6B00 · PPDGJ-III: F41.1",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg113",
+            "who-anxiety-2026"
+        ]
     },
     {
         "kode": "P3",
@@ -125,11 +143,17 @@
         ],
         "durasiMinimal": 180,
         "pengobatan": [
-            "Terapi pemaparan (exposure therapy) secara bertahap merupakan penanganan yang paling efektif untuk fobia spesifik.",
-            "Terapi kognitif perilaku (CBT) untuk mengubah pikiran yang memicu rasa takut.",
-            "Obat umumnya tidak menjadi penanganan utama untuk fobia spesifik; konsultasikan dengan psikiater bila diperlukan."
+            "Psikoterapi, terutama terapi kognitif perilaku dengan pemaparan bertahap terhadap objek atau situasi yang ditakuti (exposure therapy), merupakan penanganan utama.",
+            "Teknik relaksasi dapat membantu mengendalikan rasa takut selama proses terapi.",
+            "Obat umumnya bukan penanganan utama untuk fobia spesifik; konsultasikan dengan psikiater bila diperlukan."
         ],
-        "rujukan": "DSM-5-TR: Specific Phobia · ICD-11: 6B03 · PPDGJ-III: F40.2"
+        "rujukan": "DSM-5-TR: Specific Phobia · ICD-11: 6B03 · PPDGJ-III: F40.2",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "who-anxiety-2026"
+        ]
     },
     {
         "kode": "P4",
@@ -153,10 +177,16 @@
         "durasiMinimal": 14,
         "pengobatan": [
             "Terapi kognitif perilaku dengan teknik exposure and response prevention (ERP) merupakan penanganan utama.",
-            "Obat golongan SSRI (misalnya fluoxetine, fluvoxamine, atau sertraline) atau clomipramine sesuai resep dan pengawasan psikiater.",
+            "Antidepresan golongan SSRI atau clomipramine dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
             "Dukungan keluarga dan edukasi tentang gangguan ini membantu proses pemulihan."
         ],
-        "rujukan": "DSM-5-TR: Obsessive-Compulsive Disorder · ICD-11: 6B20 · PPDGJ-III: F42"
+        "rujukan": "DSM-5-TR: Obsessive-Compulsive Disorder · ICD-11: 6B20 · PPDGJ-III: F42",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg31"
+        ]
     },
     {
         "kode": "P5",
@@ -207,11 +237,18 @@
         "durasiMinimal": 30,
         "catatanDurasi": "Jika keluhan muncul kurang dari 1 bulan setelah peristiwa traumatis, kondisi ini dapat termasuk Gangguan Stres Akut. Tetap konsultasikan dengan psikolog atau psikiater.",
         "pengobatan": [
-            "Psikoterapi yang berfokus pada trauma merupakan penanganan utama, misalnya trauma-focused CBT, cognitive processing therapy (CPT), prolonged exposure, atau eye movement desensitization and reprocessing (EMDR).",
-            "Obat golongan SSRI (misalnya sertraline atau paroxetine) atau SNRI (venlafaxine) sesuai resep dan pengawasan psikiater.",
+            "Psikoterapi yang berfokus pada trauma merupakan penanganan utama, misalnya cognitive processing therapy (CPT), prolonged exposure (PE), trauma-focused CBT, atau eye movement desensitization and reprocessing (EMDR).",
+            "Antidepresan golongan SSRI (misalnya sertraline) atau venlafaxine dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
             "Dukungan sosial dan kelompok dukungan sesama penyintas dapat membantu pemulihan."
         ],
-        "rujukan": "DSM-5-TR: Posttraumatic Stress Disorder · ICD-11: 6B40 · PPDGJ-III: F43.1"
+        "rujukan": "DSM-5-TR: Posttraumatic Stress Disorder · ICD-11: 6B40 · PPDGJ-III: F43.1",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-ng116",
+            "apa-ptsd-2025"
+        ]
     },
     {
         "kode": "P6",
@@ -242,11 +279,18 @@
         ],
         "durasiMinimal": 180,
         "pengobatan": [
-            "Terapi kognitif perilaku (CBT) untuk kecemasan sosial, termasuk latihan pemaparan bertahap terhadap situasi sosial, merupakan penanganan utama.",
-            "Obat golongan SSRI (misalnya sertraline atau escitalopram) atau SNRI (venlafaxine) sesuai resep dan pengawasan psikiater.",
-            "Latihan keterampilan sosial dan relaksasi dapat membantu meningkatkan rasa percaya diri."
+            "Terapi kognitif perilaku (CBT) individual yang dirancang khusus untuk kecemasan sosial merupakan penanganan utama.",
+            "Antidepresan golongan SSRI (misalnya escitalopram atau sertraline) dapat dipertimbangkan sesuai resep dan pengawasan psikiater.",
+            "Latihan menghadapi situasi sosial secara bertahap dapat membantu meningkatkan rasa percaya diri."
         ],
-        "rujukan": "DSM-5-TR: Social Anxiety Disorder · ICD-11: 6B04 · PPDGJ-III: F40.1"
+        "rujukan": "DSM-5-TR: Social Anxiety Disorder · ICD-11: 6B04 · PPDGJ-III: F40.1",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg159",
+            "who-anxiety-2026"
+        ]
     },
     {
         "kode": "P7",
@@ -283,10 +327,17 @@
         "durasiMinimal": 180,
         "pengobatan": [
             "Terapi kognitif perilaku (CBT) dengan pemaparan bertahap terhadap situasi yang ditakuti merupakan penanganan utama.",
-            "Obat golongan SSRI atau SNRI sesuai resep dan pengawasan psikiater, terutama bila disertai serangan panik.",
+            "Antidepresan golongan SSRI dapat dipertimbangkan sesuai resep dan pengawasan psikiater, terutama bila disertai serangan panik.",
             "Mulailah menghadapi situasi yang ditakuti secara perlahan, misalnya dengan ditemani orang yang dipercaya."
         ],
-        "rujukan": "DSM-5-TR: Agoraphobia · ICD-11: 6B02 · PPDGJ-III: F40.0"
+        "rujukan": "DSM-5-TR: Agoraphobia · ICD-11: 6B02 · PPDGJ-III: F40.0",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "nice-cg113",
+            "who-anxiety-2026"
+        ]
     },
     {
         "kode": "P8",
@@ -320,10 +371,16 @@
         "durasiMinimal": 180,
         "catatanDurasi": "Pada anak dan remaja, kriteria durasinya adalah minimal 4 minggu. Konsultasikan dengan psikolog anak bila keluhan dialami anak.",
         "pengobatan": [
-            "Terapi kognitif perilaku (CBT) merupakan penanganan utama, termasuk latihan menghadapi perpisahan secara bertahap.",
-            "Pada anak, terapi melibatkan orang tua atau keluarga.",
-            "Obat dapat dipertimbangkan oleh psikiater bila gejala berat atau terapi saja belum cukup."
+            "Psikoterapi, terutama terapi kognitif perilaku (CBT) dengan latihan menghadapi perpisahan secara bertahap, merupakan penanganan utama.",
+            "Pada anak dan remaja, terapi melibatkan orang tua atau keluarga.",
+            "Obat dapat dipertimbangkan oleh psikiater bila gejala berat atau psikoterapi saja belum cukup."
         ],
-        "rujukan": "DSM-5-TR: Separation Anxiety Disorder · ICD-11: 6B05 · PPDGJ-III: F93.0"
+        "rujukan": "DSM-5-TR: Separation Anxiety Disorder · ICD-11: 6B05 · PPDGJ-III: F93.0",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "who-anxiety-2026"
+        ]
     }
 ]
