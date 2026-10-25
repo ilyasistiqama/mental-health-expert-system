@@ -47,47 +47,47 @@
     {
         "kode": "G10",
         "nama": "Jantung berdebar kencang",
-        "pertanyaan": "Saat serangan tersebut terjadi, apakah jantung anda berdebar sangat kencang?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah jantung anda berdebar sangat kencang?"
     },
     {
         "kode": "G11",
         "nama": "Berkeringat atau gemetar",
-        "pertanyaan": "Saat serangan tersebut terjadi, apakah anda berkeringat atau tubuh anda gemetar?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah anda berkeringat atau tubuh anda gemetar?"
     },
     {
         "kode": "G12",
         "nama": "Sesak napas atau rasa tercekik",
-        "pertanyaan": "Saat serangan tersebut terjadi, apakah anda merasa sesak napas atau seperti tercekik?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah anda merasa sesak napas atau seperti tercekik?"
     },
     {
         "kode": "G13",
         "nama": "Nyeri atau rasa tidak nyaman di dada",
-        "pertanyaan": "Saat serangan tersebut terjadi, apakah dada anda terasa nyeri atau tidak nyaman?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah dada anda terasa nyeri atau tidak nyaman?"
     },
     {
         "kode": "G14",
         "nama": "Mual, pusing, atau rasa akan pingsan",
-        "pertanyaan": "Saat serangan tersebut terjadi, apakah anda merasa mual, pusing, atau seperti akan pingsan?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah anda merasa mual, pusing, atau seperti akan pingsan?"
     },
     {
         "kode": "G15",
         "nama": "Merasa tidak nyata atau terlepas dari diri",
-        "pertanyaan": "Saat serangan tersebut terjadi, apakah anda merasa sekitar anda tidak nyata, atau seperti terlepas dari diri sendiri?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah anda merasa sekitar anda tidak nyata, atau seperti terlepas dari diri sendiri?"
     },
     {
         "kode": "G16",
         "nama": "Takut kehilangan kendali atau mati",
-        "pertanyaan": "Saat serangan tersebut terjadi, apakah anda takut kehilangan kendali, menjadi gila, atau akan mati?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah anda takut kehilangan kendali, menjadi gila, atau akan mati?"
     },
     {
         "kode": "G17",
         "nama": "Khawatir terus akan serangan berikutnya",
-        "pertanyaan": "Setelah serangan tersebut, apakah anda terus-menerus khawatir akan mengalami serangan lagi, atau mengubah kebiasaan (misalnya menghindari tempat tertentu) agar tidak terkena serangan?"
+        "pertanyaan": "Apakah anda terus-menerus khawatir akan mengalami serangan panik lagi, atau mengubah kebiasaan (misalnya menghindari tempat tertentu) agar tidak terkena serangan panik?"
     },
     {
         "kode": "G18",
         "nama": "Sulit mengendalikan rasa khawatir",
-        "pertanyaan": "Apakah anda merasa sulit menghentikan atau mengendalikan rasa khawatir tersebut?"
+        "pertanyaan": "Apakah anda merasa sulit menghentikan atau mengendalikan rasa khawatir anda tentang berbagai hal?"
     },
     {
         "kode": "G19",
@@ -122,42 +122,42 @@
     {
         "kode": "G25",
         "nama": "Rasa takut muncul hampir setiap kali",
-        "pertanyaan": "Apakah rasa takut itu muncul hampir setiap kali anda berhadapan dengan objek atau situasi tersebut?"
+        "pertanyaan": "Jika anda takut pada objek atau situasi tertentu (misalnya hewan, ketinggian, atau jarum suntik), apakah rasa takut itu muncul hampir setiap kali anda berhadapan dengannya?"
     },
     {
         "kode": "G26",
         "nama": "Menghindari objek atau situasi yang ditakuti",
-        "pertanyaan": "Apakah anda berusaha menghindari objek atau situasi tersebut, atau menghadapinya dengan rasa takut yang sangat hebat?"
+        "pertanyaan": "Apakah anda berusaha menghindari objek atau situasi tertentu yang anda takuti, atau menghadapinya dengan rasa takut yang sangat hebat?"
     },
     {
         "kode": "G27",
         "nama": "Ingatan, mimpi buruk, atau kilas balik",
-        "pertanyaan": "Apakah ingatan tentang peristiwa itu sering muncul tanpa diinginkan, dalam bentuk mimpi buruk, atau terasa seperti terjadi lagi (kilas balik)?"
+        "pertanyaan": "Apakah ingatan tentang peristiwa traumatis yang pernah anda alami sering muncul tanpa diinginkan, dalam bentuk mimpi buruk, atau terasa seperti terjadi lagi (kilas balik)?"
     },
     {
         "kode": "G28",
         "nama": "Reaksi kuat saat teringat peristiwa",
-        "pertanyaan": "Apakah anda merasa sangat cemas atau tubuh bereaksi kuat (berdebar, berkeringat) ketika ada hal, tempat, atau situasi yang mengingatkan pada peristiwa itu?"
+        "pertanyaan": "Apakah anda merasa sangat cemas atau tubuh bereaksi kuat (berdebar, berkeringat) ketika ada hal, tempat, atau situasi yang mengingatkan pada peristiwa traumatis yang pernah anda alami?"
     },
     {
         "kode": "G29",
         "nama": "Menghindari hal yang mengingatkan peristiwa",
-        "pertanyaan": "Apakah anda berusaha keras menghindari pikiran, perasaan, orang, atau tempat yang mengingatkan pada peristiwa itu?"
+        "pertanyaan": "Apakah anda berusaha keras menghindari pikiran, perasaan, orang, atau tempat yang mengingatkan pada peristiwa traumatis yang pernah anda alami?"
     },
     {
         "kode": "G30",
         "nama": "Perasaan negatif yang menetap",
-        "pertanyaan": "Sejak peristiwa itu, apakah anda terus merasakan perasaan negatif seperti takut, marah, bersalah, atau malu, atau terus menyalahkan diri sendiri maupun orang lain?"
+        "pertanyaan": "Sejak mengalami peristiwa traumatis, apakah anda terus merasakan perasaan negatif seperti takut, marah, bersalah, atau malu, atau terus menyalahkan diri sendiri maupun orang lain?"
     },
     {
         "kode": "G31",
         "nama": "Merasa terasing atau mati rasa",
-        "pertanyaan": "Sejak peristiwa itu, apakah anda merasa terasing dari orang lain atau sulit merasakan emosi positif seperti senang dan sayang?"
+        "pertanyaan": "Sejak mengalami peristiwa traumatis, apakah anda merasa terasing dari orang lain atau sulit merasakan emosi positif seperti senang dan sayang?"
     },
     {
         "kode": "G32",
         "nama": "Sulit mengingat bagian penting peristiwa",
-        "pertanyaan": "Apakah anda sulit mengingat bagian penting dari peristiwa tersebut?"
+        "pertanyaan": "Apakah anda sulit mengingat bagian penting dari peristiwa traumatis yang pernah anda alami?"
     },
     {
         "kode": "G33",
@@ -172,37 +172,37 @@
     {
         "kode": "G35",
         "nama": "Menghindari situasi sosial",
-        "pertanyaan": "Apakah anda menghindari situasi sosial tersebut, atau menjalaninya dengan rasa cemas yang sangat hebat?"
+        "pertanyaan": "Apakah anda menghindari situasi sosial, seperti berbicara di depan umum atau bertemu orang baru, atau menjalaninya dengan rasa cemas yang sangat hebat?"
     },
     {
         "kode": "G36",
         "nama": "Takut naik transportasi umum",
-        "pertanyaan": "Apakah anda takut naik transportasi umum, seperti bus, kereta, atau pesawat, karena alasan tersebut?"
+        "pertanyaan": "Apakah anda takut naik transportasi umum, seperti bus, kereta, atau pesawat, karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong jika tiba-tiba panik?"
     },
     {
         "kode": "G37",
         "nama": "Takut berada di ruang terbuka",
-        "pertanyaan": "Apakah anda takut berada di ruang terbuka, seperti lapangan parkir, pasar, atau jembatan, karena alasan tersebut?"
+        "pertanyaan": "Apakah anda takut berada di ruang terbuka, seperti lapangan parkir, pasar, atau jembatan, karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong jika tiba-tiba panik?"
     },
     {
         "kode": "G38",
         "nama": "Takut berada di ruang tertutup",
-        "pertanyaan": "Apakah anda takut berada di ruang tertutup, seperti toko, mal, atau bioskop, karena alasan tersebut?"
+        "pertanyaan": "Apakah anda takut berada di ruang tertutup, seperti toko, mal, atau bioskop, karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong jika tiba-tiba panik?"
     },
     {
         "kode": "G39",
         "nama": "Takut mengantre atau berada di keramaian",
-        "pertanyaan": "Apakah anda takut mengantre atau berada di tengah keramaian karena alasan tersebut?"
+        "pertanyaan": "Apakah anda takut mengantre atau berada di tengah keramaian karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong jika tiba-tiba panik?"
     },
     {
         "kode": "G40",
         "nama": "Takut keluar rumah sendirian",
-        "pertanyaan": "Apakah anda takut keluar rumah sendirian karena alasan tersebut?"
+        "pertanyaan": "Apakah anda takut keluar rumah sendirian karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong jika tiba-tiba panik?"
     },
     {
         "kode": "G41",
         "nama": "Menghindari tempat tersebut atau harus ditemani",
-        "pertanyaan": "Apakah anda menghindari tempat atau situasi tersebut, hanya berani jika ditemani, atau menjalaninya dengan rasa takut yang hebat?"
+        "pertanyaan": "Apakah anda menghindari tempat-tempat seperti transportasi umum, keramaian, atau keluar rumah sendirian, hanya berani jika ditemani, atau menjalaninya dengan rasa takut yang hebat?"
     },
     {
         "kode": "G42",
@@ -242,6 +242,7 @@
     {
         "kode": "G49",
         "nama": "Mengganggu kehidupan sehari-hari",
-        "pertanyaan": "Apakah keluhan-keluhan tersebut membuat anda sangat tertekan, atau mengganggu pekerjaan, sekolah, maupun hubungan sosial anda?"
+        "pertanyaan": "Apakah keluhan-keluhan yang anda rasakan membuat anda sangat tertekan, atau mengganggu pekerjaan, sekolah, maupun hubungan sosial anda?",
+        "akhir": true
     }
 ]

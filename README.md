@@ -169,7 +169,12 @@ disimpulkan; jika belum, hasilnya "belum dapat disimpulkan".
   tidak ditanyakan. Karena itu kesimpulan **selalu sama** untuk jawaban yang sama, apa pun urutan acaknya,
   dan sama dengan menanyakan semua gejala.
 - **Backward chaining** (goal-driven): pengguna memilih satu gangguan sebagai hipotesis, lalu sistem
-  membuktikan kriterianya satu per satu dan berhenti begitu satu kriteria tidak mungkin terpenuhi.
+  membuktikan kriterianya dan berhenti begitu satu kriteria tidak mungkin terpenuhi. Gejala hipotesis
+  ditanyakan dalam **urutan acak** yang dibuat sekali per sesi; gejala bertanda `"akhir": true`
+  (pertanyaan dampak ke kehidupan sehari-hari) selalu ditanyakan paling akhir.
+
+Karena urutannya acak, setiap pertanyaan ditulis agar bisa berdiri sendiri (tidak merujuk ke
+pertanyaan sebelumnya seperti "serangan tersebut").
 
 ## Menambah atau mengubah gangguan dan gejala
 
@@ -207,7 +212,8 @@ Catatan:
 - `durasiMinimal` dalam hari dan sebaiknya salah satu dari `0`, `14`, `30`, atau `180`, sesuai
   pilihan jawaban durasi (kurang dari 2 minggu, 2 minggu–1 bulan, 1–6 bulan, 6 bulan atau lebih).
   Jika pakar menghendaki batas 2 minggu untuk semua gangguan, ubah semuanya menjadi `14`.
-- Gejala ditanyakan sesuai urutan di `gejala.json`, jadi letakkan pertanyaan penyaring di awal.
+- Tulis setiap pertanyaan agar bisa berdiri sendiri, karena urutan tanya diacak.
+- Tambahkan `"akhir": true` pada gejala yang harus selalu ditanyakan paling akhir (seperti G49).
 - Kode harus unik. Satu gejala boleh dipakai oleh beberapa gangguan (misalnya G49 dipakai semua).
 - `P0` wajib ada: isinya ditampilkan jika tidak ada gangguan yang terdeteksi (biarkan `kriteria` kosong).
 - Kesalahan data (kode gejala salah ketik, durasi tidak valid) muncul sebagai peringatan di console browser (F12).

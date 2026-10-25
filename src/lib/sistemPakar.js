@@ -101,8 +101,18 @@ export function labelDurasi(hari) {
 
 // sesi = { metode: "forward" | "backward", target, fakta: { G01: true, ... }, durasi: { P1: hari },
 //         urutan: [kode yang dijawab], acak: [urutan acak pertanyaan penyaring] }
+// acak: forward = urutan acak pertanyaan penyaring, backward = urutan acak seluruh gejala hipotesis
 export function sesiBaru(metode, target = null) {
-    return { metode, target, fakta: {}, durasi: {}, urutan: [], acak: metode === "forward" ? acakUrutan(gejalaPenyaring()) : [] };
+    const acak = metode === "forward" ? acakUrutan(gejalaPenyaring()) : urutanAcakAturan(target);
+    return { metode, target, fakta: {}, durasi: {}, urutan: [], acak };
+}
+
+// gejala bertanda "akhir" (misalnya dampak ke kehidupan sehari-hari) selalu ditanyakan paling akhir
+function urutanAcakAturan(target) {
+    const aturan = ATURAN.find((a) => a.penyakit === target);
+    if (!aturan) return [];
+    const acak = acakUrutan([...new Set(aturan.kriteria.flatMap((k) => k.gejala))]);
+    return [...acak.filter((k) => !GEJALA[k].akhir), ...acak.filter((k) => GEJALA[k].akhir)];
 }
 
 // pertanyaan penyaring = gejala pada kriteria pertama setiap aturan
@@ -157,8 +167,9 @@ function aturanKandidat(sesi) {
 
 // Menentukan pertanyaan berikutnya, atau kesimpulan jika inferensi selesai. Prioritasnya:
 // 1. gangguan yang semua kriterianya terpenuhi langsung ditanyakan durasinya (akhir diagnosa),
-// 2. gangguan yang pertanyaan penyaringnya sudah terpenuhi ditelusuri sampai tuntas dengan urutan tetap,
-// 3. selain itu tanyakan pertanyaan penyaring berikutnya sesuai urutan acak sesi (forward chaining).
+// 2. backward chaining: gejala hipotesis yang masih relevan sesuai urutan acak sesi,
+// 3. forward chaining: gangguan yang pertanyaan penyaringnya sudah terpenuhi ditelusuri sampai tuntas
+//    dengan urutan tetap, selain itu tanyakan pertanyaan penyaring berikutnya sesuai urutan acak sesi.
 // Gejala yang tidak bisa lagi mengubah status aturan tidak ditanyakan, sehingga kesimpulan
 // selalu sama dengan menanyakan semua gejala, apa pun urutan acaknya.
 export function langkahBerikutnya(sesi) {
@@ -171,6 +182,13 @@ export function langkahBerikutnya(sesi) {
 
     if (tanpaDurasi.length > 0) {
         return { jenis: "durasi", penyakit: tanpaDurasi[0].penyakit, sisa: sisa() };
+    }
+
+    if (terbuka.length > 0 && sesi.metode === "backward") {
+        const relevan = gejalaRelevan(terbuka[0], sesi.fakta);
+        // gejala yang tidak ada di urutan acak (data ditambah setelah sesi dibuat) ditanyakan sesudahnya
+        const kode = [...sesi.acak, ...relevan].find((k) => relevan.includes(k));
+        return { jenis: "gejala", kode, sisa: sisa() };
     }
 
     if (terbuka.length > 0) {
@@ -202,7 +220,7 @@ function penyaringBerikutnya(sesi, terbuka) {
     const relevan = new Set(terbuka.flatMap((a) => statusKriteria(a.kriteria[0], sesi.fakta) === "terbuka"
         ? a.kriteria[0].gejala.filter((k) => !Object.hasOwn(sesi.fakta, k))
         : []));
-    // backward chaining tidak diacak; penyaring baru (data ditambah setelah sesi dibuat) ditaruh di akhir
+    // penyaring baru (data ditambah setelah sesi dibuat) ditaruh di akhir
     const urutan = [...sesi.acak, ...DAFTAR_GEJALA.map((g) => g.kode)];
     return urutan.find((k) => relevan.has(k));
 }
