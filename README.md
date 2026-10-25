@@ -66,6 +66,17 @@ MySQL, ataupun konfigurasi server tambahan.
 
 Untuk mencoba hasil build di komputer sendiri: `npm run preview`.
 
+> `index.html` di root project adalah **file sumber** Vite, bukan aplikasi jadi. Jika folder project
+> dibuka langsung lewat Apache/Laragon atau GitHub Pages, halaman itu otomatis mengarahkan ke `dist/`.
+
+### Publikasi ke GitHub Pages
+
+1. Pastikan `npm run build` sudah dijalankan dan folder `dist/` ikut di-push.
+2. Di GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**,
+   pilih branch `main` dan folder `/ (root)`, lalu **Save**.
+3. Tunggu 1–2 menit, situs bisa dibuka di `https://<username>.github.io/<nama-repo>/`
+   (otomatis diarahkan ke `.../dist/`).
+
 ## Struktur folder
 
 ```

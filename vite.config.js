@@ -4,12 +4,20 @@ import tailwindcss from "@tailwindcss/vite";
 import vue from "@vitejs/plugin-vue";
 import { VitePWA } from "vite-plugin-pwa";
 
+// membuang skrip pengalih ke dist/ dari index.html sumber saat build
+const hapusPetunjukSumber = {
+    name: "hapus-petunjuk-sumber",
+    apply: "build",
+    transformIndexHtml: (html) => html.replace(/\s*<!-- petunjuk-sumber -->[\s\S]*?<!-- \/petunjuk-sumber -->/, "")
+};
+
 export default defineConfig({
     // path relatif supaya hasil build bisa ditaruh di subfolder mana pun (termasuk GitHub Pages)
     base: "./",
     plugins: [
         vue(),
         tailwindcss(),
+        hapusPetunjukSumber,
         // cache offline lewat service worker
         VitePWA({
             // jangan memuat ulang halaman otomatis saat ada versi baru: hasil konsultasi hanya ada di memori

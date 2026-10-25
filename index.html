@@ -3,10 +3,19 @@
 
 <head>
     <meta charset="utf-8">
+    <!-- petunjuk-sumber -->
+    <script>
+        // File ini adalah sumber Vite. Jika dibuka langsung lewat Apache/Laragon/GitHub Pages (bukan
+        // lewat "npm run dev"), arahkan ke hasil build di folder dist/. Blok ini dibuang saat build.
+        if (!document.querySelector('script[src$="@vite/client"]')) {
+            location.replace("./dist/" + location.hash);
+        }
+    </script>
+    <!-- /petunjuk-sumber -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Sistem pakar berbasis web untuk mengenali kecenderungan gangguan kecemasan dengan metode forward dan backward chaining.">
+    <meta name="description" content="Sistem pakar berbasis web untuk mengenali kecenderungan gangguan kecemasan lewat Cek Menyeluruh dan Cek Gangguan Tertentu.">
     <title>Sistem Pakar Gangguan Kecemasan</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
@@ -14,7 +23,7 @@
 
 <body>
     <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
 </body>
 
 </html>
