@@ -16,6 +16,12 @@ require __DIR__ . '/partials/header.php';
 <h1 class="judul-halaman">Selamat Datang <?= e($_SESSION['nama_user'] ?? $_SESSION['username']) ?></h1>
 <h2 class="sub-judul">Pilih Jenis Pemeriksaan:</h2>
 
+<p class="catatan-sebelum">
+    <strong>Sebelum mulai:</strong> sistem ini adalah alat bantu untuk mengenali kecenderungan, bukan alat diagnosis dan bukan
+    rujukan ke dokter. Apa pun hasilnya, anggaplah sebagai ajakan untuk lebih memperhatikan diri dan, bila perlu, berbicara
+    dengan psikolog. Jawablah dengan santai dan jujur; anda boleh berhenti kapan saja.
+</p>
+
 <?php if ($sp->sesiValid($sesiForward, 'forward') && $sesiForward['urutan']) { ?>
     <div class="kartu lanjutkan">
         <p>Anda sudah menjawab <?= count($sesiForward['urutan']) ?> pertanyaan pada Cek Menyeluruh sebelumnya.</p>

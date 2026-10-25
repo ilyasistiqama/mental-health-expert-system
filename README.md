@@ -35,6 +35,16 @@ halaman Sumber). Isinya identik dengan `public/data/*.json` di branch `main`.
   dihapus begitu hasil keluar. Cookie session bertahan 7 hari sehingga menutup browser tidak membuat
   pengguna ter-logout atau kehilangan progres.
 
+## Disclaimer, pesan, dan dialog
+
+- Halaman hasil dan PDF menampilkan pesan bahwa hasil **bukan diagnosis dan bukan rujukan ke dokter**,
+  melainkan dorongan untuk berbicara dengan psikolog klinis, psikiater, atau puskesmas, beserta langkah
+  lanjut dan nomor darurat 119 ext 8. Kalimatnya ada di `lib/pesan_dukungan.php` (sama dengan branch `main`).
+- Pesan login/daftar memakai pesan sekali tampil (`pesan_kilat()` di `lib/bantu.php`), bukan `alert()`.
+- Konfirmasi memakai dialog sendiri (`assets/dialog.js`), bukan `confirm()`. Pengecualian: konfirmasi saat
+  menutup tab atau memuat ulang halaman hasil tetap dialog bawaan browser, karena browser tidak mengizinkan
+  situs menggantinya.
+
 ## Metode inferensi
 
 Untuk pengguna, kedua metode diberi nama awam: **Cek Menyeluruh** (forward chaining) dan

@@ -16,14 +16,15 @@ require __DIR__ . '/../partials/header.php';
     <div id="box">
         <h2>Daftar</h2>
         <hr>
+        <?php require __DIR__ . '/../partials/pesan-kilat.php'; ?>
         <form action="../../controllers/cek_daftar.php" method="POST" id="form">
             <div class="form-content">
                 <label class="form-control" for="nama">Nama : </label>
-                <input class="form-control" type="text" id="nama" name="nama" maxlength="20" required>
+                <input class="form-control" type="text" id="nama" name="nama" maxlength="20" value="<?= e(isian_lama('nama')) ?>" required>
             </div>
             <div class="form-content">
                 <label class="form-control" for="username">Username : </label>
-                <input class="form-control" type="text" id="username" name="username" maxlength="20" required>
+                <input class="form-control" type="text" id="username" name="username" maxlength="20" value="<?= e(isian_lama('username')) ?>" required>
             </div>
             <div class="form-content">
                 <label class="form-control" for="password">Password : </label>
@@ -38,4 +39,5 @@ require __DIR__ . '/../partials/header.php';
     </div>
 </div>
 <?php require __DIR__ . '/../partials/cek-cookie.php'; ?>
+<?php unset($_SESSION['isian']); ?>
 <?php require __DIR__ . '/../partials/footer.php'; ?>

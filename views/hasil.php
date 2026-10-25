@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/../lib/bantu.php';
+require __DIR__ . '/../lib/pesan_dukungan.php';
 
 wajib_login('../');
 
@@ -30,7 +31,7 @@ $belumCukup = array_values(array_filter(array_map(fn ($k) => $sp->penyakit[$k] ?
 $judulHasil = $sp->judulHasil($hasil, $r['metode'], $r['target']);
 
 if ($terdiagnosa) {
-    $penjelasan = 'Jawaban anda memenuhi kriteria untuk gangguan berikut. Hasil ini adalah kecenderungan, bukan diagnosis; diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater.'
+    $penjelasan = 'Ini adalah kecenderungan berdasarkan jawaban anda, bukan diagnosis. Diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater setelah bertemu dan berbicara langsung dengan anda.'
         . (count($terdiagnosa) > 1 ? ' Beberapa gangguan kecemasan memang dapat muncul bersamaan; profesional akan menentukan diagnosis utamanya.' : '');
 } elseif ($r['metode'] === 'backward' && !$belumCukup) {
     $penjelasan = 'Tidak semua kriteria gangguan tersebut terpenuhi. Anda bisa mengecek gangguan lain, atau memakai Cek Menyeluruh.';
@@ -48,9 +49,12 @@ $sumberPdf = ['dsm5tr', 'who-anxiety-2026', 'healing119'];
 $blok = [
     ['jenis' => 'kecil', 'isi' => 'Jenis pemeriksaan: ' . SistemPakar::namaMetode($r['metode']) . ($r['target'] ? ' (' . ($sp->penyakit[$r['target']]['nama_penyakit'] ?? $r['target']) . ')' : '')],
     ['jenis' => 'kecil', 'isi' => 'Nama: ' . ($_SESSION['nama_user'] ?? $_SESSION['username']) . ' - Tanggal: ' . format_tanggal($r['waktu'])],
-    ['jenis' => 'judul', 'isi' => 'Kesimpulan'],
-    ['jenis' => 'besar', 'isi' => $judulHasil],
+    // disclaimer di awal, sebelum hasil dibaca
+    ['jenis' => 'kotak', 'judul' => JUDUL_DISCLAIMER, 'isi' => ISI_DISCLAIMER],
+    ['jenis' => 'judul', 'isi' => 'Gambaran hasil'],
 ];
+if ($terdiagnosa) $blok[] = ['jenis' => 'kecil', 'isi' => 'Jawaban anda menunjukkan kecenderungan ke arah:'];
+$blok[] = ['jenis' => 'besar', 'isi' => $judulHasil];
 if ($penjelasan) $blok[] = ['jenis' => 'teks', 'isi' => $penjelasan];
 foreach ($catatanDurasi as $c) $blok[] = ['jenis' => 'teks', 'isi' => $c];
 foreach ($terdiagnosa as $p) {
@@ -61,7 +65,7 @@ foreach ($terdiagnosa as $p) {
     $aturan = array_map(fn ($k) => $sp->labelKriteria($k) . ': ' . implode('; ', array_map(fn ($g) => $sp->gejala[$g]['nama_gejala'], $k['gejala'])), $p['kriteria']);
     $aturan[] = 'Durasi: keluhan dialami minimal ' . SistemPakar::labelDurasi($p['durasi_minimal']) . ' (jawaban anda: ' . SistemPakar::labelOpsiDurasi((int) $hasil['durasi'][$p['id_penyakit']]) . ')';
     $blok[] = ['jenis' => 'daftar', 'isi' => $aturan];
-    $blok[] = ['jenis' => 'tebal', 'isi' => 'Penanganan yang dapat dilakukan:'];
+    $blok[] = ['jenis' => 'tebal', 'isi' => 'Penanganan yang umumnya dilakukan oleh profesional:'];
     $blok[] = ['jenis' => 'daftar', 'isi' => $p['pengobatan']];
     if ($p['rujukan']) $blok[] = ['jenis' => 'kecil', 'isi' => "Klasifikasi: {$p['rujukan']}"];
     $sumberPdf = [...$sumberPdf, ...$p['sumber']];
@@ -74,8 +78,9 @@ if (!$terdiagnosa) {
 $blok[] = ['jenis' => 'judul', 'isi' => 'Jawaban anda (' . count($hasil['jawaban']) . ' pertanyaan)'];
 $blok[] = ['jenis' => 'daftar', 'isi' => array_map(fn ($j) => "{$j['pertanyaan']} -> {$j['jawaban']}", $hasil['jawaban'])];
 $blok[] = ['jenis' => 'judul', 'isi' => 'Catatan penting'];
-$blok[] = ['jenis' => 'teks', 'isi' => 'Dokumen ini bersifat rahasia dan tidak disimpan oleh sistem. Hasil ini adalah gambaran awal dari sistem pakar untuk keperluan edukasi dan skrining mandiri, bukan diagnosis. Obat-obatan hanya boleh dikonsumsi sesuai resep dokter. Kunjungi psikolog klinis, psikiater, atau puskesmas terdekat untuk pemeriksaan lebih lanjut.'];
-$blok[] = ['jenis' => 'tebal', 'isi' => 'Butuh bantuan segera? Hubungi layanan kesehatan jiwa Kemenkes 119 ext 8 (healing119.id).'];
+$blok[] = ['jenis' => 'teks', 'isi' => 'Dokumen ini bersifat rahasia dan tidak disimpan oleh sistem. Saran penanganan di atas adalah informasi umum dari pedoman klinis, bukan resep; jangan mengonsumsi obat tanpa resep dan pengawasan dokter.'];
+// disclaimer diulang di akhir bersama langkah selanjutnya
+$blok[] = ['jenis' => 'kotak', 'judul' => 'Langkah yang bisa anda ambil', 'isi' => [PESAN_TENANG], 'daftar' => LANGKAH_SELANJUTNYA];
 $blok[] = ['jenis' => 'judul', 'isi' => 'Sumber'];
 $sumberUrut = array_values(array_filter(array_map(fn ($id) => $sp->sumber[$id] ?? null, array_unique($sumberPdf))));
 usort($sumberUrut, fn ($a, $b) => $a['nomor'] <=> $b['nomor']);
@@ -87,7 +92,7 @@ $dataPdf = ['blok' => $blok, 'namaFile' => 'hasil-konsultasi-' . date('Y-m-d', s
 require __DIR__ . '/partials/header.php';
 ?>
 <div class="hasil-atas <?= $terdiagnosa ? 'terdeteksi' : 'aman' ?>">
-    <p class="label-kecil"><?= $terdiagnosa ? 'Kecenderungan yang terdeteksi' : 'Hasil konsultasi' ?></p>
+    <p class="label-kecil"><?= $terdiagnosa ? 'Jawaban anda menunjukkan kecenderungan ke arah' : 'Hasil pemeriksaan awal' ?></p>
     <h1><?= e($judulHasil) ?></h1>
     <?php if ($penjelasan) { ?><p><?= e($penjelasan) ?></p><?php } ?>
     <p class="meta"><?= e(SistemPakar::namaMetode($r['metode'])) ?> · <?= e(format_tanggal($r['waktu'])) ?></p>
@@ -97,9 +102,11 @@ require __DIR__ . '/partials/header.php';
     </div>
 </div>
 
+<?php require __DIR__ . '/partials/pesan-dukungan.php'; ?>
+
 <p class="catatan-penting">
-    <strong>Hasil ini tidak disimpan di mana pun</strong> demi menjaga kerahasiaan anda, dan akan hilang jika halaman ditutup atau dimuat ulang.
-    Unduh PDF jika ingin menyimpannya.
+    <strong>Hasil ini tidak disimpan di mana pun</strong> demi menjaga kerahasiaan anda, dan akan hilang jika halaman ditutup,
+    dimuat ulang, atau anda berpindah halaman. Unduh PDF jika ingin menyimpannya.
 </p>
 
 <?php foreach ($catatanDurasi as $c) { ?>
@@ -113,7 +120,7 @@ require __DIR__ . '/partials/header.php';
                 <p><span class="tag"><?= e($p['id_penyakit']) ?></span> <span class="tag abu"><?= e($p['kategori']) ?></span></p>
                 <h2><?= e($p['nama_penyakit']) ?></h2>
                 <p><?= e($p['deskripsi']) ?></p>
-                <h4>Penanganan yang dapat dilakukan<?= rujukan(array_diff($p['sumber'], ['dsm5tr', 'icd11', 'ppdgj3']), '../') ?></h4>
+                <h4>Penanganan yang umumnya dilakukan oleh profesional<?= rujukan(array_diff($p['sumber'], ['dsm5tr', 'icd11', 'ppdgj3']), '../') ?></h4>
                 <ol class="daftar-penanganan">
                     <?php foreach ($p['pengobatan'] as $t) { ?><li><?= e($t) ?></li><?php } ?>
                 </ol>
@@ -150,9 +157,8 @@ require __DIR__ . '/partials/header.php';
             </section>
         <?php } ?>
         <p class="catatan-penting">
-            <strong>Catatan penting:</strong> hasil ini adalah gambaran awal, bukan diagnosis. Obat-obatan hanya boleh dikonsumsi sesuai resep dokter.
-            Kunjungi psikolog klinis, psikiater, atau puskesmas terdekat untuk pemeriksaan lebih lanjut.
-            Butuh bantuan segera? Hubungi <strong>119 ext 8</strong>.<?= rujukan(['healing119'], '../') ?>
+            <strong>Catatan penting:</strong> saran penanganan di halaman ini adalah informasi umum dari pedoman klinis, bukan resep.
+            Jangan mengonsumsi obat tanpa resep dan pengawasan dokter. Psikolog atau psikiater akan menentukan penanganan yang sesuai untuk anda.
         </p>
     </div>
 </div>
@@ -165,9 +171,28 @@ require __DIR__ . '/partials/header.php';
         unduhPdfHasil(<?= json_encode($dataPdf, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
         sudahDiunduh = true;
     });
-    // hasil hilang jika halaman ditutup atau dimuat ulang, jadi minta konfirmasi bila PDF belum diunduh
+    var sudahDikonfirmasi = false;
+
+    // Pindah halaman lewat tautan di website: konfirmasi dengan dialog sendiri
+    document.addEventListener("click", function (e) {
+        var tautan = e.target.closest("a[href]");
+        if (!tautan || sudahDiunduh || tautan.target === "_blank" || tautan.getAttribute("href").startsWith("#")) return;
+        e.preventDefault();
+        konfirmasi({
+            judul: "Tinggalkan halaman hasil?",
+            pesan: "Demi menjaga kerahasiaan, hasil ini tidak disimpan dan akan hilang setelah anda meninggalkan halaman ini. Unduh PDF terlebih dahulu jika ingin menyimpannya.",
+            ya: "Tinggalkan",
+            tidak: "Tetap di sini"
+        }).then(function (pergi) {
+            if (!pergi) return;
+            sudahDikonfirmasi = true;
+            location.href = tautan.href;
+        });
+    });
+
+    // Menutup tab atau memuat ulang: browser hanya mengizinkan dialog bawaannya sendiri
     window.addEventListener("beforeunload", function (e) {
-        if (!sudahDiunduh) {
+        if (!sudahDiunduh && !sudahDikonfirmasi) {
             e.preventDefault();
             e.returnValue = "";
         }

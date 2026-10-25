@@ -5,6 +5,16 @@
             </div>
         </div>
     </div>
+
+    <dialog id="dialog-konfirmasi" class="dialog" aria-labelledby="dialog-judul" aria-describedby="dialog-pesan">
+        <h2 id="dialog-judul"></h2>
+        <p id="dialog-pesan"></p>
+        <div class="dialog-tombol">
+            <button class="tombol-kedua" type="button" data-tidak></button>
+            <button class="tombol-utama" type="button" data-ya></button>
+        </div>
+    </dialog>
+    <script src="<?= e($dasar) ?>assets/dialog.js"></script>
 </body>
 
 </html>

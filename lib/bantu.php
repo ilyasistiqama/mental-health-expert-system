@@ -82,6 +82,26 @@ function selesaikan_konsultasi(string $metode, array $sesi, array $kesimpulan, s
     exit;
 }
 
+// pesan sekali tampil (pengganti alert bawaan browser), misalnya setelah login gagal
+function pesan_kilat(string $jenis, string $teks, array $isian = []): void
+{
+    $_SESSION['kilat'] = ['jenis' => $jenis, 'teks' => $teks];
+    $_SESSION['isian'] = $isian;
+}
+
+function ambil_pesan_kilat(): ?array
+{
+    $kilat = $_SESSION['kilat'] ?? null;
+    unset($_SESSION['kilat']);
+    return $kilat;
+}
+
+// isian form sebelumnya agar tidak perlu diketik ulang setelah gagal
+function isian_lama(string $nama): string
+{
+    return $_SESSION['isian'][$nama] ?? '';
+}
+
 function format_tanggal(string $waktu): string
 {
     $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];

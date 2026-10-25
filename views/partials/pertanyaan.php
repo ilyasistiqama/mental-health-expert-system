@@ -42,7 +42,12 @@ $jawaban = $sp->daftarJawaban($sesi);
             <input type="hidden" name="langkah" value="<?= $jumlahDijawab ?>">
             <button class="tombol-teks" type="submit" name="aksi" value="kembali" <?= $jumlahDijawab === 0 ? 'disabled' : '' ?>>&larr; Kembali</button>
         </form>
-        <form action="../controllers/jawab.php" method="POST" onsubmit="return <?= $jumlahDijawab === 0 ? 'true' : "confirm('Mulai ulang konsultasi? Jawaban yang sudah diisi akan dihapus.')" ?>">
+        <form action="../controllers/jawab.php" method="POST" <?php if ($jumlahDijawab > 0) { ?>
+            data-konfirmasi-judul="Mulai ulang konsultasi?"
+            data-konfirmasi-pesan="<?= $jumlahDijawab ?> jawaban yang sudah anda isi akan dihapus dan pertanyaan dimulai dari awal."
+            data-konfirmasi-ya="Ya, mulai ulang"
+            data-konfirmasi-tidak="Lanjutkan menjawab"
+            data-konfirmasi-bahaya="1"<?php } ?>>
             <input type="hidden" name="csrf" value="<?= e(token_csrf()) ?>">
             <input type="hidden" name="metode" value="<?= e($metode) ?>">
             <input type="hidden" name="langkah" value="<?= $jumlahDijawab ?>">

@@ -21,5 +21,6 @@ if ($valid && $data['hak_akses'] == "user") {
 
     header("location:../views/konsultasi.php");
 } else {
-    echo "<script>alert('Gagal Masuk, Username atau Password Salah!');history.go(-1);</script>";
+    pesan_kilat('gagal', 'Username atau password salah. Silakan periksa kembali.', ['username' => $username]);
+    header("location:../views/auth/login.php");
 }
