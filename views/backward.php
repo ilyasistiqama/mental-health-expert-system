@@ -13,7 +13,7 @@ if (!in_array($target, $sp->daftarPenyakit(), true)) {
 
 if ($target !== null) {
     $sesi = $_SESSION['sesi'][$metode] ?? null;
-    // hipotesis berganti, mulai pembuktian dari awal
+    // gangguan yang dicek berganti, mulai dari awal
     if (!$sp->sesiValid($sesi, $metode) || $sesi['target'] !== $target) {
         $sesi = $_SESSION['sesi'][$metode] = $sp->sesiBaru($metode, $target);
     }
@@ -23,15 +23,15 @@ if ($target !== null) {
     }
 }
 
-$judul = 'Backward Chaining';
+$judul = 'Cek Gangguan Tertentu';
 $aktif = 'konsultasi';
 $dasar = '../';
 require __DIR__ . '/partials/header.php';
 ?>
-<h1 class="judul-halaman">Metode Backward Chaining</h1>
+<h1 class="judul-halaman">Cek Gangguan Tertentu</h1>
 <p class="pengantar">
-    Pilih satu gangguan sebagai hipotesis. Sistem akan menanyakan kriterianya satu per satu untuk membuktikan hipotesis tersebut,
-    dan berhenti begitu satu kriteria tidak terpenuhi.
+    Sudah menduga gangguan tertentu? Pilih gangguannya, lalu sistem akan menanyakan kriterianya satu per satu untuk memastikan
+    apakah gejala anda sesuai.
 </p>
 
 <div class="wadah-sempit">
@@ -42,13 +42,13 @@ require __DIR__ . '/partials/header.php';
     </div>
 
     <?php if ($target === null) { ?>
-        <p class="kosong">Pilih salah satu gangguan di atas sebagai hipotesis.</p>
+        <p class="kosong">Pilih salah satu gangguan di atas untuk mulai mengecek.</p>
     <?php } else { ?>
         <details class="kartu hipotesis">
             <summary>
-                <span class="label-kecil">Hipotesis</span>
+                <span class="label-kecil">Gangguan yang dicek</span>
                 <strong><?= e($sp->penyakit[$target]['nama_penyakit']) ?></strong>
-                <span class="tautan-kecil">Lihat aturan pembuktian</span>
+                <span class="tautan-kecil">Lihat kriteria gangguan ini</span>
             </summary>
             <?php $kodePenyakit = $target; require __DIR__ . '/partials/kriteria.php'; ?>
         </details>

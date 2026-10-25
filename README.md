@@ -26,9 +26,20 @@ halaman Sumber). Isinya identik dengan `public/data/*.json` di branch `main`.
 | `kriteria`, `kriteria_gejala` | aturan: penyakit terbukti jika semua kriteria terpenuhi, kriteria terpenuhi jika minimal `minimal` gejalanya dijawab Ya |
 | `pengobatan` | saran penanganan tiap penyakit |
 | `sumber`, `penyakit_sumber` | daftar pustaka dan rujukan tiap penyakit |
-| `riwayat` | hasil konsultasi tiap user |
+
+## Privasi
+
+- Hasil diagnosa **tidak disimpan ke database**. Hasil dititipkan di session hanya sampai halaman hasil
+  dibuka, lalu langsung dihapus; pengguna bisa mengunduh PDF. Memuat ulang halaman hasil akan menghilangkannya.
+- Jawaban yang belum selesai disimpan di session (sisi server) agar konsultasi bisa dilanjutkan, dan
+  dihapus begitu hasil keluar. Cookie session bertahan 7 hari sehingga menutup browser tidak membuat
+  pengguna ter-logout atau kehilangan progres.
 
 ## Metode inferensi
+
+Untuk pengguna, kedua metode diberi nama awam: **Cek Menyeluruh** (forward chaining) dan
+**Cek Gangguan Tertentu** (backward chaining).
+
 
 Mesin inferensi ada di `lib/SistemPakar.php` (sama persis dengan `src/lib/sistemPakar.js` di branch `main`).
 

@@ -1,6 +1,14 @@
 <?php
 
+date_default_timezone_set('Asia/Jakarta');
+
+// Cookie session bawaan PHP hilang saat browser ditutup sehingga pengguna ter-logout dan progres
+// konsultasi hilang. Session dibuat bertahan 7 hari agar konsultasi bisa dilanjutkan.
+const UMUR_SESI = 60 * 60 * 24 * 7;
+
 if (session_status() === PHP_SESSION_NONE) {
+    ini_set('session.gc_maxlifetime', (string) UMUR_SESI);
+    session_set_cookie_params(['lifetime' => UMUR_SESI, 'path' => '/', 'httponly' => true, 'samesite' => 'Lax']);
     session_start();
 }
 
@@ -55,26 +63,22 @@ function rujukan(array $ids, string $dasar): string
     return '<sup class="rujukan">[' . implode(', ', $tautan) . ']</sup>';
 }
 
-// simpan kesimpulan ke riwayat user, hapus sesi, lalu buka halaman hasil
+// Hasil diagnosa bersifat rahasia: tidak disimpan ke database. Hasil dititipkan di session hanya
+// sampai halaman hasil dibuka, lalu langsung dihapus. Progres jawaban juga dihapus.
 function selesaikan_konsultasi(string $metode, array $sesi, array $kesimpulan, string $dasar): never
 {
-    global $koneksi;
-    $sp = sistem_pakar();
-    $hasil = [
+    $_SESSION['hasil'] = [
+        'waktu' => date('Y-m-d H:i:s'),
+        'metode' => $metode,
+        'target' => $sesi['target'],
         'penyakit' => $kesimpulan['penyakit'],
         'belumCukup' => $kesimpulan['belumCukup'],
         'durasi' => $kesimpulan['durasi'],
-        'jawaban' => $sp->daftarJawaban($sesi),
+        'jawaban' => sistem_pakar()->daftarJawaban($sesi),
     ];
-    mysqli_execute_query(
-        $koneksi,
-        "INSERT INTO riwayat (id_user, waktu, metode, target, hasil) VALUES (?, NOW(), ?, ?, ?)",
-        [$_SESSION['id_user'], $metode, $sesi['target'], json_encode($hasil, JSON_UNESCAPED_UNICODE)]
-    );
-    $id = mysqli_insert_id($koneksi);
     unset($_SESSION['sesi'][$metode]);
 
-    header("location: {$dasar}views/hasil.php?id={$id}");
+    header("location: {$dasar}views/hasil.php");
     exit;
 }
 

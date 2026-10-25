@@ -272,6 +272,12 @@ sup.rujukan a {
     flex: 1;
 }
 
+.grid-metode .kartu p.kecil {
+    flex: none;
+    margin-bottom: 0;
+    text-align: center;
+}
+
 .lanjutkan {
     display: flex;
     flex-wrap: wrap;

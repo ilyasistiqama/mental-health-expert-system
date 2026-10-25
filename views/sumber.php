@@ -10,7 +10,7 @@ require __DIR__ . '/partials/header.php';
 ?>
 <h1 class="judul-halaman">Sumber & Rujukan</h1>
 <p class="pengantar">
-    Kriteria diagnosis, aturan, saran penanganan, dan isi artikel pada sistem ini disusun dari sumber-sumber berikut.
+    Kriteria diagnosis, saran penanganan, dan isi artikel pada sistem ini disusun dari sumber-sumber berikut.
     Nomor di sini sama dengan nomor rujukan [n] di seluruh halaman.
 </p>
 

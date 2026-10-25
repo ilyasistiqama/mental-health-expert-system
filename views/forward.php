@@ -16,14 +16,14 @@ if ($langkah['jenis'] === 'selesai') {
     selesaikan_konsultasi($metode, $sesi, $langkah, '../');
 }
 
-$judul = 'Forward Chaining';
+$judul = 'Cek Menyeluruh';
 $aktif = 'konsultasi';
 $dasar = '../';
 require __DIR__ . '/partials/header.php';
 ?>
-<h1 class="judul-halaman">Metode Forward Chaining</h1>
+<h1 class="judul-halaman">Cek Menyeluruh</h1>
 <p class="pengantar">
-    Sistem mengumpulkan gejala yang anda alami, lalu mencocokkannya dengan seluruh aturan untuk menarik kesimpulan.
+    Jawab pertanyaan seputar keluhan yang anda rasakan. Sistem akan mencocokkannya dengan kriteria semua gangguan untuk mencari kemungkinan gangguan yang anda alami.
     Beberapa pertanyaan menyinggung pengalaman yang tidak menyenangkan; anda boleh berhenti kapan saja.
 </p>
 

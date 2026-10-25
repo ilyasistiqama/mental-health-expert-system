@@ -92,17 +92,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `riwayat` (
-  `id_riwayat` int NOT NULL AUTO_INCREMENT,
-  `id_user` int NOT NULL,
-  `waktu` datetime NOT NULL,
-  `metode` varchar(10) NOT NULL,
-  `target` varchar(5) NULL,
-  `hasil` text NOT NULL COMMENT 'JSON: penyakit, belumCukup, durasi, jawaban',
-  PRIMARY KEY (`id_riwayat`),
-  KEY `id_user` (`id_user`),
-  CONSTRAINT `riwayat_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- tabel `riwayat` dari versi sebelumnya dihapus: hasil diagnosa bersifat rahasia dan tidak disimpan
 
 INSERT INTO `penyakit` (`id_penyakit`, `nama_penyakit`, `kategori`, `deskripsi`, `durasi_minimal`, `catatan_durasi`, `rujukan`) VALUES
 ('P0', 'Tidak Terdeteksi Gangguan Kecemasan', '-', 'Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan gangguan kecemasan. Rasa cemas sesekali adalah hal yang normal dan bahkan bisa membantu kita lebih waspada.', 0, NULL, ''),

@@ -366,13 +366,14 @@ class SistemPakar
             return implode(', ', array_map(fn ($k) => $this->penyakit[$k]['nama_penyakit'] ?? $k, $hasil['penyakit']));
         }
         if ($metode === 'backward') {
-            return 'Hipotesis ' . ($this->penyakit[$target]['nama_penyakit'] ?? $target) . ' tidak terbukti';
+            return 'Gejala anda tidak sesuai dengan ' . ($this->penyakit[$target]['nama_penyakit'] ?? $target);
         }
         return $this->penyakit[self::KODE_NORMAL]['nama_penyakit'];
     }
 
+    // nama awam untuk pengguna; istilah teknisnya forward chaining dan backward chaining
     public static function namaMetode(string $metode): string
     {
-        return $metode === 'backward' ? 'Backward Chaining' : 'Forward Chaining';
+        return $metode === 'backward' ? 'Cek Gangguan Tertentu' : 'Cek Menyeluruh';
     }
 }

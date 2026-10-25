@@ -5,13 +5,10 @@ require __DIR__ . '/../lib/bantu.php';
 wajib_login('../');
 
 $sp = sistem_pakar();
-// hanya riwayat milik user yang sedang login
-$r = mysqli_fetch_assoc(mysqli_execute_query(
-    $koneksi,
-    "SELECT * FROM riwayat WHERE id_riwayat = ? AND id_user = ?",
-    [(int) ($_GET['id'] ?? 0), $_SESSION['id_user']]
-));
-$hasil = $r ? json_decode($r['hasil'], true) : null;
+// hasil hanya ditampilkan sekali lalu langsung dihapus dari session, tidak pernah disimpan
+$hasil = $_SESSION['hasil'] ?? null;
+unset($_SESSION['hasil']);
+$r = $hasil;
 
 $judul = 'Hasil Konsultasi';
 $aktif = 'konsultasi';
@@ -19,7 +16,10 @@ $dasar = '../';
 
 if (!$hasil) {
     require __DIR__ . '/partials/header.php';
-    echo '<h1 class="judul-halaman">Hasil tidak ditemukan</h1><p class="kosong"><a href="konsultasi.php">Kembali ke halaman konsultasi</a></p>';
+    echo '<h1 class="judul-halaman">Hasil tidak tersedia</h1>'
+        . '<p class="pengantar">Demi menjaga kerahasiaan, hasil konsultasi tidak disimpan di mana pun dan hanya tampil sekali setelah konsultasi selesai. '
+        . 'Hasil hilang jika halaman dimuat ulang atau ditutup.</p>'
+        . '<p class="kosong"><a href="konsultasi.php">Mulai konsultasi kembali</a></p>';
     require __DIR__ . '/partials/footer.php';
     exit;
 }
@@ -30,10 +30,10 @@ $belumCukup = array_values(array_filter(array_map(fn ($k) => $sp->penyakit[$k] ?
 $judulHasil = $sp->judulHasil($hasil, $r['metode'], $r['target']);
 
 if ($terdiagnosa) {
-    $penjelasan = 'Jawaban anda memenuhi aturan untuk gangguan berikut. Hasil ini adalah kecenderungan, bukan diagnosis; diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater.'
+    $penjelasan = 'Jawaban anda memenuhi kriteria untuk gangguan berikut. Hasil ini adalah kecenderungan, bukan diagnosis; diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater.'
         . (count($terdiagnosa) > 1 ? ' Beberapa gangguan kecemasan memang dapat muncul bersamaan; profesional akan menentukan diagnosis utamanya.' : '');
 } elseif ($r['metode'] === 'backward' && !$belumCukup) {
-    $penjelasan = 'Tidak semua kriteria dari hipotesis tersebut terpenuhi. Coba hipotesis lain atau gunakan Forward Chaining.';
+    $penjelasan = 'Tidak semua kriteria gangguan tersebut terpenuhi. Anda bisa mengecek gangguan lain, atau memakai Cek Menyeluruh.';
 } elseif (!$belumCukup) {
     $penjelasan = $normal['deskripsi'];
 } else {
@@ -46,7 +46,7 @@ $catatanDurasi = array_map(fn ($p) => "Gejala {$p['nama_penyakit']} terpenuhi, t
 // blok isi PDF, urutannya sama dengan tampilan halaman
 $sumberPdf = ['dsm5tr', 'who-anxiety-2026', 'healing119'];
 $blok = [
-    ['jenis' => 'kecil', 'isi' => 'Metode: ' . SistemPakar::namaMetode($r['metode']) . ($r['target'] ? ' (hipotesis: ' . ($sp->penyakit[$r['target']]['nama_penyakit'] ?? $r['target']) . ')' : '')],
+    ['jenis' => 'kecil', 'isi' => 'Jenis pemeriksaan: ' . SistemPakar::namaMetode($r['metode']) . ($r['target'] ? ' (' . ($sp->penyakit[$r['target']]['nama_penyakit'] ?? $r['target']) . ')' : '')],
     ['jenis' => 'kecil', 'isi' => 'Nama: ' . ($_SESSION['nama_user'] ?? $_SESSION['username']) . ' - Tanggal: ' . format_tanggal($r['waktu'])],
     ['jenis' => 'judul', 'isi' => 'Kesimpulan'],
     ['jenis' => 'besar', 'isi' => $judulHasil],
@@ -57,7 +57,7 @@ foreach ($terdiagnosa as $p) {
     $blok[] = ['jenis' => 'judul', 'isi' => "{$p['id_penyakit']} - {$p['nama_penyakit']}"];
     $blok[] = ['jenis' => 'kecil', 'isi' => "Kategori: {$p['kategori']}"];
     $blok[] = ['jenis' => 'teks', 'isi' => $p['deskripsi']];
-    $blok[] = ['jenis' => 'tebal', 'isi' => 'Aturan yang terpenuhi:'];
+    $blok[] = ['jenis' => 'tebal', 'isi' => 'Kriteria yang terpenuhi:'];
     $aturan = array_map(fn ($k) => $sp->labelKriteria($k) . ': ' . implode('; ', array_map(fn ($g) => $sp->gejala[$g]['nama_gejala'], $k['gejala'])), $p['kriteria']);
     $aturan[] = 'Durasi: keluhan dialami minimal ' . SistemPakar::labelDurasi($p['durasi_minimal']) . ' (jawaban anda: ' . SistemPakar::labelOpsiDurasi((int) $hasil['durasi'][$p['id_penyakit']]) . ')';
     $blok[] = ['jenis' => 'daftar', 'isi' => $aturan];
@@ -74,7 +74,7 @@ if (!$terdiagnosa) {
 $blok[] = ['jenis' => 'judul', 'isi' => 'Jawaban anda (' . count($hasil['jawaban']) . ' pertanyaan)'];
 $blok[] = ['jenis' => 'daftar', 'isi' => array_map(fn ($j) => "{$j['pertanyaan']} -> {$j['jawaban']}", $hasil['jawaban'])];
 $blok[] = ['jenis' => 'judul', 'isi' => 'Catatan penting'];
-$blok[] = ['jenis' => 'teks', 'isi' => 'Hasil ini adalah gambaran awal dari sistem pakar untuk keperluan edukasi dan skrining mandiri, bukan diagnosis. Obat-obatan hanya boleh dikonsumsi sesuai resep dokter. Kunjungi psikolog klinis, psikiater, atau puskesmas terdekat untuk pemeriksaan lebih lanjut.'];
+$blok[] = ['jenis' => 'teks', 'isi' => 'Dokumen ini bersifat rahasia dan tidak disimpan oleh sistem. Hasil ini adalah gambaran awal dari sistem pakar untuk keperluan edukasi dan skrining mandiri, bukan diagnosis. Obat-obatan hanya boleh dikonsumsi sesuai resep dokter. Kunjungi psikolog klinis, psikiater, atau puskesmas terdekat untuk pemeriksaan lebih lanjut.'];
 $blok[] = ['jenis' => 'tebal', 'isi' => 'Butuh bantuan segera? Hubungi layanan kesehatan jiwa Kemenkes 119 ext 8 (healing119.id).'];
 $blok[] = ['jenis' => 'judul', 'isi' => 'Sumber'];
 $sumberUrut = array_values(array_filter(array_map(fn ($id) => $sp->sumber[$id] ?? null, array_unique($sumberPdf))));
@@ -96,6 +96,11 @@ require __DIR__ . '/partials/header.php';
         <a class="tombol-kedua" href="forward.php">Konsultasi lagi</a>
     </div>
 </div>
+
+<p class="catatan-penting">
+    <strong>Hasil ini tidak disimpan di mana pun</strong> demi menjaga kerahasiaan anda, dan akan hilang jika halaman ditutup atau dimuat ulang.
+    Unduh PDF jika ingin menyimpannya.
+</p>
 
 <?php foreach ($catatanDurasi as $c) { ?>
     <p class="catatan-durasi"><?= e($c) ?></p>
@@ -140,7 +145,7 @@ require __DIR__ . '/partials/header.php';
     <div>
         <?php foreach ($terdiagnosa as $p) { ?>
             <section class="kartu">
-                <h4>Aturan <?= e($p['nama_penyakit']) ?></h4>
+                <h4>Kriteria <?= e($p['nama_penyakit']) ?></h4>
                 <?php $kodePenyakit = $p['id_penyakit']; require __DIR__ . '/partials/kriteria.php'; ?>
             </section>
         <?php } ?>
@@ -155,8 +160,17 @@ require __DIR__ . '/partials/header.php';
 <script src="../assets/vendor/jspdf.umd.min.js"></script>
 <script src="../assets/pdf-hasil.js"></script>
 <script>
+    var sudahDiunduh = false;
     document.getElementById("tombol-pdf").addEventListener("click", function () {
         unduhPdfHasil(<?= json_encode($dataPdf, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>);
+        sudahDiunduh = true;
+    });
+    // hasil hilang jika halaman ditutup atau dimuat ulang, jadi minta konfirmasi bila PDF belum diunduh
+    window.addEventListener("beforeunload", function (e) {
+        if (!sudahDiunduh) {
+            e.preventDefault();
+            e.returnValue = "";
+        }
     });
 </script>
 <?php require __DIR__ . '/partials/footer.php'; ?>
