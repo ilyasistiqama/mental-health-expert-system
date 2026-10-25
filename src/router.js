@@ -14,6 +14,7 @@ const router = createRouter({
         { path: "/cek-gangguan", component: () => import("./views/BackwardView.vue"), meta: { menu: "konsultasi", judul: `Cek Gangguan Tertentu · ${JUDUL}` } },
         { path: "/hasil", component: () => import("./views/HasilView.vue"), meta: { menu: "konsultasi", judul: `Hasil Konsultasi · ${JUDUL}` } },
         { path: "/sumber", component: () => import("./views/SumberView.vue"), meta: { menu: "sumber", judul: `Sumber & Rujukan · ${JUDUL}` } },
+        { path: "/tentang", component: () => import("./views/TentangView.vue"), meta: { menu: "tentang", judul: `Tentang & Batasan · ${JUDUL}` } },
         // alamat lama tetap bisa dibuka
         { path: "/forward", redirect: "/cek-menyeluruh" },
         { path: "/backward", redirect: (to) => ({ path: "/cek-gangguan", query: to.query }) },

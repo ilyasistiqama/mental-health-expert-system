@@ -87,7 +87,8 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
                     <template v-if="terdiagnosa.length > 1">Beberapa gangguan kecemasan memang dapat muncul bersamaan; profesional akan menentukan diagnosis utamanya.</template>
                 </p>
                 <p v-else-if="entri.metode === 'backward' && belumCukup.length === 0" class="mb-3 max-w-3xl text-muted">
-                    Tidak semua kriteria gangguan tersebut terpenuhi. Anda bisa mengecek gangguan lain, atau memakai Cek Menyeluruh.
+                    Tidak semua kriteria gangguan tersebut terpenuhi. Hasil ini tidak menjamin anda bebas dari gangguan tersebut; jika anda tetap
+                    merasa terganggu, sebaiknya tetap berbicara dengan psikolog. Anda juga bisa mengecek gangguan lain atau memakai Cek Menyeluruh.
                 </p>
                 <p v-else-if="belumCukup.length === 0" class="mb-3 max-w-3xl text-muted">{{ PENYAKIT[KODE_NORMAL].deskripsi }}</p>
                 <p class="mb-5 text-sm text-muted">{{ namaMetode(entri.metode) }} · {{ formatTanggal(entri.waktu) }}</p>

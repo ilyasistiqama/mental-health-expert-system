@@ -18,6 +18,17 @@ Tidak memakai database dan tidak perlu login. Untuk pengguna, kedua metode diber
 - Jika penyimpanan browser diblokir, sistem tidak dijalankan dan pengguna diberi petunjuk.
 - Tab lain yang masih terbuka ikut tersinkron, sehingga progres tidak tertimpa versi lama.
 
+## Keamanan isi dan privasi
+
+- Tidak ada permintaan ke server pihak ketiga: font (Plus Jakarta Sans, lisensi OFL) disimpan bersama
+  aplikasi lewat `@fontsource-variable/plus-jakarta-sans`, tanpa analitik maupun pelacak.
+- Hasil tanpa kecenderungan tidak ditulis sebagai "tidak terdeteksi", melainkan "tidak menunjukkan
+  kecenderungan", disertai penjelasan bahwa hasil skrining tidak menjamin bebas dari gangguan.
+- Saran penanganan tidak menyebut nama obat; obat selalu dirujuk ke resep dan pengawasan dokter/psikiater.
+- Halaman **Tentang & batasan** (`/tentang`) menjelaskan tujuan, batasan (bukan diagnosis, gangguan yang
+  diperiksa, bukan untuk keadaan darurat, pengguna di bawah 18 tahun didampingi), dan perlakuan data.
+  Tambahkan nama pembuat dan validator ahli di `src/views/TentangView.vue` bila sudah ada.
+
 ## Disclaimer dan pesan dukungan
 
 Setiap hasil (halaman dan PDF) menampilkan pesan bahwa hasil **bukan diagnosis dan bukan rujukan ke
@@ -40,7 +51,7 @@ artikel). Service worker dibuat oleh `vite-plugin-pwa` saat `npm run build`.
 - Saat versi baru di-deploy, muncul banner **"Versi baru sistem tersedia"** dengan tombol Perbarui.
   Halaman tidak dimuat ulang otomatis, dan banner tidak tampil di halaman hasil, karena hasil hanya
   ada di memori dan akan hilang jika halaman dimuat ulang. Progres jawaban tetap aman.
-- Cache hanya berisi file aplikasi dan basis pengetahuan, tidak ada data pengguna.
+- Cache hanya berisi file aplikasi (termasuk font) dan basis pengetahuan, tidak ada data pengguna.
 - Service worker hanya aktif di **HTTPS** (misalnya GitHub Pages) atau `localhost`. Di HTTP biasa sistem
   tetap jalan, hanya saja tanpa mode offline.
 

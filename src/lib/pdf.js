@@ -118,7 +118,7 @@ export async function unduhPdfHasil(entri) {
         tulis("Ini adalah kecenderungan berdasarkan jawaban anda, bukan diagnosis. Diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater setelah bertemu dan berbicara langsung dengan anda.");
     } else if (belumCukup.length === 0) {
         tulis(entri.metode === "backward"
-            ? "Tidak semua kriteria gangguan tersebut terpenuhi."
+            ? "Tidak semua kriteria gangguan tersebut terpenuhi. Hasil ini tidak menjamin anda bebas dari gangguan tersebut; jika anda tetap merasa terganggu, sebaiknya tetap berbicara dengan psikolog."
             : PENYAKIT[KODE_NORMAL].deskripsi);
     }
     for (const p of belumCukup) {

@@ -93,7 +93,7 @@ const perawatanDiri = [
 
             <section>
                 <h2 class="mb-3 text-2xl font-extrabold">Gejala yang perlu dikenali</h2>
-                <p class="mb-3">Selain rasa takut dan khawatir yang berlebihan, penderita gangguan kecemasan dapat mengalami:<Rujukan :ids="['who-anxiety-2026']" /></p>
+                <p class="mb-3">Selain rasa takut dan khawatir yang berlebihan, orang dengan gangguan kecemasan dapat mengalami:<Rujukan :ids="['who-anxiety-2026']" /></p>
                 <ul class="grid gap-2 sm:grid-cols-2">
                     <li v-for="g in gejalaUmum" :key="g" class="rounded-xl border border-line bg-surface px-4 py-2.5 text-[.95rem]">{{ g }}</li>
                 </ul>
@@ -123,8 +123,8 @@ const perawatanDiri = [
                 <h2 class="mb-3 text-2xl font-extrabold">Penanganan</h2>
                 <p class="mb-4">
                     Gangguan kecemasan dapat ditangani dengan efektif. Psikoterapi merupakan penanganan yang esensial, terutama terapi
-                    kognitif perilaku (CBT). Pada orang dewasa, antidepresan golongan SSRI juga dapat membantu, sedangkan benzodiazepin
-                    umumnya tidak direkomendasikan.<Rujukan :ids="['who-anxiety-2026', 'nice-cg113']" />
+                    kognitif perilaku (CBT). Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai; jangan mengonsumsi
+                    obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.<Rujukan :ids="['who-anxiety-2026', 'nice-cg113']" />
                 </p>
                 <p class="mb-3">Langkah perawatan diri yang dianjurkan WHO:<Rujukan :ids="['who-anxiety-2026']" /></p>
                 <ul class="list-disc space-y-1 pl-5">

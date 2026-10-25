@@ -60,7 +60,10 @@ const daftarMenu = [
                 Butuh bantuan segera? Hubungi layanan kesehatan jiwa Kemenkes <strong class="text-ink">119 ext 8</strong>
                 (<a href="https://www.healing119.id/" target="_blank" rel="noopener">healing119.id</a>) atau fasilitas kesehatan terdekat.
             </p>
-            <p>&copy; {{ tahun }} Sistem Pakar Gangguan Kecemasan · <RouterLink to="/sumber">Sumber & rujukan</RouterLink></p>
+            <p>
+                &copy; {{ tahun }} Sistem Pakar Gangguan Kecemasan · <RouterLink to="/tentang">Tentang & batasan</RouterLink> ·
+                <RouterLink to="/sumber">Sumber & rujukan</RouterLink>
+            </p>
         </div>
     </footer>
 

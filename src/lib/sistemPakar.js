@@ -369,6 +369,6 @@ export function ruteMetode(metode, target = null) {
 
 export function judulHasil(entri) {
     if (entri.penyakit.length > 0) return entri.penyakit.map((k) => PENYAKIT[k]?.nama ?? k).join(", ");
-    if (entri.metode === "backward") return `Gejala anda tidak sesuai dengan ${PENYAKIT[entri.target]?.nama ?? entri.target}`;
+    if (entri.metode === "backward") return `Jawaban anda belum menunjukkan kecenderungan ${PENYAKIT[entri.target]?.nama ?? entri.target}`;
     return PENYAKIT[KODE_NORMAL].nama;
 }

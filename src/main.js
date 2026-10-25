@@ -4,6 +4,8 @@ import router from "./router";
 import { muatBasisPengetahuan, muatProgres } from "./lib/sistemPakar";
 import { siapkanPenyimpanan } from "./lib/penyimpanan";
 import { aktifkanCacheOffline } from "./lib/offline";
+// font disimpan bersama aplikasi agar tidak ada permintaan ke server pihak ketiga
+import "@fontsource-variable/plus-jakarta-sans";
 import "./assets/main.css";
 
 const wadah = document.getElementById("app");

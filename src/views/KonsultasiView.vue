@@ -29,7 +29,7 @@ const metode = [
             <h1 class="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl">Pilih jenis pemeriksaan</h1>
             <p class="text-muted">
                 Keduanya memakai kriteria yang sama. Setelah gejala sebuah gangguan terpenuhi, sistem menanyakan sudah berapa lama keluhan
-                dialami sebagai penentu akhir. Hasil diagnosa tidak disimpan di mana pun demi menjaga kerahasiaan anda.
+                dialami sebagai penentu akhir. Hasil pemeriksaan tidak disimpan di mana pun demi menjaga kerahasiaan anda.
             </p>
         </header>
 
@@ -41,6 +41,7 @@ const metode = [
                 <strong>Sebelum mulai:</strong> sistem ini adalah alat bantu untuk mengenali kecenderungan, bukan alat diagnosis dan bukan
                 rujukan ke dokter. Apa pun hasilnya, anggaplah sebagai ajakan untuk lebih memperhatikan diri dan, bila perlu, berbicara
                 dengan psikolog. Jawablah dengan santai dan jujur; anda boleh berhenti kapan saja.
+                <RouterLink to="/tentang">Baca batasan sistem ini</RouterLink>.
             </p>
         </div>
 
