@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import { muatBasisPengetahuan, muatProgres } from "./lib/sistemPakar";
 import { siapkanPenyimpanan } from "./lib/penyimpanan";
+import { aktifkanCacheOffline } from "./lib/offline";
 import "./assets/main.css";
 
 const wadah = document.getElementById("app");
@@ -32,11 +33,13 @@ async function mulai() {
         console.error(e);
         tampilkanPesan("Basis pengetahuan gagal dimuat", `
             <p class="text-muted">File <code>data/penyakit.json</code>, <code>data/gejala.json</code>, atau <code>data/sumber.json</code>
-            tidak dapat dibaca. Periksa koneksi internet anda, atau hubungi pengelola situs.</p>`);
+            tidak dapat dibaca. Jika ini kunjungan pertama, sambungkan ke internet terlebih dahulu; setelah itu sistem bisa dipakai offline.</p>`);
         return;
     }
     createApp(App).use(router).mount(wadah);
 }
+
+aktifkanCacheOffline();
 
 function tampilkanPesanPenyimpanan() {
     tampilkanPesan("Penyimpanan browser tidak aktif", `

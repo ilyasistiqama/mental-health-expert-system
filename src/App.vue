@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { adaVersiBaru, pakaiVersiBaru } from "@/lib/offline";
 
 const route = useRoute();
 const menu = computed(() => route.meta.menu);
@@ -38,6 +39,14 @@ const daftarMenu = [
             </nav>
         </div>
     </header>
+
+    <!-- disembunyikan di halaman hasil: memuat ulang akan menghapus hasil yang hanya ada di memori -->
+    <div v-if="adaVersiBaru && route.path !== '/hasil'" class="border-b border-line bg-primary-soft print:hidden" role="status">
+        <div class="container-page flex flex-wrap items-center justify-between gap-2 py-2.5 text-sm">
+            <span>Versi baru sistem tersedia. Jawaban anda tetap tersimpan.</span>
+            <button class="btn btn-primary px-4 py-1.5 text-sm" type="button" @click="pakaiVersiBaru">Perbarui</button>
+        </div>
+    </div>
 
     <main class="flex-1">
         <RouterView />

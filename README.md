@@ -18,6 +18,21 @@ Tidak memakai database dan tidak perlu login. Untuk pengguna, kedua metode diber
 - Jika penyimpanan browser diblokir, sistem tidak dijalankan dan pengguna diberi petunjuk.
 - Tab lain yang masih terbuka ikut tersinkron, sehingga progres tidak tertimpa versi lama.
 
+## Mode offline
+
+Setelah dibuka sekali saat online, sistem bisa dipakai **tanpa internet** (konsultasi, hasil, PDF,
+artikel). Service worker dibuat oleh `vite-plugin-pwa` saat `npm run build`.
+
+- Tampilan aplikasi disimpan penuh di cache browser.
+- Data `data/*.json` memakai strategi *network-first*: saat online selalu mengambil versi terbaru dari
+  server (jadi edit JSON di hosting tetap langsung terlihat), saat offline memakai salinan terakhir.
+- Saat versi baru di-deploy, muncul banner **"Versi baru sistem tersedia"** dengan tombol Perbarui.
+  Halaman tidak dimuat ulang otomatis, dan banner tidak tampil di halaman hasil, karena hasil hanya
+  ada di memori dan akan hilang jika halaman dimuat ulang. Progres jawaban tetap aman.
+- Cache hanya berisi file aplikasi dan basis pengetahuan, tidak ada data pengguna.
+- Service worker hanya aktif di **HTTPS** (misalnya GitHub Pages) atau `localhost`. Di HTTP biasa sistem
+  tetap jalan, hanya saja tanpa mode offline.
+
 > Versi PHP + MySQL + login ada di branch `sispak-v1`. Kode asli sebelum perbaikan disimpan
 > pada tag `backup-asli`.
 
@@ -69,6 +84,7 @@ src/
   components/SesiKonsultasi.vue  tampilan tanya-jawab (dipakai forward & backward)
   lib/penyimpanan.js     penyimpanan progres di IndexedDB + pengecekan aktif/tidaknya
   lib/pdf.js             pembuat PDF hasil konsultasi (jsPDF)
+  lib/offline.js         pendaftaran service worker (mode offline) + banner versi baru
   components/            komponen kecil yang dipakai ulang
   views/                 satu file per halaman
 ```
