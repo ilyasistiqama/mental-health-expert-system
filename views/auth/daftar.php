@@ -15,7 +15,7 @@
                 <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
             </div>
             <ul>
-                <li><a href="../../index.php" href="">Home</a></li>
+                <li><a href="../../index.php">Home</a></li>
                 <li><a href="../artikel.php">Artikel</a></li>
                 <li><a class="active">Daftar</a></li>
             </ul>
@@ -48,7 +48,6 @@
             </div>
         </div>
 
-    </div>
     </div>
 </body>
 

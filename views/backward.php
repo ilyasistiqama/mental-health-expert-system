@@ -3,7 +3,7 @@ session_start();
 
 require '../database/koneksi.php';
 
-if ($_SESSION["hak_akses"] != "user") {
+if (($_SESSION["hak_akses"] ?? null) != "user") {
     header("location: auth/login.php");
     exit;
 }
@@ -34,7 +34,7 @@ if (isset($_GET['id_penyakit'])) {
                 <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
             </div>
             <ul>
-                <li><a href="../index.php" href="">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li><a href="artikel.php">Artikel</a></li>
                 <li><a class="active" href="konsultasi.php">Konsultasi</a></li>
                 <li><a href="../controllers/logout.php">Logout</a></li>
@@ -49,13 +49,13 @@ if (isset($_GET['id_penyakit'])) {
                             Pilih Penyakit:
                         </h2>
                         <?php
-                        $query = mysqli_query($koneksi, "SELECT * from gjl_khusus inner join penyakit on penyakit.id_penyakit = gjl_khusus.id_penyakit where gjl_khusus.id_penyakit!='P0' group by gjl_khusus.id_penyakit");
+                        $query = mysqli_query($koneksi, "SELECT * from penyakit where id_penyakit != 'P0' and id_penyakit in (select id_penyakit from gjl_khusus) order by id_penyakit");
                         while ($row = mysqli_fetch_assoc($query)) {
                         ?>
                             <div style="display: block;">
-                                <a href="backward.php?id_penyakit=<?= $row['id_penyakit']; ?>">
+                                <a href="backward.php?id_penyakit=<?= urlencode($row['id_penyakit']); ?>">
                                     <button>
-                                        <?php echo $row['nama_penyakit'] ?>
+                                        <?php echo htmlspecialchars($row['nama_penyakit']) ?>
                                     </button>
                                 </a>
                             </div>
@@ -67,7 +67,7 @@ if (isset($_GET['id_penyakit'])) {
                         if ($iddi == 'P0') {
                             echo "Pilih Penyakitnya Terlebih Dahulu";
                         } else {
-                            $query10 = mysqli_query($koneksi, "select * from gjl_khusus where id_penyakit='$iddi'");
+                            $query10 = mysqli_execute_query($koneksi, "select * from gjl_khusus where id_penyakit = ?", [$iddi]);
 
                         ?>
                             <h4 style="margin-bottom: 15px;">
@@ -79,7 +79,7 @@ if (isset($_GET['id_penyakit'])) {
                                 ?>
                                     <li style="margin-left: 15px;">
                                         <h4 style="font-style: italic; text-align: left;">
-                                            -> <?php echo $panggil10['nama_gejalak']; ?>
+                                            -> <?php echo htmlspecialchars($panggil10['nama_gejalak']); ?>
                                         </h4>
                                     </li>
                                 <?php
@@ -94,9 +94,7 @@ if (isset($_GET['id_penyakit'])) {
 
                             <div style="text-align: left;">
                             <?php
-                            $query11 = mysqli_query($koneksi, "select * from gjl_khusus where id_penyakit='$iddi'");
-                            $panggil11 = mysqli_fetch_assoc($query11);
-                            if ($panggil11['id_penyakit'] == "P1") {
+                            if ($iddi == "P1") {
                                 echo "<h4>Pengobatan yang dapat di lakukan : </h4>
                                 1. Dengan Melakukan terapi psikoterapi secara rutin. Psikoterapi yang sering digunakan adalah terapi kognitif perilaku 
                                 (cognitive behavioral therapy).<br>
@@ -104,7 +102,7 @@ if (isset($_GET['id_penyakit'])) {
                                 (enzodiazepine, seperti alprazolam atau clonazepam), atau (Serotonin and norepinephrine reuptake inhibitors (SNRI), seperti venlafaxine)
                                  untuk mengurangi gejala gangguan panik sesuai dengan resep yang diberikan oleh dokter.<br><br>
                                 Anda dapat mengunjungi Pusat Pelayanan Psikologi terdekat untuk pengobatan lebih lanjut.";
-                            } elseif ($panggil11['id_penyakit'] == "P2") {
+                            } elseif ($iddi == "P2") {
                                 echo "<h4>Pengobatan yang dapat di lakukan : </h4>
                                 1. Dengan Melakukan terapi psikoterapi secara rutin. Psikoterapi yang sering digunakan untuk pengobatan Gangguan Kecemasan Menyeluruh
                                 adalah Terapi Perilaku Kognitif.<br>
@@ -112,15 +110,15 @@ if (isset($_GET['id_penyakit'])) {
                                 sertraline, fluoxetine, dan citalopram.) dan Antikecemasan (escitalopram, paroxetine, sertraline, fluoxetine, dan citalopram) 
                                 sesuai dengan resep yang diberikan oleh dokter.<br><br>
                                 Anda dapat mengunjungi Pusat Pelayanan Psikologi terdekat untuk pengobatan lebih lanjut.";
-                            } elseif ($panggil11['id_penyakit'] == "P3") {
+                            } elseif ($iddi == "P3") {
                                 echo "<h4>Pengobatan yang dapat di lakukan : </h4>
                                 1. Dengan Melakukan terapi psikoterapi secara rutin. Psikoterapi yang paling efektif untuk pengobatan Gangguan Fobia
                                 adalah Terapi Perilaku Kognitif.<br>
-                                2. Dengan Melakukan terapi mengendalikan diri. Misalkan teknik relaksasi dan juga teknik visualisasi.
+                                2. Dengan Melakukan terapi mengendalikan diri. Misalkan teknik relaksasi dan juga teknik visualisasi.<br>
                                 3. Dengan Mengonsumsi obat-obatan untuk meringankan gejala yang dialami. Seperti, Penghambat pelepasan serotonin (SSRIs),
                                 Penghambat beta (beta blockers), dan Benzodiazepine sesuai dengan resep yang diberikan oleh dokter.<br><br>
                                 Anda dapat mengunjungi Pusat Pelayanan Psikologi terdekat untuk pengobatan lebih lanjut.";
-                            } elseif ($panggil11['id_penyakit'] == "P4") {
+                            } elseif ($iddi == "P4") {
                                 echo "<h4>Pengobatan yang dapat di lakukan : </h4>
                                 1. Dengan Melakukan terapi psikoterapi secara rutin. Psikoterapi yang sering digunakan untuk pengobatan Gangguan Obsesif-Kompulsif
                                 adalah Terapi Perilaku Kognitif.<br>
@@ -128,7 +126,7 @@ if (isset($_GET['id_penyakit'])) {
                                   Clomipramine (Anafranil), Fluvoxamine (Luvox CR), Fluoxetine (Prozac), Paroxetine (Paxil, Pexeva), Sertraline (Zoloft))
                               sesuai dengan resep yang diberikan oleh dokter.<br><br>
                                 Anda dapat mengunjungi Pusat Pelayanan Psikologi terdekat untuk pengobatan lebih lanjut.";
-                            } elseif ($panggil11['id_penyakit'] == "P5") {
+                            } elseif ($iddi == "P5") {
                                 echo "<h4>Pengobatan yang dapat di lakukan : </h4>
                                 1. Dengan Melakukan terapi psikoterapi secara rutin. Psikoterapi untuk pengobatan Gangguan Stres Traumatis
                                 terdiri dari terapi perilaku kognitif atau cognitive behavioural threapy (CBT), 
@@ -137,14 +135,12 @@ if (isset($_GET['id_penyakit'])) {
                                 2. Dengan Mengonsumsi obat-obatan untuk mengontrol gejala yang dialami. Seperti, Antidepresan (mirtazapine, amitriptyline, dan phenelzine),
                                 Prazosin, dan Antiansietas sesuai dengan resep yang diberikan oleh dokter.<br><br>
                                 Anda dapat mengunjungi Pusat Pelayanan Psikologi terdekat untuk pengobatan lebih lanjut.";
-                            } else {
-                                echo " ";
                             }
-                        }
-
                             ?>
-
                             </div>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

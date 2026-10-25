@@ -3,23 +3,22 @@ session_start();
 
 include '../database/koneksi.php';
 
-$username = mysqli_real_escape_string($koneksi, $_POST['username']);
-$password = mysqli_real_escape_string($koneksi, $_POST['password']);
+$username = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
 
-$login = mysqli_query($koneksi, "select * from user where username='$username' and password='$password'");
-$cek = mysqli_num_rows($login);
+$login = mysqli_execute_query($koneksi, "SELECT * FROM user WHERE username = ?", [$username]);
+$data = mysqli_fetch_assoc($login);
 
-if ($cek > 0) {
-    $data = mysqli_fetch_assoc($login);
+// akun lama masih menyimpan password tanpa hash
+$valid = $data && (password_verify($password, $data['password'])
+    || (password_get_info($data['password'])['algo'] === null && hash_equals($data['password'], $password)));
 
-    if ($data['hak_akses'] == "user") {
-        $_SESSION['username'] = $username;
-        $_SESSION['hak_akses'] = "user";
+if ($valid && $data['hak_akses'] == "user") {
+    session_regenerate_id(true);
+    $_SESSION['username'] = $data['username'];
+    $_SESSION['hak_akses'] = "user";
 
-        header("location:../views/konsultasi.php");
-    } else {
-        echo "<script>alert('Gagal Masuk, Username atau Password Salah!');history.go(-1);</script>";
-    }
+    header("location:../views/konsultasi.php");
 } else {
     echo "<script>alert('Gagal Masuk, Username atau Password Salah!');history.go(-1);</script>";
 }

@@ -3,22 +3,24 @@ session_start();
 
 require '../database/koneksi.php';
 
-if ($_SESSION["hak_akses"] != "user") {
+if (($_SESSION["hak_akses"] ?? null) != "user") {
     header("location: auth/login.php");
     exit;
 }
 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    if ($_GET['id'] == 12) {
-        echo "<script>location.href='hasil.php?id=P0'</script>";
+    $id = (int) $_GET['id'];
+    if ($id == 12) {
+        header("location: hasil.php?id=P0");
+        exit;
     }
 } else {
+    // konsultasi baru, buang hasil konsultasi sebelumnya
     $id = 1;
-    $id_penyakit = 'P0';
+    unset($_SESSION['id_penyakit']);
 }
 
-$panggil = mysqli_query($koneksi, "select * from gjl_khusus where id_gjl_khusus = $id");
+$panggil = mysqli_execute_query($koneksi, "select * from gjl_khusus where id_gjl_khusus = ?", [$id]);
 
 ?>
 
@@ -40,7 +42,7 @@ $panggil = mysqli_query($koneksi, "select * from gjl_khusus where id_gjl_khusus 
                 <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
             </div>
             <ul>
-                <li><a href="../index.php" href="">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li><a href="artikel.php">Artikel</a></li>
                 <li><a class="active" href="konsultasi.php">Konsultasi</a></li>
                 <li><a href="../controllers/logout.php">Logout</a></li>
@@ -59,18 +61,17 @@ $panggil = mysqli_query($koneksi, "select * from gjl_khusus where id_gjl_khusus 
 
                         if (mysqli_num_rows($panggil) > 0) {
                             $data = mysqli_fetch_assoc($panggil); ?>
-                            <? $id_penyakit = $data['id_penyakit']; ?>
 
                             <h3>
-                                <?php echo $data['pertanyaank']; ?>
+                                <?php echo htmlspecialchars($data['pertanyaank']); ?>
                             </h3>
 
-                            <a href="../controllers/action_ya.php?id_ya=<?= $data['ya']; ?>&id=<?= $id; ?>">
+                            <a href="../controllers/action_ya.php?id=<?= $id; ?>">
                                 <button class="tombol hijau" id="tmbl_ya">
                                     Ya
                                 </button>
                             </a>
-                            <a href="../controllers/action_tidak.php?id_tidak=<?= $data['tidak']; ?>&id=<?= $id; ?>">
+                            <a href="../controllers/action_tidak.php?id=<?= $id; ?>">
                                 <button class="tombol merah" id="tmbl_tdk">
                                     Tidak
                                 </button>

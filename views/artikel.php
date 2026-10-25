@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -15,11 +16,9 @@
                 <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
             </div>
             <ul>
-                <li><a href="../index.php" href="">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li><a class="active">Artikel</a></li>
                 <?php
-                session_start();
-
                 if (isset($_SESSION["hak_akses"])) {
                 ?>
                     <li><a href="konsultasi.php">Konsultasi</a></li>

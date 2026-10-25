@@ -1,51 +1,32 @@
 <?php
-
-include '../database/koneksi.php';
 session_start();
 
-if (isset($_GET["id_ya"])) {
+include '../database/koneksi.php';
 
-    if ($_GET['id_ya'] == 'f') {
-        $d = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM temporary"));
-        echo "<script>location.href='../views/hasil.php?id=$d[id_penyakit]'</script>";
-    } else if ($_GET['id_ya'] == 13) {
-
-        $d = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM gjl_khusus WHERE ya=$_GET[id_ya] AND id_gjl_khusus=$_GET[id]"));
-
-        $cek = mysqli_query($koneksi, "SELECT * FROM temporary WHERE id_penyakit = '$d[id_penyakit]'");
-
-        $input2 = "INSERT INTO temporary VALUES ('','$d[id_penyakit]')";
-
-        if (mysqli_num_rows($cek) > 1) {
-            echo "<script>location.href='../views/forward.php';</script>";
-        } else if ($d['id_penyakit'] != 'P0'  && $d['ya'] != 'f') {
-            $id = $d['ya'];
-            mysqli_query($koneksi, "DELETE FROM temporary");
-            mysqli_query($koneksi, $input2);
-            
-            echo "<script>location.href='../views/forward.php?id=$id'</script>";
-        } else {
-            echo "<script>location.href='../views/forward.php';</script>";
-        }
-    } else {
-
-        $d = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM gjl_khusus WHERE ya=$_GET[id_ya]"));
-
-        $cek = mysqli_query($koneksi, "SELECT * FROM temporary WHERE id_penyakit = '$d[id_penyakit]'");
-
-        $input2 = "INSERT INTO temporary VALUES ('','$d[id_penyakit]')";
-
-        if (mysqli_num_rows($cek) > 1) {
-            echo "<script>location.href='../views/forward.php';</script>";
-        } else if ($d['id_penyakit'] != 'P0'  && $d['ya'] != 'f') {
-            $id = $d['ya'];
-            mysqli_query($koneksi, "DELETE FROM temporary");
-            mysqli_query($koneksi, $input2);
-            echo "<script>location.href='../views/forward.php?id=$id'</script>";
-        } else {
-            echo "<script>location.href='../views/forward.php';</script>";
-        }
-    }
-} else {
-    echo "Gagal Masuk";
+if (($_SESSION["hak_akses"] ?? null) != "user") {
+    header("location:../views/auth/login.php");
+    exit;
 }
+
+if (!isset($_GET["id"])) {
+    exit("Gagal Masuk");
+}
+
+$d = mysqli_fetch_assoc(mysqli_execute_query($koneksi, "SELECT * FROM gjl_khusus WHERE id_gjl_khusus = ?", [(int) $_GET['id']]));
+
+if (!$d) {
+    header("location:../views/forward.php");
+    exit;
+}
+
+// pertanyaan terakhir, tampilkan penyakit yang tersimpan selama konsultasi
+if ($d['ya'] == 'f') {
+    header("location:../views/hasil.php?id=" . urlencode($_SESSION['id_penyakit'] ?? 'P0'));
+    exit;
+}
+
+if ($d['id_penyakit'] != 'P0') {
+    $_SESSION['id_penyakit'] = $d['id_penyakit'];
+}
+
+header("location:../views/forward.php?id=" . urlencode($d['ya']));

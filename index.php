@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -18,8 +19,6 @@
         <li><a class="active" href="">Home</a></li>
         <li><a href="views/artikel.php">Artikel</a></li>
         <?php
-        session_start();
-
         if (isset($_SESSION['hak_akses'])) {
         ?>
           <li><a href="views/konsultasi.php">Konsultasi</a></li>

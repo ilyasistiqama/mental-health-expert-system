@@ -3,24 +3,28 @@ session_start();
 
 include '../database/koneksi.php';
 
-$nama = $_POST["nama"];
-$username = $_POST["username"];
-$password = $_POST["password"];
+$nama = trim($_POST["nama"] ?? '');
+$username = trim($_POST["username"] ?? '');
+$password = $_POST["password"] ?? '';
+
+if ($nama == '' || $username == '' || $password == '') {
+    exit("<script>alert('Error! Please Insert Again');history.go(-1);</script>");
+}
+
+if (mb_strlen($nama) > 20 || mb_strlen($username) > 20) {
+    exit("<script>alert('Nama dan Username maksimal 20 karakter!');history.go(-1);</script>");
+}
 
 try {
-    $count = mysqli_query($koneksi, "SELECT * from user where username = '$username'");
-    $input = "INSERT INTO user values (NULL,'$nama','$username','$password','user')";
-
+    $count = mysqli_execute_query($koneksi, "SELECT * FROM user WHERE username = ?", [$username]);
 
     if (mysqli_num_rows($count) > 0) {
         echo "<script>alert('Username Sudah Ada!');history.go(-1);</script>";
-    } else if ($username != '') {
-        mysqli_query($koneksi, $input);
-        echo "<script>alert('Username Berhasil Di Tambahkan');window.location.replace('../views/auth/login.php');</script>";
     } else {
-        echo "<script>alert('Error! Please Insert Again');history.go(-1);</script>";
+        mysqli_execute_query($koneksi, "INSERT INTO user VALUES (NULL, ?, ?, ?, 'user')", [$nama, $username, password_hash($password, PASSWORD_DEFAULT)]);
+        echo "<script>alert('Username Berhasil Di Tambahkan');window.location.replace('../views/auth/login.php');</script>";
     }
-} catch (\Exception $e) {
-    var_dump($e);
-    die;
+} catch (mysqli_sql_exception $e) {
+    error_log($e->getMessage());
+    echo "<script>alert('Error! Please Insert Again');history.go(-1);</script>";
 }

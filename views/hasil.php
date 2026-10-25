@@ -3,21 +3,16 @@ session_start();
 
 require '../database/koneksi.php';
 
-if ($_SESSION["hak_akses"] != "user") {
+if (($_SESSION["hak_akses"] ?? null) != "user") {
     header("location: auth/login.php");
     exit;
 }
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-} else {
-    $id = 1;
-    $id_penyakit = 'P0';
-}
+$id = $_GET['id'] ?? 'P0';
 
-mysqli_query($koneksi, "DELETE FROM temporary");
-$panggil = mysqli_query($koneksi, "select * from penyakit where id_penyakit = '$id'");
-$data = mysqli_fetch_assoc($panggil);
+unset($_SESSION['id_penyakit']);
+$panggil = mysqli_execute_query($koneksi, "select * from penyakit where id_penyakit = ?", [$id]);
+$data = mysqli_fetch_assoc($panggil) ?: ['nama_penyakit' => 'Penyakit tidak ditemukan'];
 ?>
 
 <!doctype html>
@@ -37,7 +32,7 @@ $data = mysqli_fetch_assoc($panggil);
                 <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
             </div>
             <ul>
-                <li><a href="../index.php" href="">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li><a href="artikel.php">Artikel</a></li>
                 <?php
                 if (isset($_SESSION["hak_akses"])) {
@@ -56,7 +51,7 @@ $data = mysqli_fetch_assoc($panggil);
                 <h1 style="text-align: center;">Penyakit yang terdeteksi:</h1>
 
                 <h3 style="font-weight: bold; margin-bottom: 15px;">
-                    <?= $data['nama_penyakit']; ?>
+                    <?= htmlspecialchars($data['nama_penyakit']); ?>
                 </h3>
                 <p>
                     <?php

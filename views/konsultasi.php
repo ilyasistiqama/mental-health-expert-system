@@ -3,7 +3,7 @@ session_start();
 
 require '../database/koneksi.php';
 
-if ($_SESSION["hak_akses"] != "user") {
+if (($_SESSION["hak_akses"] ?? null) != "user") {
     header("location: auth/login.php");
     exit;
 }
@@ -26,14 +26,14 @@ if ($_SESSION["hak_akses"] != "user") {
                 <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
             </div>
             <ul>
-                <li><a href="../index.php" href="">Home</a></li>
+                <li><a href="../index.php">Home</a></li>
                 <li><a href="artikel.php">Artikel</a></li>
                 <li><a class="active">Konsultasi</a></li>
                 <li><a href="../controllers/logout.php">Logout</a></li>
             </ul>
             <div id="content">
                 <h1 style="text-align: center;">
-                    Selamat Datang <?php echo $_SESSION['username']; ?>
+                    Selamat Datang <?php echo htmlspecialchars($_SESSION['username']); ?>
                 </h1>
                 <h2 style="text-align: center;">
                     Pilih Metode Yang Digunakan:

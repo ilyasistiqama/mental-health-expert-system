@@ -100,7 +100,7 @@ CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
   `nama_user` varchar(20) NOT NULL,
   `username` varchar(20) NOT NULL,
-  `password` varchar(10) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `hak_akses` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
