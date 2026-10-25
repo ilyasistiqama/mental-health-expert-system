@@ -1,0 +1,57 @@
+[
+    {
+        "kode": "G01",
+        "nama": "Kehilangan Kendali",
+        "pertanyaan": "Apakah anda pernah tiba-tiba merasakan kehilangan kendali?"
+    },
+    {
+        "kode": "G02",
+        "nama": "Merasa Tegang",
+        "pertanyaan": "Ketika anda merasa cemas, apakah anda sering merasakan tegang berlebih?"
+    },
+    {
+        "kode": "G03",
+        "nama": "Was-was",
+        "pertanyaan": "Apakah ketika anda melakukan sesuatu atau saat beraktivitas, anda sering terjebak dalam pikiran-pikiran negatif?"
+    },
+    {
+        "kode": "G04",
+        "nama": "Khawatir",
+        "pertanyaan": "Saat anda meninggalkan rumah, apakah anda sering merasa khawatir apakah pintu rumah anda sudah dikunci atau belum?"
+    },
+    {
+        "kode": "G05",
+        "nama": "Susah tidur",
+        "pertanyaan": "Apakah anda sering susah tidur walaupun anda merasakan kantuk?"
+    },
+    {
+        "kode": "G06",
+        "nama": "Susah berkonsentrasi",
+        "pertanyaan": "Apakah saat anda beraktivitas atau mengerjakan sesuatu anda sulit untuk berkonsentrasi?"
+    },
+    {
+        "kode": "G07",
+        "nama": "Takut terhadap sesuatu secara berlebihan",
+        "pertanyaan": "Apakah anda sering merasakan ketakutan yang luar biasa terhadap sesuatu atau kondisi tertentu?"
+    },
+    {
+        "kode": "G08",
+        "nama": "Memikirkan sesuatu secara berlebihan",
+        "pertanyaan": "Apakah anda takut ketika memulai sesuatu yang baru?"
+    },
+    {
+        "kode": "G09",
+        "nama": "Gelisah",
+        "pertanyaan": "Pernahkah anda merasakan kegelisahan yang luar biasa terhadap sesuatu yang sedang anda alami?"
+    },
+    {
+        "kode": "G10",
+        "nama": "Sulit menyesuaikan diri pada situasi yang mirip dengan kejadian tidak menyenangkan yang pernah terjadi",
+        "pertanyaan": "Apakah anda pernah berada di suatu tempat yang mirip dengan tempat anda mengalami kejadian buruk di masa lalu, lalu merasa kejadian itu akan terulang kembali dan mengalami kecemasan yang berlebih?"
+    },
+    {
+        "kode": "G11",
+        "nama": "Pikiran terasa kosong",
+        "pertanyaan": "Apakah anda sering memikirkan kejadian buruk yang pernah terjadi pada masa lalu?"
+    }
+]

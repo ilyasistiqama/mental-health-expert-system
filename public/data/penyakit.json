@@ -1,0 +1,80 @@
+[
+    {
+        "kode": "P0",
+        "nama": "Tidak Terdeteksi Gangguan Kecemasan",
+        "deskripsi": "Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan gangguan kecemasan. Rasa cemas sesekali adalah hal yang normal dan bahkan bisa membantu kita lebih waspada.",
+        "gejala": [],
+        "pengobatan": [
+            "Jaga pola tidur, makan teratur, dan aktivitas fisik secara rutin.",
+            "Luangkan waktu untuk relaksasi, misalnya latihan pernapasan atau meditasi.",
+            "Jika suatu saat rasa cemas mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog."
+        ]
+    },
+    {
+        "kode": "P1",
+        "nama": "Gangguan Panik",
+        "deskripsi": "Terjadinya serangan panik berulang, yang merupakan episode teror yang luar biasa disertai dengan simtom fisiologis yang kuat, pikiran-pikiran tentang bahaya yang segera datang atau malapetaka yang akan tiba, dan dorongan untuk melarikan diri.",
+        "gejala": [
+            "G01"
+        ],
+        "pengobatan": [
+            "Melakukan psikoterapi secara rutin. Psikoterapi yang sering digunakan adalah terapi kognitif perilaku (cognitive behavioral therapy).",
+            "Mengonsumsi obat-obatan antiansietas (Selective serotonin reuptake inhibitors (SSRI), seperti fluoxetine atau sertraline), (benzodiazepine, seperti alprazolam atau clonazepam), atau (Serotonin and norepinephrine reuptake inhibitors (SNRI), seperti venlafaxine) untuk mengurangi gejala gangguan panik sesuai dengan resep yang diberikan oleh dokter."
+        ]
+    },
+    {
+        "kode": "P2",
+        "nama": "Gangguan Kecemasan Menyeluruh",
+        "deskripsi": "Kecemasan yang persisten yang tidak terbatas pada suatu situasi tertentu.",
+        "gejala": [
+            "G02",
+            "G03",
+            "G04",
+            "G05",
+            "G06"
+        ],
+        "pengobatan": [
+            "Melakukan psikoterapi secara rutin. Psikoterapi yang sering digunakan untuk pengobatan Gangguan Kecemasan Menyeluruh adalah Terapi Perilaku Kognitif.",
+            "Mengonsumsi obat-obatan untuk meringankan gejala yang dialami. Seperti, Antidepresan (escitalopram, paroxetine, sertraline, fluoxetine, dan citalopram) dan Antikecemasan sesuai dengan resep yang diberikan oleh dokter."
+        ]
+    },
+    {
+        "kode": "P3",
+        "nama": "Gangguan Fobia",
+        "deskripsi": "Ketakutan yang berlebihan terhadap objek atau situasi tertentu.",
+        "gejala": [
+            "G07"
+        ],
+        "pengobatan": [
+            "Melakukan psikoterapi secara rutin. Psikoterapi yang paling efektif untuk pengobatan Gangguan Fobia adalah Terapi Perilaku Kognitif.",
+            "Melakukan terapi mengendalikan diri. Misalkan teknik relaksasi dan juga teknik visualisasi.",
+            "Mengonsumsi obat-obatan untuk meringankan gejala yang dialami. Seperti, Penghambat pelepasan serotonin (SSRIs), Penghambat beta (beta blockers), dan Benzodiazepine sesuai dengan resep yang diberikan oleh dokter."
+        ]
+    },
+    {
+        "kode": "P4",
+        "nama": "Gangguan Obsesif-Kompulsif",
+        "deskripsi": "Obsesi berulang (pikiran intrusif yang berulang) dan atau kompulsi (tingkah laku repetitif yang dirasakan sebagai sesuatu yang harus dilakukan).",
+        "gejala": [
+            "G08",
+            "G09"
+        ],
+        "pengobatan": [
+            "Melakukan psikoterapi secara rutin. Psikoterapi yang sering digunakan untuk pengobatan Gangguan Obsesif-Kompulsif adalah Terapi Perilaku Kognitif.",
+            "Mengonsumsi obat-obatan untuk mengontrol gejala yang dialami. Seperti, antidepresan atau obat pengurang stres (Clomipramine (Anafranil), Fluvoxamine (Luvox CR), Fluoxetine (Prozac), Paroxetine (Paxil, Pexeva), Sertraline (Zoloft)) sesuai dengan resep yang diberikan oleh dokter."
+        ]
+    },
+    {
+        "kode": "P5",
+        "nama": "Gangguan Stres Traumatis",
+        "deskripsi": "Reaksi maladaptif akut yang segera timbul setelah peristiwa traumatis (gangguan stres akut) atau reaksi maladaptif berkelanjutan terhadap suatu peristiwa traumatis (gangguan stres pasca trauma).",
+        "gejala": [
+            "G10",
+            "G11"
+        ],
+        "pengobatan": [
+            "Melakukan psikoterapi secara rutin. Psikoterapi untuk pengobatan Gangguan Stres Traumatis terdiri dari terapi perilaku kognitif atau cognitive behavioural therapy (CBT), terapi desensitisasi gerakan mata dan pemrosesan ulang atau eye movement desensitisation and reprocessing (EMDR), terapi penyingkapan (exposure therapy), dan terapi kelompok.",
+            "Mengonsumsi obat-obatan untuk mengontrol gejala yang dialami. Seperti, Antidepresan (mirtazapine, amitriptyline, dan phenelzine), Prazosin, dan Antiansietas sesuai dengan resep yang diberikan oleh dokter."
+        ]
+    }
+]

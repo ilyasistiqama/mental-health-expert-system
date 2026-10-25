@@ -404,6 +404,18 @@ a { color: var(--primary); }
     border-radius: 999px;
 }
 
+.progress {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.progress span { display: block; height: 100%; background: var(--primary); border-radius: inherit; transition: width .3s ease; }
+
+.hypothesis { margin-bottom: 20px; }
+.hypothesis h2 { margin-bottom: 4px; }
+
 .question-text { font-size: clamp(1.3rem, 3vw, 1.65rem); font-weight: 700; margin-bottom: 28px; }
 
 .answer-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }

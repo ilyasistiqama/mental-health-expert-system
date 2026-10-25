@@ -41,30 +41,74 @@ Untuk mencoba hasil build di komputer sendiri: `npm run preview`.
 
 ```
 index.html               halaman HTML utama (Vite)
-public/                  file statis (favicon)
+public/
+  favicon.svg
+  data/penyakit.json     daftar penyakit + aturan (gejala apa saja) + penanganan
+  data/gejala.json       daftar gejala + pertanyaannya
 src/
   main.js                titik masuk aplikasi
   App.vue                layout: navigasi + footer
   router.js              daftar halaman (URL)
   assets/main.css        seluruh tampilan
-  data/pengetahuan.js    basis pengetahuan: penyakit, gejala, pohon keputusan
-  lib/sistemPakar.js     logika forward/backward chaining + riwayat
+  lib/sistemPakar.js     mesin inferensi forward/backward chaining + riwayat
+  components/SesiKonsultasi.vue  tampilan tanya-jawab (dipakai forward & backward)
   lib/penyimpanan.js     pembungkus localStorage
   components/            komponen kecil yang dipakai ulang
   views/                 satu file per halaman
 ```
 
-## Mengubah basis pengetahuan
+## Metode inferensi
 
-Semua pertanyaan, gejala, dan saran penanganan ada di `src/data/pengetahuan.js`.
+Basis pengetahuan berbentuk **aturan produksi**:
 
-- `PENYAKIT`: nama, deskripsi, dan daftar penanganan tiap penyakit (P0 = tidak terdeteksi).
-- `GEJALA`: pohon keputusan forward chaining. Kolom `ya` / `tidak` berisi nomor pertanyaan
-  berikutnya, `"f"` berarti selesai. Pertanyaan 12 = tidak terdeteksi, 13 = konfirmasi 2 minggu.
+```
+IF G02 AND G03 AND G04 AND G05 AND G06 THEN P2 (Gangguan Kecemasan Menyeluruh)
+```
+
+Setelah semua gejala sebuah aturan terpenuhi, sistem menanyakan apakah gejala sudah dialami
+**2 minggu atau lebih**. Jawaban ini menjadi akhir diagnosa: *Ya* berarti penyakit disimpulkan,
+*Tidak* berarti belum dapat disimpulkan.
+
+- **Forward chaining** (data-driven): sistem mengumpulkan fakta gejala dari pengguna lalu
+  menjalankan semua aturan yang premisnya terpenuhi, sehingga bisa menghasilkan lebih dari satu
+  penyakit. Gejala yang hanya dimiliki aturan yang sudah gugur (ada premis dijawab *Tidak*) tidak
+  ditanyakan lagi; hasilnya tetap sama dengan menanyakan semua gejala, hanya lebih singkat.
+- **Backward chaining** (goal-driven): pengguna memilih satu penyakit sebagai hipotesis, lalu sistem
+  membuktikan premisnya satu per satu dan berhenti begitu satu premis tidak terpenuhi.
+
+## Menambah atau mengubah penyakit dan gejala
+
+Cukup edit file JSON di `public/data/` (atau `data/` di folder hasil build/hosting).
+**Tidak perlu build ulang**, cukup refresh browser.
+
+1. Tambahkan gejala baru di `gejala.json`:
+
+   ```json
+   { "kode": "G12", "nama": "Jantung berdebar", "pertanyaan": "Apakah jantung anda sering berdebar tanpa sebab?" }
+   ```
+
+2. Tambahkan penyakit baru di `penyakit.json`, isi `gejala` dengan kode-kode gejalanya (aturannya):
+
+   ```json
+   {
+       "kode": "P6",
+       "nama": "Nama Gangguan",
+       "deskripsi": "Penjelasan singkat.",
+       "gejala": ["G12", "G05"],
+       "pengobatan": ["Saran penanganan 1.", "Saran penanganan 2."]
+   }
+   ```
+
+Catatan:
+- Kode harus unik. Satu gejala boleh dipakai oleh beberapa penyakit.
+- Gejala ditanyakan sesuai urutan di `gejala.json`.
+- `P0` wajib ada: isinya ditampilkan jika tidak ada penyakit yang terdeteksi (biarkan `gejala` kosong).
+- Jika ada kode gejala yang salah ketik, peringatannya muncul di console browser (F12).
 
 ## Data yang disimpan di browser
 
 | Key localStorage  | Isi                                             |
 |-------------------|-------------------------------------------------|
-| `sispak.sesi`     | Progres forward chaining yang belum selesai     |
+| `sispak.sesi.forward`  | Progres forward chaining yang belum selesai  |
+| `sispak.sesi.backward` | Progres backward chaining yang belum selesai |
 | `sispak.riwayat`  | 20 hasil konsultasi terakhir                    |

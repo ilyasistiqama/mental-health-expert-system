@@ -1,5 +1,5 @@
 <script setup>
-import { PENYAKIT } from "@/data/pengetahuan";
+import { PENYAKIT } from "@/lib/sistemPakar";
 
 const props = defineProps({
     id: { type: String, required: true }
