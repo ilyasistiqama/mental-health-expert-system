@@ -1,7 +1,6 @@
 <?php
-session_start();
 
-include '../database/koneksi.php';
+require __DIR__ . '/../lib/bantu.php';
 
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -15,7 +14,9 @@ $valid = $data && (password_verify($password, $data['password'])
 
 if ($valid && $data['hak_akses'] == "user") {
     session_regenerate_id(true);
+    $_SESSION['id_user'] = (int) $data['id_user'];
     $_SESSION['username'] = $data['username'];
+    $_SESSION['nama_user'] = $data['nama_user'];
     $_SESSION['hak_akses'] = "user";
 
     header("location:../views/konsultasi.php");

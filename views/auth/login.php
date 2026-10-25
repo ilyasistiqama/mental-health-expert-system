@@ -1,50 +1,37 @@
-<!doctype html>
-<html lang="en">
+<?php
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../../assets/main.css">
-    <title>Sistem Pakar</title>
-</head>
+require __DIR__ . '/../../lib/bantu.php';
 
-<body>
-    <div id="bingkai">
-        <div id="margin">
-            <div id="judul">
-                <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
+if (sudah_login()) {
+    header('location: ../konsultasi.php');
+    exit;
+}
+
+$judul = 'Login';
+$aktif = 'login';
+$dasar = '../../';
+require __DIR__ . '/../partials/header.php';
+?>
+<div id="before-box">
+    <div id="box">
+        <h2>Login</h2>
+        <hr>
+        <form action="../../controllers/cek_login.php" method="POST" id="form">
+            <div class="form-content">
+                <label class="form-control" for="username">Username : </label>
+                <input class="form-control" type="text" id="username" name="username" maxlength="20" required>
             </div>
-            <ul>
-                <li><a href="../../index.php">Home</a></li>
-                <li><a href="../artikel.php">Artikel</a></li>
-                <li><a class="active">Login</a></li>
-            </ul>
-            <div id="content">
-                <div id="before-box">
-                    <div id="box">
-                        <h2>Login</h2>
-                        <hr>
-                        <form action="../../controllers/cek_login.php" method="POST" id="form">
-                            <div class="form-content">
-                                <label class="form-control">Username : </label>
-                                <input class="form-control" type="text" name="username" required>
-                            </div>
-                            <div class="form-content">
-                                <label class="form-control">Password : </label>
-                                <input class="form-control" type="password" name="password" required>
-                            </div>
-                            <div class="form-content">
-                                <button type="submit">Submit</button>
-                            </div>
-                        </form>
-                        <hr>
-                        <a href="daftar.php" class="link"><span>BELUM PUNYA AKUN? DAFTAR DISINI</span></a>
-                    </div>
-                </div>
+            <div class="form-content">
+                <label class="form-control" for="password">Password : </label>
+                <input class="form-control" type="password" id="password" name="password" required>
             </div>
-        </div>
-
+            <div class="form-content">
+                <button class="tombol-utama" type="submit">Submit</button>
+            </div>
+        </form>
+        <hr>
+        <a href="daftar.php" class="link"><span>BELUM PUNYA AKUN? DAFTAR DISINI</span></a>
     </div>
-</body>
-
-</html>
+</div>
+<?php require __DIR__ . '/../partials/cek-cookie.php'; ?>
+<?php require __DIR__ . '/../partials/footer.php'; ?>

@@ -1,7 +1,6 @@
 <?php
-session_start();
 
-include '../database/koneksi.php';
+require __DIR__ . '/../lib/bantu.php';
 
 $nama = trim($_POST["nama"] ?? '');
 $username = trim($_POST["username"] ?? '');

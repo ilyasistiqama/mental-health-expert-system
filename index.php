@@ -1,45 +1,28 @@
-<?php session_start(); ?>
-<!doctype html>
-<html lang="en">
+<?php
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="assets/main.css">
-  <title>Sistem Pakar</title>
-</head>
+require __DIR__ . '/lib/bantu.php';
 
-<body>
-  <div id="bingkai">
-    <div id="margin">
-      <div id="judul">
-        <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
-      </div>
-      <ul>
-        <li><a class="active" href="">Home</a></li>
-        <li><a href="views/artikel.php">Artikel</a></li>
-        <?php
-        if (isset($_SESSION['hak_akses'])) {
-        ?>
-          <li><a href="views/konsultasi.php">Konsultasi</a></li>
-          <li><a href="controllers/logout.php">Logout</a></li>
-        <?php
-        } else {
-        ?>
-          <li><a href="views/auth/login.php">Login</a></li>
-        <?php
-        }
-        ?>
-      </ul>
-      <div id="content">
-        <h1>Selamat Datang</h1>
-        <p>Selamat datang di sistem pakar berbasis web untuk mendiagnosa psikologi kecenderungan gangguan kecemasan. sistem dapat membantu anda
-          untuk mengetahui kecenderungan gangguan mental yang dihadapi melalui proses diagnosa pada sistem ini.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</body>
-
-</html>
+$judul = 'Home';
+$aktif = 'home';
+$dasar = '';
+require __DIR__ . '/views/partials/header.php';
+?>
+<h1 class="judul-halaman">Selamat Datang</h1>
+<p>
+    Selamat datang di sistem pakar berbasis web untuk mendiagnosa psikologi kecenderungan gangguan kecemasan. Sistem dapat membantu anda
+    untuk mengetahui kecenderungan gangguan kecemasan yang dihadapi melalui proses diagnosa dengan metode forward chaining dan backward chaining.
+</p>
+<p>
+    Gangguan kecemasan adalah gangguan mental yang paling umum di dunia, dialami sekitar 470 juta orang pada 2023, namun hanya sekitar
+    1 dari 4 yang mendapat penanganan.<?= rujukan(['who-anxiety-2026'], '') ?>
+    Aturan pada sistem ini disusun berdasarkan kriteria DSM-5-TR, ICD-11, dan PPDGJ-III.<?= rujukan(['dsm5tr', 'icd11', 'ppdgj3'], '') ?>
+</p>
+<p class="aksi-hasil">
+    <a class="tombol-utama" href="<?= sudah_login() ? 'views/konsultasi.php' : 'views/auth/login.php' ?>">Mulai Konsultasi</a>
+    <a class="tombol-kedua" href="views/artikel.php">Pelajari Kecemasan</a>
+</p>
+<p class="catatan-penting">
+    <strong>Catatan penting:</strong> hasil dari sistem ini hanya gambaran awal, bukan diagnosis. Untuk diagnosis yang tepat,
+    konsultasikan dengan psikolog klinis atau psikiater.
+</p>
+<?php require __DIR__ . '/views/partials/footer.php'; ?>

@@ -1,60 +1,62 @@
 <?php
-session_start();
 
-require '../database/koneksi.php';
+require __DIR__ . '/../lib/bantu.php';
 
-if (($_SESSION["hak_akses"] ?? null) != "user") {
-    header("location: auth/login.php");
-    exit;
-}
+wajib_login('../');
+
+$sp = sistem_pakar();
+$sesiForward = $_SESSION['sesi']['forward'] ?? null;
+$sesiBackward = $_SESSION['sesi']['backward'] ?? null;
+$riwayat = mysqli_execute_query($koneksi, "SELECT * FROM riwayat WHERE id_user = ? ORDER BY waktu DESC, id_riwayat DESC LIMIT 20", [$_SESSION['id_user']]);
+
+$judul = 'Konsultasi';
+$aktif = 'konsultasi';
+$dasar = '../';
+require __DIR__ . '/partials/header.php';
 ?>
+<h1 class="judul-halaman">Selamat Datang <?= e($_SESSION['nama_user'] ?? $_SESSION['username']) ?></h1>
+<h2 class="sub-judul">Pilih Metode Yang Digunakan:</h2>
 
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../assets/main.css">
-    <title>Sistem Pakar</title>
-</head>
-
-<body>
-    <div id="bingkai">
-        <div id="margin">
-            <div id="judul">
-                <div>Sistem Pakar Psikologi Gangguan Kecemasan</div>
-            </div>
-            <ul>
-                <li><a href="../index.php">Home</a></li>
-                <li><a href="artikel.php">Artikel</a></li>
-                <li><a class="active">Konsultasi</a></li>
-                <li><a href="../controllers/logout.php">Logout</a></li>
-            </ul>
-            <div id="content">
-                <h1 style="text-align: center;">
-                    Selamat Datang <?php echo htmlspecialchars($_SESSION['username']); ?>
-                </h1>
-                <h2 style="text-align: center;">
-                    Pilih Metode Yang Digunakan:
-                </h2>
-
-                <div id="box-button-pertanyaan">
-                    <a href="forward.php">
-                        <button>
-                            <h3>Forward Chaining</h3>
-                        </button>
-                    </a>
-                    <a href="backward.php">
-                        <button>
-                            <h3>Backward Chaining</h3>
-                        </button>
-                    </a>
-                </div>
-            </div>
-
-        </div>
+<?php if ($sp->sesiValid($sesiForward, 'forward') && $sesiForward['urutan']) { ?>
+    <div class="kartu lanjutkan">
+        <p>Anda sudah menjawab <?= count($sesiForward['urutan']) ?> pertanyaan pada konsultasi Forward Chaining sebelumnya.</p>
+        <a class="tombol-utama" href="forward.php">Lanjutkan</a>
     </div>
-</body>
+<?php } ?>
+<?php if ($sp->sesiValid($sesiBackward, 'backward') && $sesiBackward['urutan'] && isset($sp->penyakit[$sesiBackward['target']])) { ?>
+    <div class="kartu lanjutkan">
+        <p>Anda sudah menjawab <?= count($sesiBackward['urutan']) ?> pertanyaan pada pembuktian <?= e($sp->penyakit[$sesiBackward['target']]['nama_penyakit']) ?>.</p>
+        <a class="tombol-utama" href="backward.php?id_penyakit=<?= e(urlencode($sesiBackward['target'])) ?>">Lanjutkan</a>
+    </div>
+<?php } ?>
 
-</html>
+<div class="grid-metode">
+    <div class="kartu">
+        <h3>Forward Chaining</h3>
+        <p>Penalaran dari fakta ke kesimpulan: sistem mengumpulkan gejala yang anda alami, lalu mencocokkannya dengan seluruh aturan. Bisa menemukan lebih dari satu gangguan.</p>
+        <a class="tombol-utama" href="forward.php">Mulai Forward Chaining</a>
+    </div>
+    <div class="kartu">
+        <h3>Backward Chaining</h3>
+        <p>Penalaran dari tujuan ke fakta: pilih satu gangguan sebagai hipotesis, lalu sistem membuktikan kriterianya satu per satu.</p>
+        <a class="tombol-utama" href="backward.php">Mulai Backward Chaining</a>
+    </div>
+</div>
+
+<h2 class="sub-judul">Riwayat Konsultasi</h2>
+<?php if (mysqli_num_rows($riwayat) === 0) { ?>
+    <p class="kosong">Belum ada riwayat konsultasi.</p>
+<?php } else { ?>
+    <ul class="daftar-riwayat">
+        <?php foreach ($riwayat as $r) {
+            $hasil = json_decode($r['hasil'], true); ?>
+            <li>
+                <a href="hasil.php?id=<?= (int) $r['id_riwayat'] ?>">
+                    <strong><?= e($sp->judulHasil($hasil, $r['metode'], $r['target'])) ?></strong>
+                    <small><?= e(SistemPakar::namaMetode($r['metode'])) ?> · <?= e(format_tanggal($r['waktu'])) ?></small>
+                </a>
+            </li>
+        <?php } ?>
+    </ul>
+<?php } ?>
+<?php require __DIR__ . '/partials/footer.php'; ?>
