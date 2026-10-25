@@ -5,6 +5,7 @@ import {
     GEJALA, OPSI_DURASI, ambilSesi, batalkan, buatHasil, daftarJawaban, dengarPerubahanTabLain, hapusSesi,
     jawab, langkahBerikutnya, muatUlangSesi, sesiBaru, sesiSama, simpanSesi, teksDurasi
 } from "@/lib/sistemPakar";
+import { konfirmasi } from "@/lib/dialog";
 
 const props = defineProps({
     metode: { type: String, required: true },
@@ -36,10 +37,15 @@ function pilih(nilai) {
     if (langkah.value.jenis !== "selesai") sesi.value = jawab(sesi.value, nilai);
 }
 
-function ulang() {
-    if (sesi.value.urutan.length === 0 || confirm("Mulai ulang konsultasi? Jawaban yang sudah diisi akan dihapus.")) {
-        sesi.value = sesiBaru(props.metode, props.target);
-    }
+async function ulang() {
+    const yakin = sesi.value.urutan.length === 0 || await konfirmasi({
+        judul: "Mulai ulang konsultasi?",
+        pesan: `${sesi.value.urutan.length} jawaban yang sudah anda isi akan dihapus dan pertanyaan dimulai dari awal.`,
+        ya: "Ya, mulai ulang",
+        tidak: "Lanjutkan menjawab",
+        bahaya: true
+    });
+    if (yakin) sesi.value = sesiBaru(props.metode, props.target);
 }
 
 // Tab yang lama tidak aktif (misalnya browser HP ditinggal ke aplikasi lain, atau ada tab kedua)

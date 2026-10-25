@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import DialogKonfirmasi from "@/components/DialogKonfirmasi.vue";
 import { adaVersiBaru, pakaiVersiBaru } from "@/lib/offline";
 
 const route = useRoute();
@@ -62,4 +63,6 @@ const daftarMenu = [
             <p>&copy; {{ tahun }} Sistem Pakar Gangguan Kecemasan · <RouterLink to="/sumber">Sumber & rujukan</RouterLink></p>
         </div>
     </footer>
+
+    <DialogKonfirmasi />
 </template>

@@ -33,6 +33,17 @@ const metode = [
             </p>
         </header>
 
+        <div class="mb-6 flex items-start gap-3 rounded-2xl border border-primary bg-primary-soft px-5 py-4 text-[.95rem]" role="note">
+            <svg class="mt-0.5 size-5 flex-none text-primary-strong" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z" />
+            </svg>
+            <p>
+                <strong>Sebelum mulai:</strong> sistem ini adalah alat bantu untuk mengenali kecenderungan, bukan alat diagnosis dan bukan
+                rujukan ke dokter. Apa pun hasilnya, anggaplah sebagai ajakan untuk lebih memperhatikan diri dan, bila perlu, berbicara
+                dengan psikolog. Jawablah dengan santai dan jujur; anda boleh berhenti kapan saja.
+            </p>
+        </div>
+
         <div class="mb-6 grid gap-4">
             <div v-if="sesiForward?.urutan.length" class="card flex flex-col gap-3 border-primary sm:flex-row sm:items-center sm:justify-between">
                 <div>

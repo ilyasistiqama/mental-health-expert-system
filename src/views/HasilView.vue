@@ -1,8 +1,11 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
 import CatatanPenting from "@/components/CatatanPenting.vue";
 import DaftarKriteria from "@/components/DaftarKriteria.vue";
+import PesanDukungan from "@/components/PesanDukungan.vue";
 import Rujukan from "@/components/Rujukan.vue";
+import { konfirmasi } from "@/lib/dialog";
 import { KODE_NORMAL, PENYAKIT, formatTanggal, hasilTerakhir, judulHasil, labelDurasi, namaMetode } from "@/lib/sistemPakar";
 
 // hasil hanya ada di memori halaman, tidak pernah disimpan
@@ -30,7 +33,21 @@ async function unduhPdf() {
     }
 }
 
-// hasil hilang jika halaman ditutup atau dimuat ulang, jadi minta konfirmasi bila PDF belum diunduh
+// Pindah halaman di dalam website: konfirmasi dengan dialog sendiri, lalu hasil dihapus dari memori
+// agar tidak bisa dibuka lagi oleh orang lain yang memakai perangkat yang sama.
+onBeforeRouteLeave(async () => {
+    if (!entri.value) return true;
+    const pergi = sudahDiunduh.value || await konfirmasi({
+        judul: "Tinggalkan halaman hasil?",
+        pesan: "Demi menjaga kerahasiaan, hasil ini tidak disimpan dan akan hilang setelah anda meninggalkan halaman ini. Unduh PDF terlebih dahulu jika ingin menyimpannya.",
+        ya: "Tinggalkan",
+        tidak: "Tetap di sini"
+    });
+    if (pergi) hasilTerakhir.value = null;
+    return pergi;
+});
+
+// Menutup tab atau memuat ulang: browser hanya mengizinkan dialog bawaannya sendiri
 function cegahTutup(e) {
     if (entri.value && !sudahDiunduh.value) {
         e.preventDefault();
@@ -61,12 +78,12 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
                 :class="terdiagnosa.length ? 'from-accent-soft' : 'from-primary-soft'"
             >
                 <span class="eyebrow" :class="terdiagnosa.length ? 'text-accent' : ''">
-                    {{ terdiagnosa.length ? "Kecenderungan yang terdeteksi" : "Hasil konsultasi" }}
+                    {{ terdiagnosa.length ? "Jawaban anda menunjukkan kecenderungan ke arah" : "Hasil pemeriksaan awal" }}
                 </span>
                 <h1 class="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl">{{ judulHasil(entri) }}</h1>
                 <p v-if="terdiagnosa.length" class="mb-3 max-w-3xl text-muted">
-                    Jawaban anda memenuhi kriteria untuk {{ terdiagnosa.length > 1 ? "gangguan-gangguan" : "gangguan" }} berikut. Hasil ini adalah
-                    kecenderungan, bukan diagnosis; diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater.
+                    Ini adalah kecenderungan berdasarkan jawaban anda, <strong class="text-ink">bukan diagnosis</strong>. Diagnosis hanya dapat ditegakkan
+                    oleh psikolog klinis atau psikiater setelah bertemu dan berbicara langsung dengan anda.
                     <template v-if="terdiagnosa.length > 1">Beberapa gangguan kecemasan memang dapat muncul bersamaan; profesional akan menentukan diagnosis utamanya.</template>
                 </p>
                 <p v-else-if="entri.metode === 'backward' && belumCukup.length === 0" class="mb-3 max-w-3xl text-muted">
@@ -87,14 +104,16 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
                 <p v-if="gagalPdf" class="mt-3 text-sm text-no" role="alert">PDF gagal dibuat. Periksa koneksi internet anda lalu coba lagi.</p>
             </section>
 
+            <PesanDukungan class="mb-5" />
+
             <div class="mb-5 flex items-start gap-3 rounded-2xl border border-line bg-surface px-5 py-4 text-[.95rem] print:hidden" role="note">
                 <svg class="mt-0.5 size-5 flex-none text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <rect x="4" y="11" width="16" height="10" rx="2" />
                     <path d="M8 11V7a4 4 0 0 1 8 0v4" />
                 </svg>
                 <p>
-                    <strong>Hasil ini tidak disimpan di mana pun</strong> demi menjaga kerahasiaan anda, dan akan hilang jika halaman ditutup atau dimuat ulang.
-                    Unduh PDF jika ingin menyimpannya.
+                    <strong>Hasil ini tidak disimpan di mana pun</strong> demi menjaga kerahasiaan anda, dan akan hilang jika halaman ditutup,
+                    dimuat ulang, atau anda berpindah halaman. Unduh PDF jika ingin menyimpannya.
                 </p>
             </div>
 
@@ -115,7 +134,7 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
                         </div>
                         <h2 class="mb-2 text-2xl font-extrabold">{{ p.nama }}</h2>
                         <p class="mb-5 text-muted">{{ p.deskripsi }}</p>
-                        <h3 class="mb-2 font-bold">Penanganan yang dapat dilakukan<Rujukan :ids="p.sumber.filter((s) => !['dsm5tr', 'icd11', 'ppdgj3'].includes(s))" /></h3>
+                        <h3 class="mb-2 font-bold">Penanganan yang umumnya dilakukan oleh profesional<Rujukan :ids="p.sumber.filter((s) => !['dsm5tr', 'icd11', 'ppdgj3'].includes(s))" /></h3>
                         <ol class="list-decimal space-y-3 pl-5">
                             <li v-for="(t, i) in p.pengobatan" :key="i">{{ t }}</li>
                         </ol>
@@ -148,9 +167,8 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
                         <DaftarKriteria :kode="p.kode" />
                     </section>
                     <CatatanPenting>
-                        hasil ini adalah gambaran awal, bukan diagnosis. Obat-obatan hanya boleh dikonsumsi sesuai resep dokter.
-                        Kunjungi psikolog klinis, psikiater, atau puskesmas terdekat untuk pemeriksaan lebih lanjut.
-                        Butuh bantuan segera? Hubungi <strong>119 ext 8</strong>.<Rujukan :ids="['healing119']" />
+                        saran penanganan di halaman ini adalah informasi umum dari pedoman klinis, bukan resep. Jangan mengonsumsi obat
+                        tanpa resep dan pengawasan dokter. Psikolog atau psikiater akan menentukan penanganan yang sesuai untuk anda.
                     </CatatanPenting>
                 </div>
             </div>

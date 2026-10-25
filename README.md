@@ -18,6 +18,17 @@ Tidak memakai database dan tidak perlu login. Untuk pengguna, kedua metode diber
 - Jika penyimpanan browser diblokir, sistem tidak dijalankan dan pengguna diberi petunjuk.
 - Tab lain yang masih terbuka ikut tersinkron, sehingga progres tidak tertimpa versi lama.
 
+## Disclaimer dan pesan dukungan
+
+Setiap hasil (halaman dan PDF) menampilkan pesan bahwa hasil **bukan diagnosis dan bukan rujukan ke
+dokter**, melainkan dorongan untuk berbicara dengan psikolog klinis, psikiater, atau puskesmas, disertai
+langkah yang bisa diambil dan nomor darurat 119 ext 8. Kalimatnya ada di satu tempat,
+`src/lib/pesanDukungan.js`, agar halaman dan PDF selalu sama.
+
+Konfirmasi memakai dialog sendiri (`src/components/DialogKonfirmasi.vue`), bukan `alert`/`confirm`
+bawaan browser. Satu-satunya pengecualian adalah konfirmasi saat menutup tab atau memuat ulang halaman
+hasil: browser tidak mengizinkan situs mengganti tampilan dialog tersebut.
+
 ## Mode offline
 
 Setelah dibuka sekali saat online, sistem bisa dipakai **tanpa internet** (konsultasi, hasil, PDF,
