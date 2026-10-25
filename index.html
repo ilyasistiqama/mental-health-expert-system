@@ -8,7 +8,7 @@
         // File ini adalah sumber Vite. Jika dibuka langsung lewat Apache/Laragon/GitHub Pages (bukan
         // lewat "npm run dev"), arahkan ke hasil build di folder dist/. Blok ini dibuang saat build.
         if (!document.querySelector('script[src$="@vite/client"]')) {
-            location.replace("./dist/" + location.hash);
+            location.replace("./dist/" + location.search + location.hash);
         }
     </script>
     <!-- /petunjuk-sumber -->

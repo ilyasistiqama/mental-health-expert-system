@@ -1,4 +1,5 @@
 import { shallowRef } from "vue";
+import { BASIS } from "./basis";
 import { baca, bersihkanDataLama, hapus, simpan } from "./penyimpanan";
 
 const KEY_SESI = "sispak.sesi";
@@ -28,7 +29,7 @@ export const DAFTAR_SUMBER = [];
 export const ATURAN = [];
 
 async function ambilJson(nama) {
-    const respons = await fetch(`${import.meta.env.BASE_URL}data/${nama}`, { cache: "no-cache" });
+    const respons = await fetch(`${BASIS}data/${nama}`, { cache: "no-cache" });
     if (!respons.ok) throw new Error(`Gagal memuat data/${nama} (${respons.status})`);
     return respons.json();
 }

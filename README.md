@@ -71,11 +71,21 @@ Untuk mencoba hasil build di komputer sendiri: `npm run preview`.
 
 ### Publikasi ke GitHub Pages
 
-1. Pastikan `npm run build` sudah dijalankan dan folder `dist/` ikut di-push.
-2. Di GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**,
-   pilih branch `main` dan folder `/ (root)`, lalu **Save**.
-3. Tunggu 1–2 menit, situs bisa dibuka di `https://<username>.github.io/<nama-repo>/`
-   (otomatis diarahkan ke `.../dist/`).
+Repo ini sudah berisi workflow `.github/workflows/deploy.yml` yang otomatis mem-build dan
+mempublikasikan aplikasi setiap ada push ke `main`, dengan alamat bersih tanpa `/dist/` dan `#`:
+`https://<username>.github.io/<nama-repo>/artikel`.
+
+Cukup sekali: di GitHub buka **Settings → Pages → Build and deployment → Source**, pilih
+**GitHub Actions**. Progres deploy bisa dilihat di tab **Actions**.
+
+Catatan teknis:
+- Router memakai alamat bersih (mode history). Saat build, setiap halaman dibuatkan salinan
+  `index.html` (`artikel.html`, `konsultasi.html`, dst.) agar GitHub Pages melayaninya dengan status 200;
+  `404.html` menjadi cadangan. Jika menambah halaman baru, tambahkan juga namanya di `HALAMAN`
+  pada `vite.config.js`.
+- Untuk Apache/Laragon, `dist/.htaccess` mengarahkan alamat seperti `/artikel` ke `index.html`
+  (butuh `mod_rewrite` aktif).
+- Tautan lama berformat `#/artikel` otomatis diubah ke `/artikel`.
 
 ## Struktur folder
 

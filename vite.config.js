@@ -1,3 +1,5 @@
+import { copyFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
@@ -11,13 +13,33 @@ const hapusPetunjukSumber = {
     transformIndexHtml: (html) => html.replace(/\s*<!-- petunjuk-sumber -->[\s\S]*?<!-- \/petunjuk-sumber -->/, "")
 };
 
+// GitHub Pages tidak punya fallback SPA. Setiap halaman dibuatkan salinan index.html (artikel.html, dst.)
+// sehingga /artikel dilayani dengan status 200; 404.html menjadi cadangan untuk alamat lain.
+// Daftar ini harus sama dengan rute di src/router.js.
+const HALAMAN = ["artikel", "konsultasi", "cek-menyeluruh", "cek-gangguan", "hasil", "sumber", "forward", "backward"];
+let folderBuild = "dist";
+const salinHalaman = {
+    name: "salin-halaman",
+    apply: "build",
+    configResolved: (config) => {
+        folderBuild = resolve(config.root, config.build.outDir);
+    },
+    closeBundle: () => {
+        for (const nama of [...HALAMAN, "404"]) {
+            copyFileSync(resolve(folderBuild, "index.html"), resolve(folderBuild, `${nama}.html`));
+        }
+    }
+};
+
 export default defineConfig({
-    // path relatif supaya hasil build bisa ditaruh di subfolder mana pun (termasuk GitHub Pages)
-    base: "./",
+    // relatif supaya hasil build bisa ditaruh di subfolder mana pun; workflow GitHub Pages
+    // mengisi BASE_PATH (misalnya /sispak-gangguan-kecemasan/) agar alamat bersih selalu benar
+    base: process.env.BASE_PATH || "./",
     plugins: [
         vue(),
         tailwindcss(),
         hapusPetunjukSumber,
+        salinHalaman,
         // cache offline lewat service worker
         VitePWA({
             // jangan memuat ulang halaman otomatis saat ada versi baru: hasil konsultasi hanya ada di memori

@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { registerSW } from "virtual:pwa-register";
+import { BASIS } from "./basis";
 
 export const adaVersiBaru = ref(false);
 let perbarui = null;
@@ -8,7 +9,7 @@ let perbarui = null;
 // Begitu service worker mengendalikan halaman, data diambil ulang lewat service worker agar tersimpan.
 function hangatkanCacheData() {
     const berkas = ["penyakit.json", "gejala.json", "sumber.json"];
-    berkas.forEach((nama) => fetch(`${import.meta.env.BASE_URL}data/${nama}`, { cache: "no-cache" }).catch(() => {}));
+    berkas.forEach((nama) => fetch(`${BASIS}data/${nama}`, { cache: "no-cache" }).catch(() => {}));
 }
 
 export function aktifkanCacheOffline() {

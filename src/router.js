@@ -1,10 +1,11 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
+import { BASIS } from "./lib/basis";
 
 const JUDUL = "Sistem Pakar Kecemasan";
 
-// hash history (#/konsultasi) supaya bisa langsung dibuka di hosting/Apache/GitHub Pages tanpa konfigurasi rewrite
+// alamat bersih (/artikel); GitHub Pages memakai 404.html dan Apache memakai .htaccess sebagai fallback
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(BASIS),
     routes: [
         { path: "/", component: () => import("./views/BerandaView.vue"), meta: { menu: "home", judul: "Sistem Pakar Gangguan Kecemasan" } },
         { path: "/artikel", component: () => import("./views/ArtikelView.vue"), meta: { menu: "artikel", judul: `Artikel · ${JUDUL}` } },
@@ -18,7 +19,8 @@ const router = createRouter({
         { path: "/backward", redirect: (to) => ({ path: "/cek-gangguan", query: to.query }) },
         { path: "/:pathMatch(.*)*", redirect: "/" }
     ],
-    scrollBehavior: (to) => (to.hash && !to.hash.startsWith("#/") ? { el: to.hash, top: 80 } : { top: 0 })
+    // gulir ke anchor (misalnya /sumber#dsm5tr) hanya untuk id yang valid
+    scrollBehavior: (to) => (/^#[\w-]+$/.test(to.hash) ? { el: to.hash, top: 80 } : { top: 0 })
 });
 
 router.afterEach((to) => {
