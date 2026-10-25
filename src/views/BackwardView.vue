@@ -1,8 +1,9 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import DaftarKriteria from "@/components/DaftarKriteria.vue";
 import SesiKonsultasi from "@/components/SesiKonsultasi.vue";
-import { PENYAKIT, daftarPenyakit, gejalaPenyakit } from "@/lib/sistemPakar";
+import { PENYAKIT, daftarPenyakit } from "@/lib/sistemPakar";
 
 const route = useRoute();
 const target = computed(() => (daftarPenyakit().includes(route.query.id) ? route.query.id : null));
@@ -25,14 +26,14 @@ const target = computed(() => (daftarPenyakit().includes(route.query.id) ? route
         <p v-if="!target" class="empty">Pilih salah satu gangguan di atas sebagai hipotesis.</p>
 
         <template v-else>
-            <div class="card hypothesis">
-                <span class="eyebrow">Hipotesis</span>
-                <h2>{{ PENYAKIT[target].nama }}</h2>
-                <p class="muted">Terbukti jika semua gejala berikut dialami selama 2 minggu atau lebih:</p>
-                <ul class="symptom-list">
-                    <li v-for="g in gejalaPenyakit(target)" :key="g.kode">{{ g.nama }}</li>
-                </ul>
-            </div>
+            <details class="card hypothesis">
+                <summary>
+                    <span class="eyebrow">Hipotesis</span>
+                    <h2>{{ PENYAKIT[target].nama }}</h2>
+                    <span class="muted">Lihat aturan pembuktian</span>
+                </summary>
+                <DaftarKriteria :kode="target" />
+            </details>
 
             <SesiKonsultasi :key="target" metode="backward" :target="target" />
         </template>

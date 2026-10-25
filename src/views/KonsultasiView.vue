@@ -19,7 +19,7 @@ function hapusSemua() {
         <header class="page-head">
             <span class="eyebrow">Konsultasi</span>
             <h1>Pilih metode konsultasi</h1>
-            <p>Kedua metode memakai basis pengetahuan dan aturan yang sama. Diagnosa berakhir setelah semua gejala terpenuhi dan sudah dialami selama 2 minggu atau lebih.</p>
+            <p>Kedua metode memakai basis pengetahuan dan aturan yang sama. Setelah kriteria gejala sebuah gangguan terpenuhi, sistem menanyakan durasi keluhan sebagai akhir diagnosa.</p>
         </header>
 
         <section class="section" style="padding-top: 24px;">
@@ -55,7 +55,7 @@ function hapusSemua() {
                     <p>Penalaran dari tujuan ke fakta: pilih satu gangguan sebagai hipotesis, lalu sistem membuktikan gejalanya satu per satu.</p>
                     <ul>
                         <li>Cocok jika anda menduga gangguan tertentu</li>
-                        <li>Berhenti begitu satu gejala tidak terpenuhi</li>
+                        <li>Berhenti begitu satu kriteria tidak terpenuhi</li>
                     </ul>
                     <RouterLink class="btn btn-ghost" to="/backward">Mulai Backward Chaining</RouterLink>
                 </article>

@@ -2,8 +2,8 @@
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import {
-    GEJALA, KODE_DURASI, ambilSesi, batalkan, catatHasil, daftarJawaban, hapusSesi,
-    jawab, langkahBerikutnya, ruteHasil, sesiBaru, simpanSesi, teksPertanyaan
+    GEJALA, OPSI_DURASI, ambilSesi, batalkan, catatHasil, daftarJawaban, hapusSesi,
+    jawab, langkahBerikutnya, ruteHasil, sesiBaru, simpanSesi, teksDurasi
 } from "@/lib/sistemPakar";
 
 const props = defineProps({
@@ -20,7 +20,6 @@ function mulai() {
 
 const sesi = ref(mulai());
 const langkah = computed(() => langkahBerikutnya(sesi.value));
-const nomor = computed(() => sesi.value.urutan.length + 1);
 const progres = computed(() => (sesi.value.urutan.length / (sesi.value.urutan.length + (langkah.value.sisa ?? 0))) * 100);
 const jawaban = computed(() => daftarJawaban(sesi.value));
 
@@ -33,15 +32,19 @@ watch(langkah, (l) => {
     router.push(ruteHasil(catatHasil(sesi.value, l)));
 }, { immediate: true });
 
-function pilih(ya) {
-    if (langkah.value.jenis !== "selesai") sesi.value = jawab(sesi.value, ya);
+function pilih(nilai) {
+    if (langkah.value.jenis !== "selesai") sesi.value = jawab(sesi.value, nilai);
 }
 
 function onKeydown(e) {
     if (e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
     const key = e.key.toLowerCase();
-    if (key === "y") pilih(true);
-    else if (key === "t") pilih(false);
+    if (langkah.value.jenis === "gejala") {
+        if (key === "y") pilih(true);
+        else if (key === "t") pilih(false);
+    } else if (langkah.value.jenis === "durasi" && OPSI_DURASI[Number(key) - 1]) {
+        pilih(OPSI_DURASI[Number(key) - 1].hari);
+    }
 }
 
 onMounted(() => document.addEventListener("keydown", onKeydown));
@@ -56,18 +59,25 @@ onUnmounted(() => document.removeEventListener("keydown", onKeydown));
             </div>
             <div :key="sesi.urutan.length" class="masuk">
                 <div class="question-meta">
-                    <span class="question-number">Pertanyaan ke-{{ nomor }}</span>
-                    <span class="question-tag">{{ langkah.jenis === "durasi" ? "Durasi gejala" : GEJALA[langkah.kode].nama }}</span>
+                    <span class="question-number">Pertanyaan ke-{{ sesi.urutan.length + 1 }}</span>
+                    <span class="question-tag">{{ langkah.jenis === "durasi" ? "Durasi keluhan" : GEJALA[langkah.kode].nama }}</span>
                 </div>
-                <p class="question-text">{{ teksPertanyaan(langkah.jenis === "durasi" ? KODE_DURASI : langkah.kode) }}</p>
+                <p class="question-text">{{ langkah.jenis === "durasi" ? teksDurasi(langkah.penyakit) : GEJALA[langkah.kode].pertanyaan }}</p>
             </div>
-            <div class="answer-buttons">
+
+            <div v-if="langkah.jenis === 'durasi'" class="duration-options">
+                <button v-for="(o, i) in OPSI_DURASI" :key="o.hari" class="btn btn-ghost btn-option" type="button" @click="pilih(o.hari)">
+                    <kbd>{{ i + 1 }}</kbd> {{ o.label }}
+                </button>
+            </div>
+            <div v-else class="answer-buttons">
                 <button class="btn btn-ya" type="button" @click="pilih(true)">Ya</button>
                 <button class="btn btn-tidak" type="button" @click="pilih(false)">Tidak</button>
             </div>
+
             <div class="question-footer">
                 <button class="btn btn-text" type="button" :disabled="sesi.urutan.length === 0" @click="sesi = batalkan(sesi)">← Kembali</button>
-                <span class="kbd-hint">Pintasan: <kbd>Y</kbd> Ya · <kbd>T</kbd> Tidak</span>
+                <span v-if="langkah.jenis === 'gejala'" class="kbd-hint">Pintasan: <kbd>Y</kbd> Ya · <kbd>T</kbd> Tidak</span>
                 <button class="btn btn-text" type="button" @click="sesi = sesiBaru(metode, target)">Mulai ulang</button>
             </div>
         </div>
@@ -76,8 +86,8 @@ onUnmounted(() => document.removeEventListener("keydown", onKeydown));
             <h3>Jawaban anda sejauh ini</h3>
             <ol class="answer-log">
                 <li v-for="j in jawaban" :key="j.kode">
-                    <span>{{ teksPertanyaan(j.kode) }}</span>
-                    <span class="badge" :class="j.ya ? 'badge-ya' : 'badge-tidak'">{{ j.ya ? "Ya" : "Tidak" }}</span>
+                    <span>{{ j.pertanyaan }}</span>
+                    <span class="badge" :class="j.ya === false ? 'badge-tidak' : 'badge-ya'">{{ j.jawaban }}</span>
                 </li>
             </ol>
         </section>

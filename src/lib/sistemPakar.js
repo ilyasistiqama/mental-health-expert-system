@@ -5,8 +5,15 @@ const KEY_RIWAYAT = "sispak.riwayat";
 const MAKS_RIWAYAT = 20;
 
 export const KODE_NORMAL = "P0";
-export const KODE_DURASI = "durasi";
-export const PERTANYAAN_DURASI = "Apakah anda sudah mengalami gejala-gejala tersebut selama 2 minggu atau lebih?";
+const AWALAN_DURASI = "durasi:";
+
+// pilihan jawaban durasi, "hari" adalah batas bawah tiap pilihan
+export const OPSI_DURASI = [
+    { hari: 0, label: "Kurang dari 2 minggu" },
+    { hari: 14, label: "2 minggu sampai 1 bulan" },
+    { hari: 30, label: "1 sampai 6 bulan" },
+    { hari: 180, label: "6 bulan atau lebih" }
+];
 
 /* ---------- Basis pengetahuan (public/data/*.json) ---------- */
 
@@ -14,7 +21,8 @@ export const PERTANYAAN_DURASI = "Apakah anda sudah mengalami gejala-gejala ters
 export const PENYAKIT = {};
 export const GEJALA = {};
 export const DAFTAR_GEJALA = [];
-// aturan produksi: IF semua gejala THEN penyakit
+// aturan produksi: IF semua kriteria terpenuhi THEN penyakit,
+// kriteria terpenuhi jika minimal sejumlah gejalanya dijawab Ya
 export const ATURAN = [];
 
 async function ambilJson(nama) {
@@ -34,14 +42,24 @@ export async function muatBasisPengetahuan() {
 
     for (const p of daftarPenyakit) {
         if (PENYAKIT[p.kode]) console.warn(`penyakit.json: kode ${p.kode} dipakai lebih dari sekali`);
-        PENYAKIT[p.kode] = { ...p, gejala: p.gejala ?? [], pengobatan: p.pengobatan ?? [] };
 
-        const gejala = PENYAKIT[p.kode].gejala.filter((k) => {
-            if (!GEJALA[k]) console.warn(`penyakit.json: gejala ${k} pada ${p.kode} tidak ada di gejala.json`);
-            return GEJALA[k];
-        });
-        if (p.kode !== KODE_NORMAL && gejala.length > 0) {
-            ATURAN.push({ penyakit: p.kode, gejala });
+        const kriteria = (p.kriteria ?? []).map((k) => {
+            const gejala = (k.gejala ?? []).filter((kode) => {
+                if (!GEJALA[kode]) console.warn(`penyakit.json: gejala ${kode} pada ${p.kode} tidak ada di gejala.json`);
+                return GEJALA[kode];
+            });
+            const minimal = Math.min(k.minimal ?? gejala.length, gejala.length);
+            return { gejala, minimal };
+        }).filter((k) => k.minimal > 0);
+
+        const durasiMinimal = p.durasiMinimal ?? 0;
+        if (!OPSI_DURASI.some((o) => o.hari === durasiMinimal)) {
+            console.warn(`penyakit.json: durasiMinimal ${p.kode} sebaiknya salah satu dari ${OPSI_DURASI.map((o) => o.hari).join(", ")} hari`);
+        }
+
+        PENYAKIT[p.kode] = { ...p, kriteria, durasiMinimal, pengobatan: p.pengobatan ?? [] };
+        if (p.kode !== KODE_NORMAL && kriteria.length > 0) {
+            ATURAN.push({ penyakit: p.kode, kriteria, durasiMinimal });
         }
     }
 
@@ -56,25 +74,43 @@ export function daftarPenyakit() {
     return ATURAN.map((a) => a.penyakit);
 }
 
-export function gejalaPenyakit(kode) {
-    return (PENYAKIT[kode]?.gejala ?? []).filter((k) => GEJALA[k]).map((k) => GEJALA[k]);
-}
-
 export function formatTanggal(waktu) {
     return new Date(waktu).toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" });
 }
 
+export function labelDurasi(hari) {
+    if (hari >= 30) return `${hari / 30} bulan`;
+    if (hari >= 7) return `${hari / 7} minggu`;
+    return `${hari} hari`;
+}
+
 /* ---------- Mesin inferensi ---------- */
 
-// sesi = { metode: "forward" | "backward", target, fakta: { G01: true, ... }, durasi: null | boolean, urutan: [kode yang dijawab] }
+// sesi = { metode: "forward" | "backward", target, fakta: { G01: true, ... }, durasi: { P1: hari }, urutan: [kode yang dijawab] }
 export function sesiBaru(metode, target = null) {
-    return { metode, target, fakta: {}, durasi: null, urutan: [] };
+    return { metode, target, fakta: {}, durasi: {}, urutan: [] };
+}
+
+function statusKriteria(kriteria, fakta) {
+    const ya = kriteria.gejala.filter((k) => fakta[k] === true).length;
+    const belum = kriteria.gejala.filter((k) => !Object.hasOwn(fakta, k)).length;
+    if (ya >= kriteria.minimal) return "terpenuhi";
+    if (ya + belum < kriteria.minimal) return "gugur";
+    return "terbuka";
 }
 
 function statusAturan(aturan, fakta) {
-    if (aturan.gejala.some((k) => fakta[k] === false)) return "gugur";
-    if (aturan.gejala.every((k) => fakta[k] === true)) return "terpenuhi";
+    const status = aturan.kriteria.map((k) => statusKriteria(k, fakta));
+    if (status.includes("gugur")) return "gugur";
+    if (status.every((s) => s === "terpenuhi")) return "terpenuhi";
     return "terbuka";
+}
+
+// gejala yang masih bisa mengubah status aturan
+function gejalaRelevan(aturan, fakta) {
+    return aturan.kriteria
+        .filter((k) => statusKriteria(k, fakta) === "terbuka")
+        .flatMap((k) => k.gejala.filter((kode) => !Object.hasOwn(fakta, kode)));
 }
 
 // forward chaining memakai semua aturan, backward chaining hanya aturan hipotesis
@@ -83,45 +119,44 @@ function aturanKandidat(sesi) {
 }
 
 // Menentukan pertanyaan berikutnya, atau kesimpulan jika inferensi selesai.
-// Gejala yang hanya dimiliki aturan yang sudah gugur tidak ditanyakan karena tidak bisa mengubah kesimpulan.
+// Gejala yang tidak bisa lagi mengubah status aturan (aturannya sudah gugur atau kriterianya
+// sudah terpenuhi) tidak ditanyakan, sehingga kesimpulan tetap sama dengan menanyakan semua gejala.
 export function langkahBerikutnya(sesi) {
     const kandidat = aturanKandidat(sesi);
     const terbuka = kandidat.filter((a) => statusAturan(a, sesi.fakta) === "terbuka");
+    const terpenuhi = kandidat.filter((a) => statusAturan(a, sesi.fakta) === "terpenuhi");
+    const tanpaDurasi = terpenuhi.filter((a) => !Object.hasOwn(sesi.durasi, a.penyakit));
 
     if (terbuka.length > 0) {
-        const belumDitanya = (k) => !Object.hasOwn(sesi.fakta, k);
+        const relevan = new Set(terbuka.flatMap((a) => gejalaRelevan(a, sesi.fakta)));
         const kode = sesi.metode === "backward"
-            ? terbuka[0].gejala.find(belumDitanya)
-            : DAFTAR_GEJALA.find((g) => belumDitanya(g.kode) && terbuka.some((a) => a.gejala.includes(g.kode))).kode;
-        return { jenis: "gejala", kode, sisa: sisaPertanyaan(terbuka, sesi.fakta) + 1 };
+            ? [...relevan][0]
+            : DAFTAR_GEJALA.find((g) => relevan.has(g.kode)).kode;
+        return { jenis: "gejala", kode, sisa: relevan.size + tanpaDurasi.length + terbuka.length };
     }
 
-    const terpenuhi = kandidat.filter((a) => statusAturan(a, sesi.fakta) === "terpenuhi").map((a) => a.penyakit);
-
-    // semua gejala sudah terpenuhi, durasi >= 2 minggu menjadi akhir diagnosa
-    if (terpenuhi.length > 0 && sesi.durasi === null) {
-        return { jenis: "durasi", sisa: 1 };
+    // semua kriteria terpenuhi, durasi keluhan menjadi akhir diagnosa
+    if (tanpaDurasi.length > 0) {
+        return { jenis: "durasi", penyakit: tanpaDurasi[0].penyakit, sisa: tanpaDurasi.length };
     }
 
+    const cukup = (a) => sesi.durasi[a.penyakit] >= a.durasiMinimal;
     return {
         jenis: "selesai",
-        penyakit: sesi.durasi === true ? terpenuhi : [],
-        terdeteksi: terpenuhi,
-        durasi: sesi.durasi
+        penyakit: terpenuhi.filter(cukup).map((a) => a.penyakit),
+        belumCukup: terpenuhi.filter((a) => !cukup(a)).map((a) => a.penyakit),
+        durasi: { ...sesi.durasi }
     };
 }
 
-function sisaPertanyaan(terbuka, fakta) {
-    return new Set(terbuka.flatMap((a) => a.gejala).filter((k) => !Object.hasOwn(fakta, k))).size;
-}
-
-export function jawab(sesi, ya) {
+// nilai: true/false untuk gejala, jumlah hari (OPSI_DURASI) untuk durasi
+export function jawab(sesi, nilai) {
     const langkah = langkahBerikutnya(sesi);
     if (langkah.jenis === "gejala") {
-        return { ...sesi, fakta: { ...sesi.fakta, [langkah.kode]: ya }, urutan: [...sesi.urutan, langkah.kode] };
+        return { ...sesi, fakta: { ...sesi.fakta, [langkah.kode]: nilai === true }, urutan: [...sesi.urutan, langkah.kode] };
     }
     if (langkah.jenis === "durasi") {
-        return { ...sesi, durasi: ya, urutan: [...sesi.urutan, KODE_DURASI] };
+        return { ...sesi, durasi: { ...sesi.durasi, [langkah.penyakit]: Number(nilai) }, urutan: [...sesi.urutan, AWALAN_DURASI + langkah.penyakit] };
     }
     return sesi;
 }
@@ -129,27 +164,38 @@ export function jawab(sesi, ya) {
 export function batalkan(sesi) {
     const terakhir = sesi.urutan.at(-1);
     if (!terakhir) return sesi;
-    if (terakhir === KODE_DURASI) {
-        return { ...sesi, durasi: null, urutan: sesi.urutan.slice(0, -1) };
+    const urutan = sesi.urutan.slice(0, -1);
+    if (terakhir.startsWith(AWALAN_DURASI)) {
+        const { [terakhir.slice(AWALAN_DURASI.length)]: _, ...durasi } = sesi.durasi;
+        return { ...sesi, durasi, urutan };
     }
     const { [terakhir]: _, ...fakta } = sesi.fakta;
-    return { ...sesi, fakta, urutan: sesi.urutan.slice(0, -1) };
+    return { ...sesi, fakta, urutan };
 }
 
+export function teksDurasi(kodePenyakit) {
+    return `Sudah berapa lama anda mengalami keluhan-keluhan yang berkaitan dengan ${PENYAKIT[kodePenyakit]?.nama ?? kodePenyakit}?`;
+}
+
+// jawaban dalam bentuk siap tampil: { kode, pertanyaan, jawaban, ya }
 export function daftarJawaban(sesi) {
-    return sesi.urutan.map((kode) => ({ kode, ya: kode === KODE_DURASI ? sesi.durasi : sesi.fakta[kode] }));
-}
-
-export function teksPertanyaan(kode) {
-    return kode === KODE_DURASI ? PERTANYAAN_DURASI : GEJALA[kode]?.pertanyaan;
+    return sesi.urutan.map((kode) => {
+        if (kode.startsWith(AWALAN_DURASI)) {
+            const penyakit = kode.slice(AWALAN_DURASI.length);
+            const hari = sesi.durasi[penyakit];
+            return { kode, pertanyaan: teksDurasi(penyakit), jawaban: OPSI_DURASI.find((o) => o.hari === hari)?.label ?? "-", ya: null };
+        }
+        const ya = sesi.fakta[kode];
+        return { kode, pertanyaan: GEJALA[kode]?.pertanyaan ?? kode, jawaban: ya ? "Ya" : "Tidak", ya };
+    });
 }
 
 /* ---------- Penyimpanan sesi ---------- */
 
 function sesiValid(sesi) {
     return sesi && ["forward", "backward"].includes(sesi.metode) && Array.isArray(sesi.urutan)
-        && sesi.fakta && typeof sesi.fakta === "object"
-        && sesi.urutan.every((k) => k === KODE_DURASI || GEJALA[k]);
+        && sesi.fakta && typeof sesi.fakta === "object" && sesi.durasi && typeof sesi.durasi === "object"
+        && sesi.urutan.every((k) => GEJALA[k] || (k.startsWith(AWALAN_DURASI) && PENYAKIT[k.slice(AWALAN_DURASI.length)]));
 }
 
 export function ambilSesi(metode) {
@@ -167,11 +213,11 @@ export function hapusSesi(metode) {
 
 /* ---------- Riwayat konsultasi ---------- */
 
-// entri = { waktu, metode, target, penyakit: [terdiagnosa], terdeteksi: [gejala terpenuhi], durasi, jawaban: [{ kode, ya }] }
+// entri = { waktu, metode, target, penyakit: [terdiagnosa], belumCukup: [kriteria terpenuhi tapi durasi kurang], durasi, jawaban }
 export function ambilRiwayat() {
     const riwayat = baca(KEY_RIWAYAT, []);
     return Array.isArray(riwayat)
-        ? riwayat.filter((e) => e && Number.isFinite(e.waktu) && Array.isArray(e.penyakit) && Array.isArray(e.terdeteksi) && Array.isArray(e.jawaban))
+        ? riwayat.filter((e) => e && Number.isFinite(e.waktu) && Array.isArray(e.penyakit) && Array.isArray(e.belumCukup) && Array.isArray(e.jawaban))
         : [];
 }
 
@@ -185,7 +231,7 @@ export function catatHasil(sesi, kesimpulan) {
         metode: sesi.metode,
         target: sesi.target,
         penyakit: kesimpulan.penyakit,
-        terdeteksi: kesimpulan.terdeteksi,
+        belumCukup: kesimpulan.belumCukup,
         durasi: kesimpulan.durasi,
         jawaban: daftarJawaban(sesi)
     };

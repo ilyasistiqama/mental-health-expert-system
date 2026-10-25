@@ -57,26 +57,52 @@ src/
   views/                 satu file per halaman
 ```
 
+## Rujukan klinis
+
+Basis pengetahuan disusun dari kriteria **DSM-5-TR** (APA, 2022), **ICD-11** (WHO, versi 2026-01),
+dan **PPDGJ-III** (pedoman yang masih dipakai klinisi di Indonesia). Hingga 2026 belum ada edisi DSM
+baru; APA baru merilis rencana revisinya (roadmap Januari 2026).
+
+| Kode | Gangguan | Kategori DSM-5-TR | Durasi minimal |
+|------|----------|-------------------|----------------|
+| P1 | Gangguan Panik | Gangguan Kecemasan | 1 bulan |
+| P2 | Gangguan Kecemasan Menyeluruh | Gangguan Kecemasan | 6 bulan |
+| P3 | Fobia Spesifik | Gangguan Kecemasan | 6 bulan |
+| P4 | Gangguan Obsesif-Kompulsif | Obsesif-Kompulsif dan Terkait | 2 minggu (PPDGJ-III F42) |
+| P5 | Gangguan Stres Pascatrauma (PTSD) | Terkait Trauma dan Stresor | 1 bulan |
+| P6 | Gangguan Kecemasan Sosial | Gangguan Kecemasan | 6 bulan |
+| P7 | Agorafobia | Gangguan Kecemasan | 6 bulan |
+| P8 | Gangguan Kecemasan Perpisahan | Gangguan Kecemasan | 6 bulan (dewasa) |
+
+Pertanyaan merupakan penyederhanaan kriteria untuk skrining mandiri. Pada kriteria yang beberapa
+gejalanya digabung (misalnya "berkeringat atau gemetar"), batas minimalnya dipilih sehingga tetap
+memenuhi batas minimal DSM-5-TR. Isi basis pengetahuan sebaiknya divalidasi oleh pakar (psikolog/psikiater).
+
 ## Metode inferensi
 
-Basis pengetahuan berbentuk **aturan produksi**:
+Setiap gangguan adalah **aturan produksi** yang terdiri dari beberapa kriteria. Sebuah kriteria
+terpenuhi jika minimal sejumlah gejalanya dijawab *Ya*:
 
 ```
-IF G02 AND G03 AND G04 AND G05 AND G06 THEN P2 (Gangguan Kecemasan Menyeluruh)
+IF  G02                                   (khawatir berlebihan)
+AND G18                                   (sulit dikendalikan)
+AND minimal 3 dari G19, G20, G21, G22, G23, G24
+AND G49                                   (mengganggu kehidupan sehari-hari)
+THEN P2 Gangguan Kecemasan Menyeluruh
 ```
 
-Setelah semua gejala sebuah aturan terpenuhi, sistem menanyakan apakah gejala sudah dialami
-**2 minggu atau lebih**. Jawaban ini menjadi akhir diagnosa: *Ya* berarti penyakit disimpulkan,
-*Tidak* berarti belum dapat disimpulkan.
+Setelah semua kriteria sebuah gangguan terpenuhi, sistem menanyakan **sudah berapa lama** keluhan
+dialami. Durasi menjadi akhir diagnosa: jika mencapai `durasiMinimal` gangguan tersebut, gangguan
+disimpulkan; jika belum, hasilnya "belum dapat disimpulkan".
 
-- **Forward chaining** (data-driven): sistem mengumpulkan fakta gejala dari pengguna lalu
-  menjalankan semua aturan yang premisnya terpenuhi, sehingga bisa menghasilkan lebih dari satu
-  penyakit. Gejala yang hanya dimiliki aturan yang sudah gugur (ada premis dijawab *Tidak*) tidak
-  ditanyakan lagi; hasilnya tetap sama dengan menanyakan semua gejala, hanya lebih singkat.
-- **Backward chaining** (goal-driven): pengguna memilih satu penyakit sebagai hipotesis, lalu sistem
-  membuktikan premisnya satu per satu dan berhenti begitu satu premis tidak terpenuhi.
+- **Forward chaining** (data-driven): sistem mengumpulkan fakta gejala lalu menjalankan semua aturan
+  yang terpenuhi, sehingga bisa menghasilkan lebih dari satu gangguan. Gejala yang tidak bisa lagi
+  mengubah hasil (aturannya sudah gugur atau kriterianya sudah terpenuhi) tidak ditanyakan; kesimpulannya
+  tetap sama dengan menanyakan semua gejala, hanya lebih singkat.
+- **Backward chaining** (goal-driven): pengguna memilih satu gangguan sebagai hipotesis, lalu sistem
+  membuktikan kriterianya satu per satu dan berhenti begitu satu kriteria tidak mungkin terpenuhi.
 
-## Menambah atau mengubah penyakit dan gejala
+## Menambah atau mengubah gangguan dan gejala
 
 Cukup edit file JSON di `public/data/` (atau `data/` di folder hasil build/hosting).
 **Tidak perlu build ulang**, cukup refresh browser.
@@ -84,26 +110,38 @@ Cukup edit file JSON di `public/data/` (atau `data/` di folder hasil build/hosti
 1. Tambahkan gejala baru di `gejala.json`:
 
    ```json
-   { "kode": "G12", "nama": "Jantung berdebar", "pertanyaan": "Apakah jantung anda sering berdebar tanpa sebab?" }
+   { "kode": "G50", "nama": "Jantung berdebar", "pertanyaan": "Apakah jantung anda sering berdebar tanpa sebab?" }
    ```
 
-2. Tambahkan penyakit baru di `penyakit.json`, isi `gejala` dengan kode-kode gejalanya (aturannya):
+2. Tambahkan gangguan baru di `penyakit.json`:
 
    ```json
    {
-       "kode": "P6",
+       "kode": "P9",
        "nama": "Nama Gangguan",
+       "kategori": "Gangguan Kecemasan",
        "deskripsi": "Penjelasan singkat.",
-       "gejala": ["G12", "G05"],
-       "pengobatan": ["Saran penanganan 1.", "Saran penanganan 2."]
+       "kriteria": [
+           { "gejala": ["G50"] },
+           { "gejala": ["G19", "G20", "G24"], "minimal": 2 },
+           { "gejala": ["G49"] }
+       ],
+       "durasiMinimal": 30,
+       "catatanDurasi": "Opsional, ditampilkan jika durasi belum terpenuhi.",
+       "pengobatan": ["Saran penanganan 1.", "Saran penanganan 2."],
+       "rujukan": "DSM-5-TR: ... · ICD-11: ... · PPDGJ-III: ..."
    }
    ```
 
 Catatan:
-- Kode harus unik. Satu gejala boleh dipakai oleh beberapa penyakit.
-- Gejala ditanyakan sesuai urutan di `gejala.json`.
-- `P0` wajib ada: isinya ditampilkan jika tidak ada penyakit yang terdeteksi (biarkan `gejala` kosong).
-- Jika ada kode gejala yang salah ketik, peringatannya muncul di console browser (F12).
+- `minimal` boleh dihapus, artinya semua gejala pada kriteria itu wajib *Ya*.
+- `durasiMinimal` dalam hari dan sebaiknya salah satu dari `0`, `14`, `30`, atau `180`, sesuai
+  pilihan jawaban durasi (kurang dari 2 minggu, 2 minggu–1 bulan, 1–6 bulan, 6 bulan atau lebih).
+  Jika pakar menghendaki batas 2 minggu untuk semua gangguan, ubah semuanya menjadi `14`.
+- Gejala ditanyakan sesuai urutan di `gejala.json`, jadi letakkan pertanyaan penyaring di awal.
+- Kode harus unik. Satu gejala boleh dipakai oleh beberapa gangguan (misalnya G49 dipakai semua).
+- `P0` wajib ada: isinya ditampilkan jika tidak ada gangguan yang terdeteksi (biarkan `kriteria` kosong).
+- Kesalahan data (kode gejala salah ketik, durasi tidak valid) muncul sebagai peringatan di console browser (F12).
 
 ## Data yang disimpan di browser
 

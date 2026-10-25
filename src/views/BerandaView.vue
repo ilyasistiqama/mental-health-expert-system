@@ -18,7 +18,7 @@ import { daftarPenyakit } from "@/lib/sistemPakar";
             </div>
             <div class="card hero-demo" aria-hidden="true">
                 <span class="demo-step">Pertanyaan ke-2</span>
-                <h3>Ketika anda merasa cemas, apakah anda sering merasakan tegang berlebih?</h3>
+                <h3>Apakah anda merasa khawatir secara berlebihan tentang banyak hal sehari-hari hampir setiap hari?</h3>
                 <div class="demo-actions">
                     <span class="demo-pill ya">Ya</span>
                     <span class="demo-pill tidak">Tidak</span>
@@ -44,7 +44,7 @@ import { daftarPenyakit } from "@/lib/sistemPakar";
                 </div>
                 <div class="card step">
                     <h3>Lihat hasil & saran</h3>
-                    <p>Dapatkan gambaran kecenderungan dan saran penanganan. Riwayat tersimpan di perangkat anda.</p>
+                    <p>Sistem menanyakan berapa lama keluhan dialami, lalu memberi gambaran kecenderungan dan saran penanganan.</p>
                 </div>
             </div>
         </div>
@@ -54,8 +54,8 @@ import { daftarPenyakit } from "@/lib/sistemPakar";
         <div class="container">
             <div class="section-head">
                 <span class="eyebrow">Basis pengetahuan</span>
-                <h2>Lima jenis gangguan kecemasan</h2>
-                <p>Sistem ini dapat mengenali kecenderungan dari lima jenis gangguan kecemasan berikut.</p>
+                <h2>{{ daftarPenyakit().length }} gangguan yang dapat dikenali</h2>
+                <p>Aturan setiap gangguan disusun berdasarkan kriteria DSM-5-TR, ICD-11, dan PPDGJ-III, termasuk durasi minimal keluhan.</p>
             </div>
             <div class="grid">
                 <KartuPenyakit v-for="id in daftarPenyakit()" :key="id" :id="id" />

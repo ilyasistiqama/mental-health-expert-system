@@ -21,6 +21,7 @@ import { daftarPenyakit } from "@/lib/sistemPakar";
         <div class="container">
             <div class="section-head">
                 <h2>Tipe-tipe gangguan kecemasan</h2>
+                <p>Menurut DSM-5-TR (2022) dan ICD-11, kelompok gangguan kecemasan meliputi gangguan panik, gangguan kecemasan menyeluruh, fobia spesifik, gangguan kecemasan sosial, agorafobia, dan gangguan kecemasan perpisahan. Gangguan obsesif-kompulsif dan gangguan stres pascatrauma kini dikelompokkan tersendiri, tetapi tetap dibahas karena kecemasan menjadi ciri utamanya dan dalam PPDGJ-III masih berada pada kelompok yang sama (F40–F48).</p>
             </div>
             <div class="grid">
                 <KartuPenyakit v-for="id in daftarPenyakit()" :key="id" :id="id" />
