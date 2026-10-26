@@ -19,15 +19,16 @@ const langkah = [
         <div class="container-page grid items-center gap-10 lg:grid-cols-[1.15fr_.85fr]">
             <div>
                 <span class="eyebrow">Sistem Pakar · Psikologi</span>
-                <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl xl:text-6xl">Kenali kecenderungan gangguan kecemasan anda</h1>
+                <h1 class="mb-4 text-4xl font-extrabold sm:text-5xl xl:text-6xl">Kenali kecenderungan gangguan kecemasan, depresi, insomnia, dan penyesuaian anda</h1>
                 <p class="mb-7 max-w-xl text-lg text-muted">
-                    Gangguan kecemasan adalah gangguan mental yang paling umum di dunia, dialami sekitar 470 juta orang pada 2023,
-                    namun hanya sekitar 1 dari 4 yang mendapat penanganan.<Rujukan :ids="['who-anxiety-2026']" />
+                    Kecemasan dan depresi adalah gangguan mental yang paling umum di dunia. Sekitar 470 juta orang hidup dengan gangguan
+                    kecemasan<Rujukan :ids="['who-anxiety-2026']" /> dan sekitar 322 juta orang dengan depresi,<Rujukan :ids="['who-depression-2026']" />
+                    namun sebagian besar belum mendapat penanganan.
                     Jawab beberapa pertanyaan untuk mengenali kecenderungan anda.
                 </p>
                 <div class="flex flex-wrap gap-3">
                     <RouterLink class="btn btn-primary flex-1 px-7 py-4 text-[1.05rem] sm:flex-none" to="/konsultasi">Mulai Konsultasi</RouterLink>
-                    <RouterLink class="btn btn-ghost flex-1 px-7 py-4 text-[1.05rem] sm:flex-none" to="/artikel">Pelajari Kecemasan</RouterLink>
+                    <RouterLink class="btn btn-ghost flex-1 px-7 py-4 text-[1.05rem] sm:flex-none" to="/artikel">Pelajari Lebih Lanjut</RouterLink>
                 </div>
             </div>
             <div class="card rotate-0 p-7 lg:rotate-[1.5deg]" aria-hidden="true">

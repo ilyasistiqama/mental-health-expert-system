@@ -17,12 +17,12 @@
     {
         "kode": "G04",
         "nama": "Obsesi (pikiran berulang yang tidak diinginkan)",
-        "pertanyaan": "Apakah sering muncul pikiran, bayangan, atau dorongan yang tidak anda inginkan secara berulang (misalnya takut kotor, takut mencelakai orang lain, atau keharusan segala sesuatu simetris) dan anda berusaha keras mengabaikan atau menekannya?"
+        "pertanyaan": "Apakah sering muncul pikiran, bayangan, atau dorongan yang tidak anda inginkan secara berulang dan membuat anda sangat cemas atau tidak nyaman (misalnya takut terkena kotoran atau kuman, takut mencelakai orang lain, atau keharusan segala sesuatu simetris), lalu anda berusaha keras mengabaikan, menekan, atau menetralkannya?"
     },
     {
         "kode": "G05",
         "nama": "Kompulsi (tindakan berulang)",
-        "pertanyaan": "Apakah anda merasa terdorong melakukan tindakan atau ritual berulang, misalnya berkali-kali memeriksa pintu atau kompor, mencuci tangan, menghitung, atau merapikan barang, untuk meredakan rasa cemas?"
+        "pertanyaan": "Apakah anda merasa terdorong untuk berulang kali melakukan suatu tindakan atau ritual secara berlebihan dan sulit ditahan, misalnya memeriksa pintu atau kompor, mencuci tangan, merapikan barang sampai terasa pas, atau menghitung dan mengulang kata dalam hati, untuk meredakan cemas atau mencegah sesuatu yang buruk terjadi?"
     },
     {
         "kode": "G06",
@@ -42,7 +42,7 @@
     {
         "kode": "G09",
         "nama": "Cemas berlebihan terhadap perpisahan",
-        "pertanyaan": "Apakah anda merasa takut atau cemas secara berlebihan dan tidak wajar jika harus berpisah dari orang yang sangat dekat dengan anda, seperti orang tua, pasangan, atau anak?"
+        "pertanyaan": "Apakah anda merasa takut atau cemas jika harus berpisah dari orang yang sangat dekat dengan anda, seperti orang tua, pasangan, atau anak, jauh melebihi yang biasanya dirasakan orang seusia anda?"
     },
     {
         "kode": "G10",
@@ -77,7 +77,7 @@
     {
         "kode": "G16",
         "nama": "Takut kehilangan kendali atau mati",
-        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah anda takut kehilangan kendali, menjadi gila, atau akan mati?"
+        "pertanyaan": "Saat mengalami serangan panik (rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba), apakah anda takut kehilangan kendali, kehilangan akal sehat, atau akan mati?"
     },
     {
         "kode": "G17",
@@ -116,8 +116,8 @@
     },
     {
         "kode": "G24",
-        "nama": "Gangguan tidur",
-        "pertanyaan": "Apakah anda sulit tidur, sering terbangun di malam hari, atau tidur terasa tidak nyenyak?"
+        "nama": "Tidur gelisah atau tidak nyenyak",
+        "pertanyaan": "Apakah tidur anda sering terasa gelisah atau tidak nyenyak, sehingga anda bangun dalam keadaan tidak segar?"
     },
     {
         "kode": "G25",
@@ -147,12 +147,12 @@
     {
         "kode": "G30",
         "nama": "Perasaan negatif yang menetap",
-        "pertanyaan": "Sejak mengalami peristiwa traumatis, apakah anda terus merasakan perasaan negatif seperti takut, marah, bersalah, atau malu, atau terus menyalahkan diri sendiri maupun orang lain?"
+        "pertanyaan": "Jika anda pernah mengalami peristiwa traumatis, apakah sejak saat itu anda terus merasakan perasaan negatif seperti takut, marah, bersalah, atau malu, atau terus menyalahkan diri sendiri maupun orang lain?"
     },
     {
         "kode": "G31",
         "nama": "Merasa terasing atau mati rasa",
-        "pertanyaan": "Sejak mengalami peristiwa traumatis, apakah anda merasa terasing dari orang lain atau sulit merasakan emosi positif seperti senang dan sayang?"
+        "pertanyaan": "Jika anda pernah mengalami peristiwa traumatis, apakah sejak saat itu anda merasa terasing dari orang lain atau sulit merasakan emosi positif seperti senang dan sayang?"
     },
     {
         "kode": "G32",
@@ -244,5 +244,116 @@
         "nama": "Mengganggu kehidupan sehari-hari",
         "pertanyaan": "Apakah keluhan-keluhan yang anda rasakan membuat anda sangat tertekan, atau mengganggu pekerjaan, sekolah, maupun hubungan sosial anda?",
         "akhir": true
+    },
+    {
+        "kode": "G50",
+        "nama": "Sedih, hampa, atau putus asa hampir setiap hari",
+        "pertanyaan": "Belakangan ini, apakah anda merasa sedih, murung, hampa, atau putus asa hampir sepanjang hari dan hampir setiap hari?"
+    },
+    {
+        "kode": "G51",
+        "nama": "Kehilangan minat atau kesenangan",
+        "pertanyaan": "Belakangan ini, apakah anda kehilangan minat atau tidak lagi merasa senang melakukan hampir semua kegiatan, termasuk hal-hal yang biasanya anda sukai, hampir setiap hari?"
+    },
+    {
+        "kode": "G52",
+        "nama": "Perubahan nafsu makan atau berat badan",
+        "pertanyaan": "Belakangan ini, apakah nafsu makan anda jauh berkurang atau justru jauh bertambah hampir setiap hari, atau berat badan anda turun atau naik cukup banyak padahal tidak sedang diet?"
+    },
+    {
+        "kode": "G53",
+        "nama": "Tidur berlebihan",
+        "pertanyaan": "Belakangan ini, apakah hampir setiap hari anda tidur jauh lebih lama dari biasanya?"
+    },
+    {
+        "kode": "G54",
+        "nama": "Gerak atau bicara melambat, atau sangat gelisah",
+        "pertanyaan": "Belakangan ini, apakah gerakan atau cara bicara anda menjadi jauh lebih lambat, atau sebaliknya anda sangat gelisah dan sulit diam, sampai orang lain bisa melihat perubahannya?"
+    },
+    {
+        "kode": "G55",
+        "nama": "Kehilangan tenaga atau sangat lelah",
+        "pertanyaan": "Belakangan ini, apakah anda merasa sangat lelah atau kehabisan tenaga hampir setiap hari, bahkan untuk kegiatan ringan?"
+    },
+    {
+        "kode": "G56",
+        "nama": "Merasa tidak berharga atau bersalah berlebihan",
+        "pertanyaan": "Belakangan ini, apakah hampir setiap hari anda merasa tidak berharga, merasa gagal, atau terus menyalahkan diri sendiri secara berlebihan?"
+    },
+    {
+        "kode": "G57",
+        "nama": "Sulit berkonsentrasi atau mengambil keputusan",
+        "pertanyaan": "Belakangan ini, apakah hampir setiap hari anda sulit berkonsentrasi, misalnya saat membaca atau menonton, atau sulit mengambil keputusan?"
+    },
+    {
+        "kode": "G58",
+        "nama": "Pikiran tentang kematian atau menyakiti diri",
+        "pertanyaan": "Belakangan ini, apakah anda berulang kali berpikir tentang kematian, merasa lebih baik mati, atau terpikir untuk menyakiti diri sendiri atau mengakhiri hidup?",
+        "krisis": true
+    },
+    {
+        "kode": "G59",
+        "nama": "Obsesi atau kompulsi menyita waktu",
+        "pertanyaan": "Apakah pikiran berulang yang tidak anda inginkan, atau tindakan berulang yang anda rasa harus dilakukan, menyita lebih dari 1 jam setiap hari?"
+    },
+    {
+        "kode": "G60",
+        "nama": "Sulit memulai tidur",
+        "pertanyaan": "Apakah anda sering sulit memulai tidur, yaitu butuh waktu lama untuk bisa tertidur walaupun sudah berbaring di tempat tidur?"
+    },
+    {
+        "kode": "G61",
+        "nama": "Sering terbangun dan sulit tidur kembali",
+        "pertanyaan": "Apakah anda sering terbangun di tengah malam lalu sulit tidur kembali?"
+    },
+    {
+        "kode": "G62",
+        "nama": "Bangun terlalu pagi",
+        "pertanyaan": "Apakah anda sering bangun jauh lebih pagi dari yang anda inginkan lalu tidak bisa tidur lagi?"
+    },
+    {
+        "kode": "G63",
+        "nama": "Sulit tidur minimal 3 malam seminggu",
+        "pertanyaan": "Apakah kesulitan tidur (sulit tertidur, sering terbangun, atau bangun terlalu pagi) anda alami setidaknya 3 malam dalam seminggu?"
+    },
+    {
+        "kode": "G64",
+        "nama": "Tetap sulit tidur walau ada kesempatan",
+        "pertanyaan": "Apakah anda tetap sulit tidur walaupun sebenarnya punya cukup waktu dan suasana yang mendukung untuk tidur, bukan karena begadang, kerja malam, atau lingkungan yang bising?"
+    },
+    {
+        "kode": "G65",
+        "nama": "Keluhan muncul setelah peristiwa berat",
+        "pertanyaan": "Apakah keluhan anda (misalnya sedih, cemas, atau tertekan) mulai muncul dalam 3 bulan setelah anda mengalami peristiwa atau perubahan hidup yang berat, seperti putus hubungan, perceraian, kehilangan pekerjaan, masalah keuangan, pindah tempat tinggal, sakit, atau konflik di rumah, sekolah, maupun tempat kerja?"
+    },
+    {
+        "kode": "G66",
+        "nama": "Terus memikirkan peristiwa berat",
+        "pertanyaan": "Apakah anda terus-menerus memikirkan, mengkhawatirkan, atau merenungkan suatu peristiwa berat yang anda alami beserta akibatnya, sampai sulit lepas dari pikiran tersebut?"
+    },
+    {
+        "kode": "G67",
+        "nama": "Tertekan melebihi wajarnya",
+        "pertanyaan": "Apakah tekanan perasaan akibat suatu peristiwa berat yang anda alami terasa jauh lebih besar dari yang biasanya dirasakan orang lain dalam situasi yang sama?"
+    },
+    {
+        "kode": "G68",
+        "nama": "Gangguan tidur",
+        "dari": [
+            "G60",
+            "G61",
+            "G62",
+            "G24"
+        ]
+    },
+    {
+        "kode": "G69",
+        "nama": "Sulit tidur atau tidur berlebihan",
+        "dari": [
+            "G60",
+            "G61",
+            "G62",
+            "G53"
+        ]
     }
 ]

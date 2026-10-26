@@ -1,6 +1,7 @@
-# Sistem Pakar Gangguan Kecemasan
+# Sistem Pakar Gangguan Kecemasan, Depresi, Insomnia, dan Penyesuaian
 
-Sistem pakar berbasis web untuk mengenali kecenderungan gangguan kecemasan dengan metode
+Sistem pakar berbasis web untuk mengenali kecenderungan gangguan kecemasan, gangguan obsesif-kompulsif,
+PTSD, depresi, insomnia, dan gangguan penyesuaian dengan metode
 **Forward Chaining** dan **Backward Chaining**. Dibuat dengan [Vue 3](https://vuejs.org),
 [Vite](https://vite.dev), dan [Tailwind CSS 4](https://tailwindcss.com).
 
@@ -29,6 +30,53 @@ Tidak memakai database dan tidak perlu login. Untuk pengguna, kedua metode diber
   (dilewati jika melanjutkan konsultasi).
 - Halaman **Tentang & batasan** (`/tentang`) menjelaskan tujuan, batasan (bukan diagnosis, gangguan yang
   diperiksa, bukan untuk keadaan darurat, pengguna di bawah 18 tahun didampingi), dan perlakuan data.
+
+## Protokol krisis
+
+Gejala bertanda `"krisis": true` di `gejala.json` (saat ini G58, pikiran tentang kematian atau menyakiti diri)
+diperlakukan khusus:
+
+- **Selalu ditanyakan** pada sesi yang aturannya memuat gejala tersebut (Cek Menyeluruh dan cek depresi),
+  walaupun jawaban lain sudah cukup untuk menentukan hasil. Menanyakannya tidak meningkatkan risiko
+  (Dazzi dkk., 2014).
+- Jika dijawab *Ya*, **kontak bantuan langsung tampil** sebelum pertanyaan berikutnya
+  (`src/components/PanelKrisis.vue`), lalu diletakkan **paling atas** di halaman hasil dan PDF, apa pun hasilnya.
+- Kalimatnya ada di `src/lib/pesanDukungan.js` dan mengikuti pedoman WHO tentang pesan pencegahan bunuh diri:
+  menenangkan, memberi harapan, tanpa menyebut cara apa pun. Kontak yang dipakai: IGD / 112 / 119 dan
+  Healing119 (119 ext 8, gratis 24 jam, atau chat lewat healing119.id), sesuai FAQ resmi Kemenkes.
+
+## Pengguna di bawah 18 tahun dan perangkat bersama
+
+- Sebelum pertanyaan pertama, pengguna memilih usia. Pengguna di bawah 18 tahun mendapat pesan khusus (isi
+  bersama orang tua/wali/guru BK, kriteria disusun untuk dewasa, 119 ext 8 juga melayani remaja). Pesan yang sama
+  tampil di hasil dan PDF. Teksnya ada di `src/lib/pesanDukungan.js` (`ISI_REMAJA`).
+- Tombol **Hapus jawaban saya** menghapus progres dari perangkat dan keluar dari konsultasi, untuk perangkat yang
+  dipakai bersama. Daftar jawaban selama konsultasi tertutup secara bawaan agar tidak langsung terlihat orang lain.
+- Judul hasil ditulis sebagai kesesuaian gejala dengan kriteria ("Gejala yang anda laporkan sesuai dengan kriteria ..."),
+  bukan "anda mengalami ...", agar tidak terbaca sebagai vonis.
+
+## Status validasi
+
+Pertanyaan dan aturan disusun oleh pengembang dari DSM-5-TR, ICD-11, PPDGJ-III, dan pedoman klinis, dan **belum
+divalidasi oleh psikolog klinis atau psikiater**. Status ini dinyatakan terbuka di halaman Tentang dan Sumber.
+Sebelum dirilis ke publik:
+
+1. Minta psikolog klinis/psikiater mereview seluruh `gejala.json` dan `penyakit.json`, lalu cantumkan namanya
+   sebagai pakar dan hapus pernyataan "belum divalidasi".
+2. Jika sistem diujicobakan ke responden (misalnya untuk penelitian), siapkan informed consent, ajukan ethical
+   clearance ke komisi etik penelitian kampus, dan tetapkan siapa yang dihubungi jika responden menjawab *Ya* pada
+   pertanyaan krisis (G58).
+
+## Pemeliharaan berkala
+
+Periksa ulang minimal setiap semester, lalu perbarui `KONTAK_DIPERIKSA` di `src/lib/pesanDukungan.js` dan tanggal
+`diakses` di `public/data/sumber.json`:
+
+- [ ] Nomor dan cara akses Healing119 (119 ext 8, chat WhatsApp di healing119.id) masih berlaku.
+- [ ] Nomor gawat darurat 112 dan 119 masih berlaku.
+- [ ] Ada edisi baru DSM, pembaruan ICD-11, atau pengganti PPDGJ-III.
+- [ ] Ada pembaruan pedoman NICE (NG222, CG31 yang sedang diperbarui, dll.), fact sheet WHO, atau pedoman insomnia.
+- [ ] Semua tautan di halaman Sumber masih dapat dibuka.
 
 ## Disclaimer dan pesan dukungan
 
@@ -158,6 +206,26 @@ baru; APA baru merilis rencana revisinya (roadmap Januari 2026).
 | P6 | Gangguan Kecemasan Sosial | Gangguan Kecemasan | 6 bulan |
 | P7 | Agorafobia | Gangguan Kecemasan | 6 bulan |
 | P8 | Gangguan Kecemasan Perpisahan | Gangguan Kecemasan | 6 bulan (dewasa) |
+| P9 | Gangguan Depresi Mayor | Gangguan Depresi | 2 minggu |
+| P10 | Gangguan Insomnia | Gangguan Tidur-Bangun | 3 bulan |
+| P11 | Gangguan Penyesuaian | Terkait Trauma dan Stresor | - (residual) |
+
+Aturan depresi (P9) mengikuti kriteria A DSM-5-TR: minimal 5 dari 9 gejala, salah satunya wajib suasana hati
+sedih/hampa (G50) atau hilangnya minat (G51), hampir setiap hari selama minimal 2 minggu, dan mengganggu kehidupan
+sehari-hari. Sembilan gejala ini juga menjadi dasar PHQ-9 (Kroenke dkk., 2001). Sistem tidak dapat menyingkirkan
+gangguan bipolar maupun penyebab fisik, sehingga hasil P9 menampilkan `catatan` agar hal tersebut disampaikan ke profesional.
+
+Aturan OCD (P4) mengikuti kriteria A dan B DSM-5-TR: obsesi dan/atau kompulsi, yang menyita lebih dari 1 jam sehari
+(G59) **atau** menimbulkan tekanan/gangguan fungsi (G49).
+
+Aturan insomnia (P10) mengikuti DSM-5-TR dan ICD-11 (7A00): sulit memulai tidur, sering terbangun, atau bangun
+terlalu pagi, minimal 3 malam seminggu, walaupun ada kesempatan tidur, mengganggu, dan berlangsung minimal 3 bulan.
+
+Aturan gangguan penyesuaian (P11) mengikuti DSM-5-TR dan ICD-11 (6B43): keluhan muncul dalam 3 bulan setelah peristiwa
+berat, terus memikirkan peristiwa tersebut, dan tertekan melebihi wajarnya **atau** kehidupan terganggu. Gangguan ini
+bertanda `"residual": true`: pada Cek Menyeluruh hanya disimpulkan jika tidak ada gangguan lain yang disimpulkan,
+sesuai kriteria C DSM-5-TR. Pada Cek Gangguan Tertentu hanya P11 yang diperiksa, sehingga catatannya mengingatkan
+bahwa profesional akan memastikan keluhan tidak lebih tepat dijelaskan oleh gangguan lain.
 
 Pertanyaan merupakan penyederhanaan kriteria untuk skrining mandiri. Pada kriteria yang beberapa
 gejalanya digabung (misalnya "berkeringat atau gemetar"), batas minimalnya dipilih sehingga tetap
@@ -199,6 +267,21 @@ disimpulkan; jika belum, hasilnya "belum dapat disimpulkan".
 Karena urutannya acak, setiap pertanyaan ditulis agar bisa berdiri sendiri (tidak merujuk ke
 pertanyaan sebelumnya seperti "serangan tersebut").
 
+### Fakta antara
+
+Gejala bertanda `"dari"` tidak ditanyakan, melainkan disimpulkan dari gejala asalnya: *Ya* jika salah satu
+gejala asal dijawab *Ya*, *Tidak* jika semuanya dijawab *Tidak*. Dengan begitu pertanyaan tidur cukup
+ditanyakan sekali walaupun dipakai beberapa aturan:
+
+```
+IF G60 OR G61 OR G62 OR G24 THEN G68 (gangguan tidur)                   dipakai P2 dan P5
+IF G60 OR G61 OR G62 OR G53 THEN G69 (sulit tidur atau tidur berlebihan)  dipakai P9
+```
+
+G60–G62 (sulit memulai tidur, sering terbangun, bangun terlalu pagi) juga menjadi kriteria P10 Insomnia,
+G24 (tidur gelisah/tidak nyenyak) melengkapi kriteria gangguan tidur pada kecemasan, dan G53 (tidur berlebihan)
+melengkapi kriteria depresi. Fakta antara dihitung sebagai satu gejala pada batas `minimal`.
+
 ## Menambah atau mengubah gangguan dan gejala
 
 Cukup edit file JSON di `public/data/` (atau `data/` di folder hasil build/hosting).
@@ -232,12 +315,18 @@ Cukup edit file JSON di `public/data/` (atau `data/` di folder hasil build/hosti
 
 Catatan:
 - `minimal` boleh dihapus, artinya semua gejala pada kriteria itu wajib *Ya*.
-- `durasiMinimal` dalam hari dan sebaiknya salah satu dari `0`, `14`, `30`, atau `180`, sesuai
-  pilihan jawaban durasi (kurang dari 2 minggu, 2 minggu–1 bulan, 1–6 bulan, 6 bulan atau lebih).
+- `durasiMinimal` dalam hari dan sebaiknya salah satu dari `0`, `14`, `30`, `90`, atau `180`, sesuai
+  pilihan jawaban durasi (kurang dari 2 minggu, 2 minggu–1 bulan, 1–3 bulan, 3–6 bulan, 6 bulan atau lebih).
+  `0` berarti tidak ada durasi minimal, dan pertanyaan durasi tidak ditanyakan.
   Jika pakar menghendaki batas 2 minggu untuk semua gangguan, ubah semuanya menjadi `14`.
 - Tulis setiap pertanyaan agar bisa berdiri sendiri, karena urutan tanya diacak.
 - Tambahkan `"akhir": true` pada gejala yang harus selalu ditanyakan paling akhir (seperti G49).
 - Kode harus unik. Satu gejala boleh dipakai oleh beberapa gangguan (misalnya G49 dipakai semua).
+- `"catatan"` (opsional) pada gangguan ditampilkan di hasil dan PDF, misalnya hal yang harus disampaikan ke profesional.
+- Fakta antara ditulis tanpa `pertanyaan`, misalnya `{ "kode": "G68", "nama": "Gangguan tidur", "dari": ["G60", "G61"] }`.
+  Gejala asalnya harus gejala biasa (bukan fakta antara lain).
+- Tambahkan `"residual": true` pada gangguan yang hanya boleh disimpulkan jika tidak ada gangguan lain (seperti P11).
+- Tambahkan `"krisis": true` pada gejala yang jika dijawab *Ya* harus langsung memunculkan kontak bantuan (lihat Protokol krisis).
 - `P0` wajib ada: isinya ditampilkan jika tidak ada gangguan yang terdeteksi (biarkan `kriteria` kosong).
 - Kesalahan data (kode gejala salah ketik, durasi tidak valid) muncul sebagai peringatan di console browser (F12).
 

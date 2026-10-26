@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import DialogKonfirmasi from "@/components/DialogKonfirmasi.vue";
+import { NAMA_SINGKAT, NAMA_SISTEM } from "@/lib/nama";
 import { adaVersiBaru, pakaiVersiBaru } from "@/lib/offline";
 
 const route = useRoute();
@@ -24,7 +25,7 @@ const daftarMenu = [
                     <rect class="fill-primary" width="32" height="32" rx="10" />
                     <path class="stroke-on-primary" d="M7 18c2.6-4.5 5.4-4.5 8 0s5.4 4.5 10-1.5" fill="none" stroke-width="2.6" stroke-linecap="round" />
                 </svg>
-                Sistem Pakar Kecemasan
+                {{ NAMA_SINGKAT }}
             </RouterLink>
             <nav class="-mx-1 flex w-full gap-1 overflow-x-auto md:mx-0 md:w-auto" aria-label="Menu utama">
                 <RouterLink
@@ -61,7 +62,7 @@ const daftarMenu = [
                 (<a href="https://www.healing119.id/" target="_blank" rel="noopener">healing119.id</a>) atau fasilitas kesehatan terdekat.
             </p>
             <p>
-                &copy; {{ tahun }} Sistem Pakar Gangguan Kecemasan · <RouterLink to="/tentang">Tentang & batasan</RouterLink> ·
+                &copy; {{ tahun }} {{ NAMA_SISTEM }} · <RouterLink to="/tentang">Tentang & batasan</RouterLink> ·
                 <RouterLink to="/sumber">Sumber & rujukan</RouterLink>
             </p>
         </div>

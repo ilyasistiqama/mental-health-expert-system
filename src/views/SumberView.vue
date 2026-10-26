@@ -28,8 +28,8 @@ import { DAFTAR_SUMBER } from "@/lib/sistemPakar";
         <div class="mt-8 rounded-2xl bg-warn-soft p-5 text-[.95rem]">
             <p>
                 <strong class="text-warn">Catatan:</strong> pertanyaan pada sistem ini merupakan penyederhanaan kriteria diagnosis untuk
-                keperluan skrining mandiri dan edukasi. Diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater melalui
-                pemeriksaan langsung.
+                keperluan skrining mandiri dan edukasi, dan belum divalidasi oleh psikolog klinis atau psikiater. Diagnosis hanya dapat
+                ditegakkan oleh psikolog klinis atau psikiater melalui pemeriksaan langsung.
             </p>
         </div>
     </div>

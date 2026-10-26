@@ -3,9 +3,11 @@ import { computed, onMounted, onUnmounted, ref } from "vue";
 import { onBeforeRouteLeave } from "vue-router";
 import CatatanPenting from "@/components/CatatanPenting.vue";
 import DaftarKriteria from "@/components/DaftarKriteria.vue";
+import PanelKrisis from "@/components/PanelKrisis.vue";
 import PesanDukungan from "@/components/PesanDukungan.vue";
 import Rujukan from "@/components/Rujukan.vue";
 import { konfirmasi } from "@/lib/dialog";
+import { ISI_REMAJA, JUDUL_REMAJA } from "@/lib/pesanDukungan";
 import { KODE_NORMAL, PENYAKIT, formatTanggal, hasilTerakhir, judulHasil, labelDurasi, namaMetode } from "@/lib/sistemPakar";
 
 // hasil hanya ada di memori halaman, tidak pernah disimpan
@@ -73,18 +75,21 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
         </div>
 
         <div v-else>
+            <!-- bantuan segera didahulukan dari hasil apa pun -->
+            <PanelKrisis v-if="entri.krisis" class="mb-5" />
+
             <section
                 class="mb-5 rounded-2xl border border-line bg-linear-to-br to-surface px-5 py-8 sm:px-8 sm:py-9"
                 :class="terdiagnosa.length ? 'from-accent-soft' : 'from-primary-soft'"
             >
                 <span class="eyebrow" :class="terdiagnosa.length ? 'text-accent' : ''">
-                    {{ terdiagnosa.length ? "Jawaban anda menunjukkan kecenderungan ke arah" : "Hasil pemeriksaan awal" }}
+                    Hasil pemeriksaan awal
                 </span>
-                <h1 class="mb-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl">{{ judulHasil(entri) }}</h1>
+                <h1 class="mb-3 text-2xl font-extrabold sm:text-3xl lg:text-4xl">{{ judulHasil(entri) }}</h1>
                 <p v-if="terdiagnosa.length" class="mb-3 max-w-3xl text-muted">
-                    Ini adalah kecenderungan berdasarkan jawaban anda, <strong class="text-ink">bukan diagnosis</strong>. Diagnosis hanya dapat ditegakkan
+                    Kesesuaian ini hanya berdasarkan jawaban anda dan <strong class="text-ink">bukan diagnosis</strong>. Diagnosis hanya dapat ditegakkan
                     oleh psikolog klinis atau psikiater setelah bertemu dan berbicara langsung dengan anda.
-                    <template v-if="terdiagnosa.length > 1">Beberapa gangguan kecemasan memang dapat muncul bersamaan; profesional akan menentukan diagnosis utamanya.</template>
+                    <template v-if="terdiagnosa.length > 1">Beberapa gangguan memang sering muncul bersamaan; profesional akan menentukan mana yang paling sesuai.</template>
                 </p>
                 <p v-else-if="entri.metode === 'backward' && belumCukup.length === 0" class="mb-3 max-w-3xl text-muted">
                     Tidak semua kriteria gangguan tersebut terpenuhi. Hasil ini tidak menjamin anda bebas dari gangguan tersebut; jika anda tetap
@@ -106,6 +111,13 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
             </section>
 
             <PesanDukungan class="mb-5" />
+
+            <section v-if="entri.remaja" class="mb-5 rounded-2xl bg-accent-soft px-5 py-5 sm:px-7" aria-labelledby="judul-remaja">
+                <h2 id="judul-remaja" class="mb-2 text-xl font-extrabold text-accent">{{ JUDUL_REMAJA }}</h2>
+                <p v-for="(p, i) in ISI_REMAJA" :key="i" class="mb-2 last:mb-0">
+                    {{ p }}<Rujukan v-if="i === ISI_REMAJA.length - 1" :ids="['healing119-faq']" />
+                </p>
+            </section>
 
             <div class="mb-5 flex items-start gap-3 rounded-2xl border border-line bg-surface px-5 py-4 text-[.95rem] print:hidden" role="note">
                 <svg class="mt-0.5 size-5 flex-none text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -135,6 +147,7 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
                         </div>
                         <h2 class="mb-2 text-2xl font-extrabold">{{ p.nama }}</h2>
                         <p class="mb-5 text-muted">{{ p.deskripsi }}</p>
+                        <p v-if="p.catatan" class="mb-5 rounded-xl bg-surface-2 px-4 py-3 text-[.95rem]">{{ p.catatan }}</p>
                         <h3 class="mb-2 font-bold">Penanganan yang umumnya dilakukan oleh profesional<Rujukan :ids="p.sumber.filter((s) => !['dsm5tr', 'icd11', 'ppdgj3'].includes(s))" /></h3>
                         <ol class="list-decimal space-y-3 pl-5">
                             <li v-for="(t, i) in p.pengobatan" :key="i">{{ t }}</li>

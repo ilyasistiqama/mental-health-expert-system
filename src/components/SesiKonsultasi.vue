@@ -1,11 +1,14 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import PanelKrisis from "@/components/PanelKrisis.vue";
 import {
     GEJALA, OPSI_DURASI, ambilSesi, batalkan, buatHasil, daftarJawaban, dengarPerubahanTabLain, hapusSesi,
     jawab, langkahBerikutnya, muatUlangSesi, sesiBaru, sesiSama, simpanSesi, teksDurasi
 } from "@/lib/sistemPakar";
 import { konfirmasi } from "@/lib/dialog";
+import { ISI_REMAJA, JUDUL_REMAJA } from "@/lib/pesanDukungan";
+import Rujukan from "@/components/Rujukan.vue";
 
 const props = defineProps({
     metode: { type: String, required: true },
@@ -26,9 +29,22 @@ const petunjuk = [
     "Jawablah dengan jujur sesuai yang benar-benar anda rasakan, bukan yang menurut anda seharusnya atau yang diharapkan orang lain. Tidak ada jawaban benar atau salah.",
     "Pikirkan apa yang biasanya anda alami belakangan ini, bukan hanya perasaan hari ini atau satu kejadian saja.",
     "Baca setiap pertanyaan dengan teliti. Jika ragu, pilih jawaban yang paling mendekati keadaan anda.",
+    "Beberapa pertanyaan menyangkut perasaan sedih, peristiwa yang menyakitkan, atau pikiran tentang menyakiti diri. Jika terasa berat, anda boleh berhenti kapan saja dan menghubungi layanan kesehatan jiwa 119 ext 8.",
     "Isilah di tempat yang tenang tanpa terburu-buru. Anda boleh berhenti kapan saja; jawaban tersimpan dan bisa dilanjutkan.",
-    "Jawaban hanya disimpan sementara di perangkat ini dan tidak dikirim ke mana pun."
+    "Jawaban disimpan sementara hanya di perangkat ini dan tidak dikirim ke mana pun. Jika perangkat ini dipakai bersama orang lain, tekan \"Hapus jawaban saya\" saat berhenti di tengah jalan."
 ];
+
+// pengguna di bawah 18 tahun mendapat pesan khusus sebelum pertanyaan pertama
+const tampilRemaja = ref(false);
+
+function mulai(usia) {
+    sesi.value = { ...sesi.value, usia };
+    if (usia === "remaja") tampilRemaja.value = true;
+    else siap.value = true;
+}
+// pesan bantuan tampil begitu pertanyaan krisis (pikiran menyakiti diri) dijawab Ya
+const tampilKrisis = ref(false);
+
 const langkah = computed(() => langkahBerikutnya(sesi.value));
 const progres = computed(() => (sesi.value.urutan.length / (sesi.value.urutan.length + (langkah.value.sisa ?? 0))) * 100);
 const jawaban = computed(() => daftarJawaban(sesi.value));
@@ -44,7 +60,10 @@ watch(langkah, (l) => {
 }, { immediate: true });
 
 function pilih(nilai) {
-    if (langkah.value.jenis !== "selesai") sesi.value = jawab(sesi.value, nilai);
+    if (langkah.value.jenis === "selesai") return;
+    const krisis = langkah.value.jenis === "gejala" && GEJALA[langkah.value.kode].krisis && nilai === true;
+    sesi.value = jawab(sesi.value, nilai);
+    if (krisis) tampilKrisis.value = true;
 }
 
 async function ulang() {
@@ -55,7 +74,22 @@ async function ulang() {
         tidak: "Lanjutkan menjawab",
         bahaya: true
     });
-    if (yakin) sesi.value = sesiBaru(props.metode, props.target);
+    if (yakin) sesi.value = { ...sesiBaru(props.metode, props.target), usia: sesi.value.usia };
+}
+
+// untuk perangkat yang dipakai bersama: jawaban dihapus dari perangkat lalu keluar dari konsultasi
+async function hapusDanKeluar() {
+    const yakin = await konfirmasi({
+        judul: "Hapus jawaban anda?",
+        pesan: "Semua jawaban yang sudah anda isi akan dihapus dari perangkat ini, sehingga tidak dapat dilihat orang lain yang memakai perangkat yang sama.",
+        ya: "Ya, hapus",
+        tidak: "Batal",
+        bahaya: true
+    });
+    if (!yakin) return;
+    sesi.value = sesiBaru(props.metode, props.target);
+    hapusSesi(props.metode);
+    router.push("/konsultasi");
 }
 
 // Tab yang lama tidak aktif (misalnya browser HP ditinggal ke aplikasi lain, atau ada tab kedua)
@@ -74,7 +108,7 @@ function onVisibility() {
 }
 
 function onKeydown(e) {
-    if (!siap.value || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!siap.value || tampilKrisis.value || tampilRemaja.value || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
     const key = e.key.toLowerCase();
     if (langkah.value.jenis === "gejala") {
         if (key === "y") pilih(true);
@@ -100,7 +134,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <section v-if="!siap && langkah.jenis !== 'selesai'" class="card px-5 py-7 sm:px-8 sm:py-9" aria-labelledby="judul-petunjuk">
+    <section v-if="!siap && !tampilRemaja && langkah.jenis !== 'selesai'" class="card px-5 py-7 sm:px-8 sm:py-9" aria-labelledby="judul-petunjuk">
         <h2 id="judul-petunjuk" class="mb-2 text-2xl font-extrabold">Sebelum mulai mengisi</h2>
         <p class="mb-4 text-muted">Agar hasilnya mendekati kondisi anda yang sebenarnya, perhatikan hal berikut:</p>
         <ol class="mb-5 space-y-3">
@@ -112,8 +146,22 @@ onUnmounted(() => {
         <p class="mb-6 rounded-xl bg-surface-2 px-4 py-3 text-[.95rem] text-muted">
             Sejujur apa pun jawaban anda, hasilnya tetap gambaran awal, bukan diagnosis.
         </p>
-        <button class="btn btn-primary w-full py-4 text-lg sm:w-auto sm:px-8" type="button" @click="siap = true">Saya mengerti, mulai</button>
+        <p class="mb-3 font-bold">Berapa usia anda?</p>
+        <div class="flex flex-wrap gap-3">
+            <button class="btn btn-primary flex-1 py-4 sm:flex-none sm:px-8" type="button" @click="mulai('dewasa')">18 tahun ke atas, mulai</button>
+            <button class="btn btn-ghost flex-1 py-4 sm:flex-none sm:px-8" type="button" @click="mulai('remaja')">Di bawah 18 tahun</button>
+        </div>
     </section>
+
+    <section v-else-if="tampilRemaja && langkah.jenis !== 'selesai'" class="card px-5 py-7 sm:px-8 sm:py-9" aria-labelledby="judul-remaja">
+        <h2 id="judul-remaja" class="mb-4 text-2xl font-extrabold">{{ JUDUL_REMAJA }}</h2>
+        <p v-for="(p, i) in ISI_REMAJA" :key="i" class="mb-3">
+            {{ p }}<Rujukan v-if="i === ISI_REMAJA.length - 1" :ids="['healing119-faq']" />
+        </p>
+        <button class="btn btn-primary mt-3 w-full py-4 text-lg sm:w-auto sm:px-8" type="button" @click="tampilRemaja = false; siap = true">Saya mengerti, mulai</button>
+    </section>
+
+    <PanelKrisis v-else-if="tampilKrisis && langkah.jenis !== 'selesai'" lanjut="Saya mengerti, lanjutkan pertanyaan" @lanjut="tampilKrisis = false" />
 
     <div v-else-if="langkah.jenis !== 'selesai'">
         <div class="card px-5 py-7 sm:px-8 sm:py-9" aria-live="polite">
@@ -153,19 +201,23 @@ onUnmounted(() => {
                     Pintasan: <kbd class="rounded-md border border-line bg-surface-2 px-1.5 text-xs font-bold">Y</kbd> Ya ·
                     <kbd class="rounded-md border border-line bg-surface-2 px-1.5 text-xs font-bold">T</kbd> Tidak
                 </span>
-                <button class="btn-text btn" type="button" @click="ulang">Mulai ulang</button>
+                <span class="flex gap-1">
+                    <button class="btn-text btn" type="button" @click="ulang">Mulai ulang</button>
+                    <button class="btn-text btn" type="button" @click="hapusDanKeluar">Hapus jawaban saya</button>
+                </span>
             </div>
         </div>
 
-        <section v-if="jawaban.length" class="pt-10">
-            <h3 class="mb-1 text-lg font-bold">Jawaban anda sejauh ini</h3>
-            <p class="mb-3 text-sm text-muted">Jawaban disimpan sementara hanya di perangkat ini agar bisa dilanjutkan, dan dihapus otomatis begitu hasil keluar.</p>
+        <!-- tertutup secara bawaan agar jawaban tidak langsung terlihat oleh orang di sekitar -->
+        <details v-if="jawaban.length" class="pt-10">
+            <summary class="cursor-pointer text-lg font-bold">Lihat jawaban anda sejauh ini ({{ jawaban.length }})</summary>
+            <p class="mt-1 mb-3 text-sm text-muted">Jawaban disimpan sementara hanya di perangkat ini agar bisa dilanjutkan, dan dihapus otomatis begitu hasil keluar.</p>
             <ol class="grid list-none gap-2 p-0">
                 <li v-for="j in jawaban" :key="j.kode" class="flex flex-col gap-1.5 rounded-xl border border-line bg-surface px-4 py-3 text-[.95rem] sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                     <span>{{ j.pertanyaan }}</span>
                     <span class="pill flex-none self-start" :class="j.ya === false ? 'bg-no-soft text-no' : 'bg-primary-soft text-primary-strong'">{{ j.jawaban }}</span>
                 </li>
             </ol>
-        </section>
+        </details>
     </div>
 </template>

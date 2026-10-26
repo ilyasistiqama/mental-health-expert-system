@@ -1,20 +1,21 @@
 [
     {
         "kode": "P0",
-        "nama": "Tidak Menunjukkan Kecenderungan Gangguan Kecemasan",
+        "nama": "Tidak Menunjukkan Kecenderungan pada Gangguan yang Diperiksa",
         "kategori": "-",
-        "deskripsi": "Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan pada gangguan kecemasan yang diperiksa. Hasil ini tidak menjamin anda bebas dari gangguan kecemasan maupun masalah kesehatan mental lain, karena sistem ini hanya alat skrining yang terbatas. Jika anda tetap merasa cemas, sedih, atau terganggu, sebaiknya tetap berbicara dengan psikolog.",
+        "deskripsi": "Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan pada gangguan yang diperiksa. Hasil ini tidak menjamin anda bebas dari gangguan tersebut maupun masalah kesehatan mental lain, karena sistem ini hanya alat skrining yang terbatas. Jika anda tetap merasa cemas, sedih, atau terganggu, sebaiknya tetap berbicara dengan psikolog.",
         "kriteria": [],
         "durasiMinimal": 0,
         "pengobatan": [
             "Jaga pola tidur dan makan yang teratur, serta berolahraga secara rutin.",
             "Latih teknik relaksasi seperti pernapasan perlahan, dan biasakan meditasi mindfulness.",
             "Batasi konsumsi alkohol dan hindari narkoba.",
-            "Jika suatu saat rasa cemas mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog atau puskesmas terdekat."
+            "Jika suatu saat rasa cemas atau sedih mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog atau puskesmas terdekat."
         ],
         "rujukan": "",
         "sumber": [
-            "who-anxiety-2026"
+            "who-anxiety-2026",
+            "who-depression-2026"
         ]
     },
     {
@@ -89,7 +90,7 @@
                     "G21",
                     "G22",
                     "G23",
-                    "G24"
+                    "G68"
                 ],
                 "minimal": 3
             },
@@ -159,7 +160,7 @@
         "kode": "P4",
         "nama": "Gangguan Obsesif-Kompulsif",
         "kategori": "Gangguan Obsesif-Kompulsif dan Terkait",
-        "deskripsi": "Munculnya obsesi (pikiran, bayangan, atau dorongan berulang yang tidak diinginkan) dan/atau kompulsi (tindakan atau ritual berulang yang dirasa harus dilakukan untuk meredakan cemas) yang menyita waktu atau sangat mengganggu. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.",
+        "deskripsi": "Munculnya obsesi (pikiran, bayangan, atau dorongan berulang yang tidak diinginkan dan menimbulkan cemas) dan/atau kompulsi (tindakan atau ritual berulang yang dirasa harus dilakukan untuk meredakan cemas) yang menyita waktu atau sangat mengganggu. Berbeda dari sekadar suka rapi atau perfeksionis: pada OCD, pikiran dan tindakan tersebut sulit dihentikan dan menimbulkan tekanan. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.",
         "kriteria": [
             {
                 "gejala": [
@@ -170,8 +171,10 @@
             },
             {
                 "gejala": [
+                    "G59",
                     "G49"
-                ]
+                ],
+                "minimal": 1
             }
         ],
         "durasiMinimal": 14,
@@ -224,7 +227,7 @@
                     "G33",
                     "G22",
                     "G21",
-                    "G24"
+                    "G68"
                 ],
                 "minimal": 2
             },
@@ -381,6 +384,144 @@
             "icd11",
             "ppdgj3",
             "who-anxiety-2026"
+        ]
+    },
+    {
+        "kode": "P9",
+        "nama": "Gangguan Depresi Mayor",
+        "kategori": "Gangguan Depresi",
+        "deskripsi": "Suasana hati sedih, hampa, atau putus asa dan/atau hilangnya minat atau kesenangan yang berlangsung hampir sepanjang hari, hampir setiap hari, selama minimal 2 minggu, disertai keluhan lain seperti perubahan tidur atau nafsu makan, kehilangan tenaga, merasa tidak berharga, sulit berkonsentrasi, atau pikiran tentang kematian. Depresi berbeda dari rasa sedih biasa karena menetap dan mengganggu kehidupan sehari-hari.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G50",
+                    "G51"
+                ],
+                "minimal": 1
+            },
+            {
+                "gejala": [
+                    "G50",
+                    "G51",
+                    "G52",
+                    "G69",
+                    "G54",
+                    "G55",
+                    "G56",
+                    "G57",
+                    "G58"
+                ],
+                "minimal": 5
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 14,
+        "catatanDurasi": "Keluhan yang belum berlangsung 2 minggu tetap perlu diperhatikan. Jika keluhan berlanjut atau terasa berat, bicarakan dengan psikolog atau tenaga kesehatan di puskesmas.",
+        "catatan": "Sebelum menentukan diagnosis, profesional akan memeriksa kemungkinan penyebab fisik (misalnya gangguan tiroid, efek obat, atau zat tertentu) dan menanyakan apakah anda pernah mengalami masa ketika suasana hati sangat meningkat, sangat bersemangat, atau hampir tidak butuh tidur. Ceritakan jika pernah, karena penanganan gangguan bipolar berbeda dari depresi.",
+        "pengobatan": [
+            "Psikoterapi merupakan penanganan pertama, misalnya terapi kognitif perilaku (CBT), aktivasi perilaku (behavioural activation), psikoterapi interpersonal, atau terapi pemecahan masalah.",
+            "Pada depresi sedang hingga berat, psikiater atau dokter dapat mempertimbangkan obat bersama psikoterapi. Jangan mengonsumsi maupun menghentikan obat apa pun tanpa resep dan pengawasan dokter. Pada anak dan remaja, obat bukan penanganan pertama.",
+            "Tetap melakukan kegiatan yang dulu anda sukai, berolahraga ringan secara teratur, menjaga pola makan dan tidur, tetap terhubung dengan keluarga dan teman, serta menghindari alkohol dan narkoba dapat membantu pemulihan."
+        ],
+        "rujukan": "DSM-5-TR: Major Depressive Disorder · ICD-11: 6A70–6A71 · PPDGJ-III: F32–F33",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "kroenke-phq9-2001",
+            "nice-ng222",
+            "who-depression-2026"
+        ]
+    },
+    {
+        "kode": "P10",
+        "nama": "Gangguan Insomnia",
+        "kategori": "Gangguan Tidur-Bangun",
+        "deskripsi": "Kesulitan memulai tidur, mempertahankan tidur, atau bangun terlalu pagi yang terjadi setidaknya 3 malam dalam seminggu selama minimal 3 bulan, walaupun ada cukup kesempatan untuk tidur, dan membuat tertekan atau mengganggu aktivitas di siang hari.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G60",
+                    "G61",
+                    "G62"
+                ],
+                "minimal": 1
+            },
+            {
+                "gejala": [
+                    "G63"
+                ]
+            },
+            {
+                "gejala": [
+                    "G64"
+                ]
+            },
+            {
+                "gejala": [
+                    "G49"
+                ]
+            }
+        ],
+        "durasiMinimal": 90,
+        "catatanDurasi": "Kesulitan tidur yang berlangsung kurang dari 3 bulan dapat termasuk insomnia jangka pendek, yang sering dipicu stres dan biasanya membaik. Jika berlanjut, konsultasikan dengan dokter atau psikolog.",
+        "catatan": "Kesulitan tidur juga dapat disebabkan kondisi lain, seperti henti napas saat tidur (ditandai dengkuran keras atau tersedak saat tidur), rasa tidak nyaman di kaki saat berbaring, efek obat, kafein, atau alkohol. Insomnia juga sering menyertai kecemasan atau depresi. Dokter akan memeriksa kemungkinan tersebut.",
+        "pengobatan": [
+            "Terapi kognitif perilaku untuk insomnia (CBT-I) merupakan penanganan utama dan dianjurkan sebelum obat. Terapi ini melatih kebiasaan dan pola pikir yang membantu tidur, biasanya dalam 4 sampai 8 sesi.",
+            "Obat tidur hanya digunakan dengan resep dan pengawasan dokter, umumnya bila CBT-I belum berhasil dan untuk jangka pendek. Jangan membeli atau mengonsumsi obat tidur sendiri.",
+            "Kebiasaan tidur sehat, seperti jam tidur dan bangun yang teratur, membatasi kafein dan layar sebelum tidur, serta memakai tempat tidur hanya untuk tidur, membantu sebagai pelengkap terapi, tetapi tidak cukup sebagai satu-satunya penanganan."
+        ],
+        "rujukan": "DSM-5-TR: Insomnia Disorder · ICD-11: 7A00 · PPDGJ-III: F51.0",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "aasm-insomnia-2021",
+            "acp-insomnia-2016"
+        ]
+    },
+    {
+        "kode": "P11",
+        "nama": "Gangguan Penyesuaian",
+        "kategori": "Gangguan Terkait Trauma dan Stresor",
+        "deskripsi": "Reaksi emosional yang berlebihan terhadap peristiwa atau perubahan hidup yang berat, misalnya putus hubungan, kehilangan pekerjaan, atau masalah keuangan. Orang yang mengalaminya terus memikirkan peristiwa tersebut dan sulit menyesuaikan diri, sehingga tertekan melebihi wajarnya atau kehidupan sehari-harinya terganggu. Keluhan muncul dalam 3 bulan setelah peristiwa dan umumnya membaik dalam 6 bulan.",
+        "kriteria": [
+            {
+                "gejala": [
+                    "G65"
+                ]
+            },
+            {
+                "gejala": [
+                    "G66"
+                ]
+            },
+            {
+                "gejala": [
+                    "G67",
+                    "G49"
+                ],
+                "minimal": 1
+            }
+        ],
+        "durasiMinimal": 0,
+        "residual": true,
+        "catatan": "Gangguan penyesuaian hanya disimpulkan jika keluhan anda tidak lebih tepat dijelaskan oleh gangguan lain, seperti depresi atau gangguan kecemasan; profesional akan memastikannya. Jika peristiwa yang anda alami adalah kematian orang terdekat, rasa duka yang wajar bukan gangguan, tetapi tetap bicarakan dengan psikolog bila duka terasa sangat berat atau berkepanjangan.",
+        "pengobatan": [
+            "Psikoterapi, misalnya terapi kognitif perilaku (CBT), konseling suportif, atau terapi pemecahan masalah, umumnya digunakan untuk membantu menghadapi peristiwa dan menyesuaikan diri, walaupun penelitiannya masih terbatas.",
+            "Latihan mengelola stres, seperti teknik relaksasi, serta dukungan dari keluarga, teman, atau kelompok dukungan dapat membantu pemulihan.",
+            "Obat bukan penanganan utama; bila keluhan berat, psikiater atau dokter yang akan menentukannya. Jangan mengonsumsi obat tanpa resep dan pengawasan dokter."
+        ],
+        "rujukan": "DSM-5-TR: Adjustment Disorders · ICD-11: 6B43 · PPDGJ-III: F43.2",
+        "sumber": [
+            "dsm5tr",
+            "icd11",
+            "ppdgj3",
+            "odonnell-2019"
         ]
     }
 ]

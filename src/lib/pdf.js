@@ -1,12 +1,20 @@
 import {
     GEJALA, KODE_NORMAL, OPSI_DURASI, PENYAKIT, SUMBER, formatTanggal, judulHasil, labelDurasi, namaMetode
 } from "./sistemPakar";
-import { ISI_DISCLAIMER, JUDUL_DISCLAIMER, LANGKAH_SELANJUTNYA, PESAN_TENANG } from "./pesanDukungan";
+import { NAMA_SISTEM } from "./nama";
+import {
+    ISI_DISCLAIMER, ISI_KRISIS, ISI_REMAJA, JUDUL_DISCLAIMER, JUDUL_KRISIS, JUDUL_REMAJA, LANGKAH_KRISIS, LANGKAH_SELANJUTNYA,
+    PESAN_TENANG
+} from "./pesanDukungan";
 
 const MARGIN = 18;
 const LEBAR_HALAMAN = 210;
 const TINGGI_HALAMAN = 297;
 const LEBAR_TEKS = LEBAR_HALAMAN - MARGIN * 2;
+
+// warna kotak: latar, garis, judul
+const WARNA_DUKUNGAN = { latar: [220, 239, 235], garis: [42, 122, 114], judul: [31, 95, 89] };
+const WARNA_KRISIS = { latar: [255, 244, 220], garis: [122, 82, 0], judul: [122, 82, 0] };
 
 // font bawaan PDF hanya mendukung karakter Latin dasar
 function aman(teks) {
@@ -18,6 +26,12 @@ function aman(teks) {
         .replace(/≥/g, ">=")
         .replace(/→/g, "->")
         .replace(/[^\x20-\x7e\n]/g, "");
+}
+
+// fakta antara ditulis bersama gejala asalnya
+function namaGejala(kode) {
+    const g = GEJALA[kode];
+    return g.dari ? `${g.nama} (salah satu dari: ${g.dari.map((k) => GEJALA[k].nama.toLowerCase()).join(", ")})` : g.nama;
 }
 
 function labelKriteria(k) {
@@ -58,7 +72,7 @@ export async function unduhPdfHasil(entri) {
     };
 
     // kotak berlatar warna; tinggi dihitung dulu agar kotak tidak terpotong pindah halaman
-    const kotak = (judulKotak, paragraf, daftarBernomor = []) => {
+    const kotak = (judulKotak, paragraf, daftarBernomor = [], warna = WARNA_DUKUNGAN) => {
         const lebar = LEBAR_TEKS - 10;
         const potong = (teks, ukuran, tebal) => {
             doc.setFont("helvetica", tebal ? "bold" : "normal");
@@ -72,14 +86,14 @@ export async function unduhPdfHasil(entri) {
         ];
         const tinggi = blok.reduce((t, b) => t + b.baris.length * b.ukuran * 0.42 + b.jarak, 0) + 10;
         ruang(tinggi);
-        doc.setFillColor(220, 239, 235);
-        doc.setDrawColor(42, 122, 114);
+        doc.setFillColor(...warna.latar);
+        doc.setDrawColor(...warna.garis);
         doc.roundedRect(MARGIN, y, LEBAR_TEKS, tinggi, 3, 3, "FD");
         y += 5;
         for (const b of blok) {
             doc.setFont("helvetica", b.tebal ? "bold" : "normal");
             doc.setFontSize(b.ukuran);
-            doc.setTextColor(...(b.ukuran === 12 ? [31, 95, 89] : [28, 43, 41]));
+            doc.setTextColor(...(b.ukuran === 12 ? warna.judul : [28, 43, 41]));
             for (const baris of b.baris) {
                 const tinggiBaris = b.ukuran * 0.42;
                 doc.text(baris, MARGIN + 5, y + tinggiBaris * 0.8);
@@ -104,18 +118,27 @@ export async function unduhPdfHasil(entri) {
     doc.rect(0, 0, LEBAR_HALAMAN, 8, "F");
     y = MARGIN;
     tulis("HASIL KONSULTASI", { ukuran: 9, tebal: true, warna: [42, 122, 114], jarak: 1 });
-    tulis("Sistem Pakar Gangguan Kecemasan", { ukuran: 18, tebal: true, jarak: 2 });
+    tulis(NAMA_SISTEM, { ukuran: 18, tebal: true, jarak: 2 });
     tulis(`Jenis pemeriksaan: ${namaMetode(entri.metode)}${entri.target && PENYAKIT[entri.target] ? ` (${PENYAKIT[entri.target].nama})` : ""}`, { ukuran: 10, warna: [91, 109, 106], jarak: 0.5 });
     tulis(`Tanggal: ${formatTanggal(entri.waktu)}`, { ukuran: 10, warna: [91, 109, 106], jarak: 4 });
 
+    // bantuan segera didahulukan dari hasil apa pun
+    if (entri.krisis) {
+        kotak(JUDUL_KRISIS, ISI_KRISIS, LANGKAH_KRISIS, WARNA_KRISIS);
+        ["who-media-suicide-2023", "healing119-faq"].forEach((id) => sumber.add(id));
+    }
+
     // disclaimer di awal, sebelum hasil dibaca
     kotak(JUDUL_DISCLAIMER, ISI_DISCLAIMER);
+    if (entri.remaja) {
+        kotak(JUDUL_REMAJA, ISI_REMAJA);
+        sumber.add("healing119-faq");
+    }
 
     judul("Gambaran hasil");
-    if (terdiagnosa.length) tulis("Jawaban anda menunjukkan kecenderungan ke arah:", { warna: [91, 109, 106], jarak: 1 });
     tulis(judulHasil(entri), { ukuran: 14, tebal: true, jarak: 2 });
     if (terdiagnosa.length) {
-        tulis("Ini adalah kecenderungan berdasarkan jawaban anda, bukan diagnosis. Diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater setelah bertemu dan berbicara langsung dengan anda.");
+        tulis("Kesesuaian ini hanya berdasarkan jawaban anda dan bukan diagnosis. Diagnosis hanya dapat ditegakkan oleh psikolog klinis atau psikiater setelah bertemu dan berbicara langsung dengan anda.");
     } else if (belumCukup.length === 0) {
         tulis(entri.metode === "backward"
             ? "Tidak semua kriteria gangguan tersebut terpenuhi. Hasil ini tidak menjamin anda bebas dari gangguan tersebut; jika anda tetap merasa terganggu, sebaiknya tetap berbicara dengan psikolog."
@@ -129,9 +152,12 @@ export async function unduhPdfHasil(entri) {
         judul(`${p.kode} - ${p.nama}`);
         tulis(`Kategori: ${p.kategori}`, { ukuran: 9.5, warna: [91, 109, 106], jarak: 1 });
         tulis(p.deskripsi);
+        if (p.catatan) tulis(p.catatan, { warna: [91, 109, 106] });
         tulis("Kriteria yang terpenuhi:", { tebal: true, jarak: 1 });
-        p.kriteria.forEach((k, i) => tulis(`${i + 1}. ${labelKriteria(k)}: ${k.gejala.map((g) => GEJALA[g].nama).join("; ")}`, { indent: 4, jarak: 1 }));
-        tulis(`${p.kriteria.length + 1}. Durasi: keluhan dialami minimal ${labelDurasi(p.durasiMinimal)} (jawaban anda: ${OPSI_DURASI.find((o) => o.hari === entri.durasi[p.kode])?.label ?? "-"})`, { indent: 4, jarak: 2 });
+        p.kriteria.forEach((k, i) => tulis(`${i + 1}. ${labelKriteria(k)}: ${k.gejala.map(namaGejala).join("; ")}`, { indent: 4, jarak: 1 }));
+        if (p.durasiMinimal > 0) {
+            tulis(`${p.kriteria.length + 1}. Durasi: keluhan dialami minimal ${labelDurasi(p.durasiMinimal)} (jawaban anda: ${OPSI_DURASI.find((o) => o.hari === entri.durasi[p.kode])?.label ?? "-"})`, { indent: 4, jarak: 2 });
+        }
         tulis("Penanganan yang umumnya dilakukan oleh profesional:", { tebal: true, jarak: 1 });
         daftar(p.pengobatan, { bernomor: true });
         if (p.rujukan) tulis(`Klasifikasi: ${p.rujukan}`, { ukuran: 9, warna: [91, 109, 106] });
@@ -152,7 +178,7 @@ export async function unduhPdfHasil(entri) {
     y += 2;
     // disclaimer diulang di akhir bersama langkah selanjutnya
     kotak("Langkah yang bisa anda ambil", [PESAN_TENANG], LANGKAH_SELANJUTNYA);
-    ["dsm5tr", "who-anxiety-2026", "healing119"].forEach((id) => sumber.add(id));
+    ["dsm5tr", "who-anxiety-2026", "who-depression-2026", "healing119"].forEach((id) => sumber.add(id));
 
     judul("Sumber");
     [...sumber].filter((id) => SUMBER[id]).map((id) => SUMBER[id]).sort((a, b) => a.nomor - b.nomor).forEach((s) => {
@@ -166,7 +192,7 @@ export async function unduhPdfHasil(entri) {
         doc.setFont("helvetica", "normal");
         doc.setFontSize(8.5);
         doc.setTextColor(91, 109, 106);
-        doc.text(`Sistem Pakar Gangguan Kecemasan - halaman ${i} dari ${jumlah}`, MARGIN, TINGGI_HALAMAN - 8);
+        doc.text(`${NAMA_SISTEM} - halaman ${i} dari ${jumlah}`, MARGIN, TINGGI_HALAMAN - 8);
     }
 
     // tanggal lokal pengguna (toISOString memakai UTC)

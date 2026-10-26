@@ -13,12 +13,25 @@ const gejalaUmum = [
     "Perasaan akan terjadi bahaya, kepanikan, atau malapetaka"
 ];
 
+// gejala depresi menurut WHO, selain suasana hati murung atau hilangnya minat
+const gejalaDepresi = [
+    "Sulit berkonsentrasi",
+    "Merasa bersalah berlebihan atau tidak berharga",
+    "Putus asa tentang masa depan",
+    "Pikiran tentang kematian atau bunuh diri",
+    "Tidur terganggu",
+    "Perubahan nafsu makan atau berat badan",
+    "Sangat lelah atau kehabisan tenaga"
+];
+
 const perawatanDiri = [
     "Kurangi alkohol dan hindari narkoba",
     "Berolahraga secara teratur",
     "Jaga pola makan dan tidur yang teratur",
     "Latih teknik relaksasi, misalnya pernapasan perlahan",
-    "Biasakan meditasi mindfulness, walaupun hanya beberapa menit setiap hari"
+    "Biasakan meditasi mindfulness, walaupun hanya beberapa menit setiap hari",
+    "Tetap melakukan kegiatan yang dulu disukai dan tetap terhubung dengan keluarga serta teman",
+    "Ceritakan perasaan anda kepada orang yang anda percaya"
 ];
 </script>
 
@@ -26,8 +39,8 @@ const perawatanDiri = [
     <article class="container-page max-w-3xl py-10 sm:py-12 2xl:max-w-3xl">
         <header class="mb-8">
             <span class="eyebrow">Artikel · Diperbarui Oktober 2026</span>
-            <h1 class="mb-4 text-3xl font-extrabold sm:text-4xl lg:text-5xl">Memahami kecemasan dan gangguan kecemasan</h1>
-            <p class="text-lg text-muted">Rangkuman informasi terbaru tentang kesehatan mental dan gangguan kecemasan dari WHO, pedoman klinis, serta survei nasional Indonesia.</p>
+            <h1 class="mb-4 text-3xl font-extrabold sm:text-4xl lg:text-5xl">Memahami kecemasan dan depresi</h1>
+            <p class="text-lg text-muted">Rangkuman informasi terbaru tentang gangguan kecemasan dan depresi dari WHO, pedoman klinis, serta survei nasional Indonesia.</p>
         </header>
 
         <div class="space-y-10 text-[1.05rem] leading-[1.8]">
@@ -42,6 +55,20 @@ const perawatanDiri = [
                     Kecemasan menjadi <strong>gangguan</strong> ketika rasa takut dan khawatir muncul secara berlebihan, tidak sebanding dengan
                     ancaman sebenarnya, sulit dikendalikan, berlangsung lama, dan mengganggu kehidupan sehari-hari, baik keluarga, hubungan sosial,
                     sekolah, maupun pekerjaan.<Rujukan :ids="['who-anxiety-2026', 'dsm5tr']" />
+                </p>
+            </section>
+
+            <section>
+                <h2 class="mb-3 text-2xl font-extrabold">Apa itu depresi?</h2>
+                <p class="mb-4">
+                    Sedih adalah perasaan yang wajar, misalnya setelah kehilangan atau kegagalan. Depresi berbeda: suasana hati sedih, hampa,
+                    atau mudah tersinggung, atau hilangnya minat dan kesenangan pada hampir semua kegiatan, berlangsung hampir sepanjang hari,
+                    hampir setiap hari, selama minimal dua minggu.<Rujukan :ids="['who-depression-2026', 'dsm5tr']" />
+                </p>
+                <p>
+                    Depresi bukan tanda kelemahan dan bukan sesuatu yang bisa diatasi hanya dengan "berpikir positif". Depresi muncul dari
+                    interaksi berbagai faktor sosial, psikologis, dan biologis, dan dapat ditangani secara efektif, baik yang ringan maupun
+                    yang berat.<Rujukan :ids="['who-depression-2026']" />
                 </p>
             </section>
 
@@ -65,6 +92,10 @@ const perawatanDiri = [
                     Menurut WHO, gangguan kecemasan adalah gangguan mental yang paling umum di dunia. Perempuan lebih sering mengalaminya
                     dibanding laki-laki, dan gejalanya sering dimulai sejak masa kanak-kanak atau remaja. Hambatan penanganannya antara lain
                     kurangnya kesadaran, minimnya investasi layanan kesehatan jiwa, kurangnya tenaga terlatih, dan stigma.<Rujukan :ids="['who-anxiety-2026']" />
+                </p>
+                <p class="mb-4">
+                    Depresi dialami sekitar 322 juta orang di dunia dan lebih sering dialami perempuan. Bahkan di negara berpenghasilan
+                    tinggi, hanya sekitar sepertiga orang dengan depresi yang mendapat penanganan kesehatan jiwa.<Rujukan :ids="['who-depression-2026']" />
                 </p>
                 <p>
                     Secara keseluruhan, lebih dari satu miliar orang di dunia hidup dengan gangguan mental, dengan kecemasan dan depresi sebagai
@@ -94,8 +125,12 @@ const perawatanDiri = [
             <section>
                 <h2 class="mb-3 text-2xl font-extrabold">Gejala yang perlu dikenali</h2>
                 <p class="mb-3">Selain rasa takut dan khawatir yang berlebihan, orang dengan gangguan kecemasan dapat mengalami:<Rujukan :ids="['who-anxiety-2026']" /></p>
-                <ul class="grid gap-2 sm:grid-cols-2">
+                <ul class="mb-6 grid gap-2 sm:grid-cols-2">
                     <li v-for="g in gejalaUmum" :key="g" class="rounded-xl border border-line bg-surface px-4 py-2.5 text-[.95rem]">{{ g }}</li>
+                </ul>
+                <p class="mb-3">Selain suasana hati murung atau hilangnya minat, orang dengan depresi dapat mengalami:<Rujukan :ids="['who-depression-2026']" /></p>
+                <ul class="grid gap-2 sm:grid-cols-2">
+                    <li v-for="g in gejalaDepresi" :key="g" class="rounded-xl border border-line bg-surface px-4 py-2.5 text-[.95rem]">{{ g }}</li>
                 </ul>
             </section>
 
@@ -113,6 +148,17 @@ const perawatanDiri = [
                     kelompok yang sama (F40–F48). Mutisme selektif tidak dimasukkan karena umumnya dialami anak-anak dan memerlukan observasi
                     langsung oleh profesional.
                 </p>
+                <p class="mb-4">
+                    Depresi termasuk kelompok gangguan depresi dalam DSM-5-TR dan gangguan suasana perasaan (F30–F39) dalam PPDGJ-III.
+                    Gangguan bipolar juga dapat diawali episode depresi, tetapi penanganannya berbeda. Karena itu, sistem ini tidak memeriksa
+                    gangguan bipolar, dan profesional akan menanyakan riwayat suasana hati anda sebelum menentukan diagnosis.<Rujukan :ids="['dsm5tr', 'ppdgj3', 'who-depression-2026']" />
+                </p>
+                <p class="mb-4">
+                    Sistem ini juga memeriksa dua gangguan yang sering menyertai kecemasan dan depresi. <strong>Gangguan insomnia</strong> adalah
+                    kesulitan tidur minimal 3 malam seminggu selama minimal 3 bulan walaupun ada kesempatan untuk tidur; dalam ICD-11 gangguan ini
+                    masuk kelompok gangguan tidur-bangun. <strong>Gangguan penyesuaian</strong> adalah reaksi berlebihan terhadap peristiwa hidup
+                    yang berat, yang muncul dalam beberapa bulan setelah peristiwa dan umumnya membaik dalam 6 bulan.<Rujukan :ids="['dsm5tr', 'icd11']" />
+                </p>
                 <p>
                     Pada Januari 2026, American Psychiatric Association merilis rencana revisi besar DSM. Sampai edisi baru terbit,
                     DSM-5-TR tetap menjadi acuan.<Rujukan :ids="['apa-dsm-2026']" />
@@ -126,7 +172,12 @@ const perawatanDiri = [
                     kognitif perilaku (CBT). Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai; jangan mengonsumsi
                     obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.<Rujukan :ids="['who-anxiety-2026', 'nice-cg113']" />
                 </p>
-                <p class="mb-3">Langkah perawatan diri yang dianjurkan WHO:<Rujukan :ids="['who-anxiety-2026']" /></p>
+                <p class="mb-4">
+                    Depresi juga dapat ditangani dengan efektif. Psikoterapi merupakan penanganan pertama, misalnya terapi kognitif perilaku,
+                    aktivasi perilaku, psikoterapi interpersonal, atau terapi pemecahan masalah. Pada depresi sedang hingga berat, dokter dapat
+                    mempertimbangkan obat bersama psikoterapi.<Rujukan :ids="['who-depression-2026', 'nice-ng222']" />
+                </p>
+                <p class="mb-3">Langkah perawatan diri yang dianjurkan WHO:<Rujukan :ids="['who-anxiety-2026', 'who-depression-2026']" /></p>
                 <ul class="list-disc space-y-1 pl-5">
                     <li v-for="p in perawatanDiri" :key="p">{{ p }}</li>
                 </ul>
@@ -135,7 +186,7 @@ const perawatanDiri = [
             <section class="rounded-2xl bg-accent-soft p-5 sm:p-6">
                 <h2 class="mb-2 text-xl font-extrabold">Mencari bantuan</h2>
                 <p>
-                    Jika kecemasan mulai mengganggu aktivitas, jangan ragu menghubungi psikolog klinis, psikiater, atau puskesmas terdekat.
+                    Jika kecemasan atau rasa sedih mulai mengganggu aktivitas, jangan ragu menghubungi psikolog klinis, psikiater, atau puskesmas terdekat.
                     Dalam kondisi darurat atau jika muncul pikiran untuk menyakiti diri sendiri, segera hubungi <strong>119 ext 8</strong>
                     (<a href="https://www.healing119.id/" target="_blank" rel="noopener">healing119.id</a>).<Rujukan :ids="['healing119']" />
                 </p>
@@ -159,7 +210,7 @@ const perawatanDiri = [
         <div class="container-page">
             <div class="rounded-2xl bg-linear-to-br from-primary-soft to-accent-soft px-6 py-10 text-center">
                 <h2 class="mb-2 text-2xl font-extrabold sm:text-3xl">Penasaran dengan kondisi anda?</h2>
-                <p class="mx-auto mb-5 max-w-xl text-muted">Ikuti konsultasi singkat untuk mengetahui kecenderungan gangguan kecemasan yang mungkin anda alami.</p>
+                <p class="mx-auto mb-5 max-w-xl text-muted">Ikuti konsultasi singkat untuk mengetahui kecenderungan gangguan kecemasan, depresi, insomnia, atau penyesuaian yang mungkin anda alami.</p>
                 <div class="flex flex-wrap justify-center gap-3">
                     <RouterLink class="btn btn-primary px-7 py-4" to="/konsultasi">Mulai Konsultasi</RouterLink>
                     <RouterLink class="btn btn-ghost px-7 py-4" to="/sumber">Lihat semua sumber</RouterLink>

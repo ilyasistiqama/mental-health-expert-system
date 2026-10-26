@@ -124,5 +124,86 @@
         "penerbit": "American Psychological Association",
         "url": "https://www.apa.org/monitor/2025/07-08/guidelines-treating-ptsd-trauma",
         "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "who-depression-2026",
+        "penulis": "World Health Organization",
+        "tahun": "2026",
+        "judul": "Depressive disorder (depression) (fact sheet, 11 September 2026)",
+        "penerbit": "World Health Organization",
+        "url": "https://www.who.int/news-room/fact-sheets/detail/depression",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "nice-ng222",
+        "penulis": "National Institute for Health and Care Excellence",
+        "tahun": "2022",
+        "judul": "Depression in adults: treatment and management (NG222)",
+        "penerbit": "NICE",
+        "url": "https://www.nice.org.uk/guidance/ng222",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "kroenke-phq9-2001",
+        "penulis": "Kroenke, K., Spitzer, R. L., & Williams, J. B. W.",
+        "tahun": "2001",
+        "judul": "The PHQ-9: Validity of a brief depression severity measure",
+        "penerbit": "Journal of General Internal Medicine, 16(9), 606–613",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/11556941/",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "dazzi-2014",
+        "penulis": "Dazzi, T., Gribble, R., Wessely, S., & Fear, N. T.",
+        "tahun": "2014",
+        "judul": "Does asking about suicide and related behaviours induce suicidal ideation? What is the evidence?",
+        "penerbit": "Psychological Medicine, 44(16), 3361–3363",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/24998511/",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "who-media-suicide-2023",
+        "penulis": "World Health Organization & International Association for Suicide Prevention",
+        "tahun": "2023",
+        "judul": "Preventing suicide: a resource for media professionals, update 2023",
+        "penerbit": "World Health Organization",
+        "url": "https://www.who.int/publications/i/item/9789240076846",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "healing119-faq",
+        "penulis": "Direktorat Jenderal Kesehatan Masyarakat, Kementerian Kesehatan RI",
+        "tahun": "2025",
+        "judul": "FAQ Layanan Hotline Healing119.id",
+        "penerbit": "Kementerian Kesehatan RI",
+        "url": "https://kesprimkom.kemkes.go.id/assets/uploads/contents/others/FAQ_Cegah_Bunuh_Diri%2C_Dukung_Kesehatan_Jiwa__Kenali_Layanan_Healing119.id.pdf",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "aasm-insomnia-2021",
+        "penulis": "Edinger, J. D., Arnedt, J. T., Bertisch, S. M., dkk.",
+        "tahun": "2021",
+        "judul": "Behavioral and psychological treatments for chronic insomnia disorder in adults: an American Academy of Sleep Medicine clinical practice guideline",
+        "penerbit": "Journal of Clinical Sleep Medicine, 17(2), 255–262",
+        "url": "https://doi.org/10.5664/jcsm.8986",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "acp-insomnia-2016",
+        "penulis": "Qaseem, A., Kansagara, D., Forciea, M. A., Cooke, M., & Denberg, T. D.",
+        "tahun": "2016",
+        "judul": "Management of chronic insomnia disorder in adults: a clinical practice guideline from the American College of Physicians",
+        "penerbit": "Annals of Internal Medicine, 165(2), 125–133",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/27136449/",
+        "diakses": "26 Oktober 2026"
+    },
+    {
+        "id": "odonnell-2019",
+        "penulis": "O'Donnell, M. L., Agathos, J. A., Metcalf, O., Gibson, K., & Lau, W.",
+        "tahun": "2019",
+        "judul": "Adjustment disorder: current developments and future directions",
+        "penerbit": "International Journal of Environmental Research and Public Health, 16(14), 2537",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6678970/",
+        "diakses": "26 Oktober 2026"
     }
 ]

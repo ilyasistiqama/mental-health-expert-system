@@ -15,7 +15,7 @@ import { ISI_DISCLAIMER, JUDUL_DISCLAIMER, LANGKAH_SELANJUTNYA, PESAN_TENANG } f
             <p v-for="(p, i) in ISI_DISCLAIMER" :key="i">
                 <template v-if="i === 0"><strong>{{ p }}</strong></template>
                 <template v-else>{{ p }}</template>
-                <Rujukan v-if="i === 2" :ids="['who-anxiety-2026']" />
+                <Rujukan v-if="i === 2" :ids="['who-anxiety-2026', 'who-depression-2026']" />
             </p>
         </div>
 

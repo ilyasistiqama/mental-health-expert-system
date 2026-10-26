@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { BASIS } from "./lib/basis";
+import { NAMA_SINGKAT, NAMA_SISTEM } from "./lib/nama";
 
-const JUDUL = "Sistem Pakar Kecemasan";
+const JUDUL = NAMA_SINGKAT;
 
 // alamat bersih (/artikel); GitHub Pages memakai salinan per halaman + 404.html, nginx memakai try_files
 const router = createRouter({
     history: createWebHistory(BASIS),
     routes: [
-        { path: "/", component: () => import("./views/BerandaView.vue"), meta: { menu: "home", judul: "Sistem Pakar Gangguan Kecemasan" } },
+        { path: "/", component: () => import("./views/BerandaView.vue"), meta: { menu: "home", judul: NAMA_SISTEM } },
         { path: "/artikel", component: () => import("./views/ArtikelView.vue"), meta: { menu: "artikel", judul: `Artikel · ${JUDUL}` } },
         { path: "/konsultasi", component: () => import("./views/KonsultasiView.vue"), meta: { menu: "konsultasi", judul: `Konsultasi · ${JUDUL}` } },
         { path: "/cek-menyeluruh", component: () => import("./views/ForwardView.vue"), meta: { menu: "konsultasi", judul: `Cek Menyeluruh · ${JUDUL}` } },

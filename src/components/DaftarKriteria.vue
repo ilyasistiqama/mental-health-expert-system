@@ -19,6 +19,7 @@ function label(k) {
             <ul class="grid list-none gap-1 p-0 text-[.95rem]">
                 <li v-for="g in k.gejala" :key="g" class="relative pl-5 before:absolute before:top-[.6em] before:left-1 before:size-2 before:rounded-full before:bg-accent">
                     {{ GEJALA[g].nama }}
+                    <span v-if="GEJALA[g].dari" class="block text-sm text-muted">salah satu dari: {{ GEJALA[g].dari.map((k) => GEJALA[k].nama.toLowerCase()).join(", ") }}</span>
                 </li>
             </ul>
         </li>
