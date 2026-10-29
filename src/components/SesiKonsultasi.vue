@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import PanelKrisis from "@/components/PanelKrisis.vue";
 import {
@@ -48,6 +48,27 @@ const tampilKrisis = ref(false);
 const langkah = computed(() => langkahBerikutnya(sesi.value));
 const progres = computed(() => (sesi.value.urutan.length / (sesi.value.urutan.length + (langkah.value.sisa ?? 0))) * 100);
 const jawaban = computed(() => daftarJawaban(sesi.value));
+const teksPertanyaan = ref(null);
+
+// Di layar kecil, tombol jawaban sering berada di bawah kartu. Setelah menjawab, pertanyaan
+// berikutnya bisa berada di luar pandangan sehingga hanya tombol yang terlihat. Gulirkan teks
+// pertanyaan baru ke area pandang, tanpa mengganggu pengguna desktop.
+function gulirKePertanyaan() {
+    if (typeof window === "undefined" || window.innerWidth >= 1024) return;
+    const elemen = teksPertanyaan.value;
+    if (!elemen) return;
+    const perilaku = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    elemen.scrollIntoView({ behavior: perilaku, block: "nearest" });
+}
+
+watch(
+    [() => sesi.value.urutan.length, () => langkah.value.jenis, siap, tampilRemaja, tampilKrisis],
+    async () => {
+        await nextTick();
+        if (!siap.value || tampilRemaja.value || tampilKrisis.value || langkah.value.jenis === "selesai") return;
+        gulirKePertanyaan();
+    }
+);
 
 watch(sesi, simpanSesi, { immediate: true });
 
@@ -61,7 +82,8 @@ watch(langkah, (l) => {
 
 function pilih(nilai) {
     if (langkah.value.jenis === "selesai") return;
-    const krisis = langkah.value.jenis === "gejala" && GEJALA[langkah.value.kode].krisis && nilai === true;
+    if (langkah.value.jenis === "gejala" && !GEJALA[langkah.value.kode]) return;
+    const krisis = langkah.value.jenis === "gejala" && GEJALA[langkah.value.kode]?.krisis && nilai === true;
     sesi.value = jawab(sesi.value, nilai);
     if (krisis) tampilKrisis.value = true;
 }
@@ -172,10 +194,10 @@ onUnmounted(() => {
             <div :key="sesi.urutan.length" class="animate-masuk">
                 <div class="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
                     <span class="text-sm font-bold text-muted">Pertanyaan ke-{{ sesi.urutan.length + 1 }}</span>
-                    <span class="pill bg-accent-soft text-[.8rem] text-accent">{{ langkah.jenis === "durasi" ? "Durasi keluhan" : GEJALA[langkah.kode].nama }}</span>
+                    <span class="pill bg-accent-soft text-[.8rem] text-accent">{{ langkah.jenis === "durasi" ? "Durasi keluhan" : (GEJALA[langkah.kode]?.nama || "Gejala") }}</span>
                 </div>
-                <p class="mb-7 text-xl font-bold sm:text-2xl lg:text-[1.65rem]">
-                    {{ langkah.jenis === "durasi" ? teksDurasi(langkah.penyakit) : GEJALA[langkah.kode].pertanyaan }}
+                <p ref="teksPertanyaan" class="mb-7 scroll-mt-24 text-xl font-bold sm:text-2xl lg:text-[1.65rem]">
+                    {{ langkah.jenis === "durasi" ? teksDurasi(langkah.penyakit) : (GEJALA[langkah.kode]?.pertanyaan || "Pertanyaan tidak tersedia. Silakan muat ulang halaman atau mulai ulang konsultasi.") }}
                 </p>
             </div>
 

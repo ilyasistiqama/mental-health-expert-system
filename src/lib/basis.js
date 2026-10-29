@@ -1,12 +1,14 @@
 // Alamat dasar aplikasi, misalnya "/" (npm run dev), "/sispak-gangguan-kecemasan/" (GitHub Pages)
 // atau "/folder/dist/" (web server lokal). Build untuk GitHub Pages memakai base absolut; build biasa
 // memakai base relatif "./", sehingga alamatnya dihitung dari lokasi file JavaScript (folder assets/).
-export const BASIS = import.meta.env.BASE_URL.startsWith("/")
-    ? import.meta.env.BASE_URL
+// Optional chaining membuat modul ini tetap bisa diimpor di Node untuk pengujian mesin inferensi.
+const base = import.meta.env?.BASE_URL ?? "./";
+export const BASIS = base.startsWith("/")
+    ? base
     : new URL(/* @vite-ignore */ "..", import.meta.url).pathname;
 
 // Versi sebelumnya memakai alamat hash (#/artikel). Tautan lama diubah ke alamat bersih (/artikel).
 // Dijalankan saat modul dimuat, sebelum router membaca alamat halaman.
-if (location.hash.startsWith("#/")) {
+if (typeof location !== "undefined" && location.hash.startsWith("#/")) {
     history.replaceState(null, "", BASIS + location.hash.slice(2));
 }

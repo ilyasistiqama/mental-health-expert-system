@@ -94,7 +94,8 @@ export function penyakitValid(kode) {
 }
 
 export function daftarPenyakit() {
-    return ATURAN.map((a) => a.penyakit);
+    // Satu penyakit boleh punya beberapa aturan alternatif; daftar untuk UI tetap unik.
+    return [...new Set(ATURAN.map((a) => a.penyakit))];
 }
 
 export function formatTanggal(waktu) {
@@ -114,19 +115,64 @@ export function labelDurasi(hari) {
 // "gangguan tidur" disimpulkan dari sulit memulai tidur, sering terbangun, atau bangun terlalu pagi,
 // sehingga pertanyaan tidur cukup ditanyakan sekali walaupun dipakai beberapa aturan.
 function asal(kode) {
-    return GEJALA[kode].dari ?? [kode];
+    return GEJALA[kode]?.dari ?? [kode];
 }
 
-function nilai(kode, fakta) {
-    if (!GEJALA[kode].dari) return fakta[kode];
-    if (GEJALA[kode].dari.some((k) => fakta[k] === true)) return true;
-    if (GEJALA[kode].dari.every((k) => fakta[k] === false)) return false;
+// Nilai tiga keadaan sebuah gejala: true, false, atau undefined (belum diketahui).
+// Fakta antara dihitung rekursif, sehingga fakta antara bertingkat pun didukung.
+function nilai(kode, fakta, dilihat = new Set()) {
+    const g = GEJALA[kode];
+    if (!g || !g.dari) {
+        const v = fakta[kode];
+        return v === true || v === false ? v : undefined;
+    }
+    if (dilihat.has(kode)) return undefined;
+
+    const berikut = new Set(dilihat).add(kode);
+    const sumber = g.dari.map((k) => nilai(k, fakta, berikut));
+    if (sumber.some((v) => v === true)) return true;
+    if (sumber.every((v) => v === false)) return false;
     return undefined;
 }
 
 // gejala yang perlu ditanyakan agar nilai kode diketahui
 function belumDijawab(kode, fakta) {
-    return nilai(kode, fakta) === undefined ? asal(kode).filter((k) => !Object.hasOwn(fakta, k)) : [];
+    const g = GEJALA[kode];
+    if (!g) return nilai(kode, fakta) === undefined ? [kode] : [];
+    if (!g.dari) {
+        const v = fakta[kode];
+        return v === true || v === false ? [] : [kode];
+    }
+    if (nilai(kode, fakta) !== undefined) return [];
+    return g.dari.flatMap((k) => belumDijawab(k, fakta));
+}
+
+// Forward chaining membutuhkan working memory yang sudah memuat semua fakta turunan.
+// Fungsi ini menghitung penutupan (closure) fakta antara sampai tidak ada nilai baru.
+// Fakta turunan hanya dipakai selama inferensi dan tidak pernah ditulis ke sesi.
+export function tutupFakta(fakta) {
+    const hasil = {};
+    for (const [kode, nilaiFakta] of Object.entries(fakta)) {
+        if (!GEJALA[kode]?.dari && (nilaiFakta === true || nilaiFakta === false)) hasil[kode] = nilaiFakta;
+    }
+
+    let berubah = true;
+    while (berubah) {
+        berubah = false;
+        for (const g of DAFTAR_GEJALA) {
+            if (!g.dari || Object.hasOwn(hasil, g.kode)) continue;
+
+            const sumber = g.dari.map((k) => hasil[k]);
+            if (sumber.some((v) => v === true)) {
+                hasil[g.kode] = true;
+                berubah = true;
+            } else if (sumber.every((v) => v === false)) {
+                hasil[g.kode] = false;
+                berubah = true;
+            }
+        }
+    }
+    return hasil;
 }
 
 // sesi = { metode: "forward" | "backward", target, fakta: { G01: true, ... }, durasi: { P1: hari },
@@ -139,10 +185,11 @@ export function sesiBaru(metode, target = null) {
 
 // gejala bertanda "akhir" (misalnya dampak ke kehidupan sehari-hari) selalu ditanyakan paling akhir
 function urutanAcakAturan(target) {
-    const aturan = ATURAN.find((a) => a.penyakit === target);
-    if (!aturan) return [];
-    const acak = acakUrutan([...new Set(aturan.kriteria.flatMap((k) => k.gejala.flatMap(asal)))]);
-    return [...acak.filter((k) => !GEJALA[k].akhir), ...acak.filter((k) => GEJALA[k].akhir)];
+    const aturan = ATURAN.filter((a) => a.penyakit === target);
+    if (aturan.length === 0) return [];
+
+    const acak = acakUrutan([...new Set(aturan.flatMap((a) => a.kriteria.flatMap((k) => k.gejala.flatMap(asal))))]);
+    return [...acak.filter((k) => !GEJALA[k]?.akhir), ...acak.filter((k) => GEJALA[k]?.akhir)];
 }
 
 // pertanyaan penyaring = gejala pada kriteria pertama setiap aturan
@@ -195,7 +242,7 @@ function gejalaRelevan(aturan, fakta) {
 // meningkatkan risiko (Dazzi dkk., 2014).
 function krisisBelumDitanya(kandidat, fakta) {
     return [...new Set(kandidat.flatMap((a) => a.kriteria.flatMap((k) => k.gejala.flatMap(asal))))]
-        .filter((k) => GEJALA[k].krisis && !Object.hasOwn(fakta, k));
+        .filter((k) => GEJALA[k]?.krisis && fakta[k] !== true && fakta[k] !== false);
 }
 
 export function jawabanKrisis(fakta) {
@@ -207,71 +254,223 @@ function aturanKandidat(sesi) {
     return sesi.metode === "backward" ? ATURAN.filter((a) => a.penyakit === sesi.target) : ATURAN;
 }
 
-// Menentukan pertanyaan berikutnya, atau kesimpulan jika inferensi selesai. Prioritasnya:
-// 1. gangguan yang semua kriterianya terpenuhi langsung ditanyakan durasinya (akhir diagnosa),
-// 2. backward chaining: gejala hipotesis yang masih relevan sesuai urutan acak sesi,
-// 3. forward chaining: gangguan yang pertanyaan penyaringnya sudah terpenuhi ditelusuri sampai tuntas
-//    dengan urutan tetap, selain itu tanyakan pertanyaan penyaring berikutnya sesuai urutan acak sesi,
-// 4. gejala krisis yang belum ditanyakan, sebelum kesimpulan.
-// Selain gejala krisis, gejala yang tidak bisa lagi mengubah status aturan tidak ditanyakan, sehingga kesimpulan
-// selalu sama dengan menanyakan semua gejala, apa pun urutan acaknya.
+function cukupDurasi(aturan, durasi) {
+    return aturan.durasiMinimal === 0 || (Object.hasOwn(durasi, aturan.penyakit) && durasi[aturan.penyakit] >= aturan.durasiMinimal);
+}
+
+function durasiDiketahui(aturan, durasi) {
+    return aturan.durasiMinimal === 0 || Object.hasOwn(durasi, aturan.penyakit);
+}
+
+// Forward chaining: working memory berisi fakta gejala, fakta turunan, dan penyakit yang sudah
+// di-fire. Semua aturan dicocokkan berulang sampai tidak ada fakta baru (fixed point). Durasi
+// adalah gerbang akhir: kriteria yang terpenuhi tetapi durasinya belum cukup dicatat sebagai
+// belumCukup, bukan disimpulkan.
+export function mesinMaju(fakta, durasi = {}, aturan = ATURAN) {
+    const WM = tutupFakta(fakta);
+    const disimpulkan = new Set();
+    const belumCukup = new Set();
+
+    let berubah = true;
+    while (berubah) {
+        berubah = false;
+        for (const a of aturan) {
+            if (disimpulkan.has(a.penyakit)) continue;
+            if (statusAturan(a, WM) !== "terpenuhi") continue;
+
+            if (cukupDurasi(a, durasi)) {
+                WM[a.penyakit] = true;
+                disimpulkan.add(a.penyakit);
+                belumCukup.delete(a.penyakit);
+                berubah = true;
+            } else if (durasiDiketahui(a, durasi)) {
+                belumCukup.add(a.penyakit);
+            }
+        }
+    }
+
+    return { fakta: WM, penyakit: [...disimpulkan], belumCukup: [...belumCukup] };
+}
+
+/* ---------- Backward chaining ---------- */
+
+function pilihMenurutUrutan(kandidat, urutan = []) {
+    const unik = [...new Set(kandidat)];
+    return urutan.find((k) => unik.includes(k)) ?? unik[0];
+}
+
+// Buktikan sebuah gejala. Gejala langsung menjadi daun pembuktian; fakta antara menjadi
+// subgoal OR yang sumbernya dibuktikan rekursif.
+function buktikanGejala(kode, fakta, urutan, dilihat = new Set()) {
+    const g = GEJALA[kode];
+    if (!g) {
+        const nilaiFakta = nilai(kode, fakta);
+        return nilaiFakta === undefined ? { status: undefined } : { status: nilaiFakta };
+    }
+    if (!g.dari) {
+        const v = fakta[kode];
+        if (v === true || v === false) return { status: v };
+        return { status: undefined, pertanyaan: kode };
+    }
+    if (dilihat.has(kode)) return { status: undefined };
+
+    const berikut = new Set(dilihat).add(kode);
+    const hasil = g.dari.map((k) => ({ kode: k, ...buktikanGejala(k, fakta, urutan, berikut) }));
+
+    if (hasil.some((h) => h.status === true)) return { status: true };
+    if (hasil.every((h) => h.status === false)) return { status: false };
+
+    const kandidat = hasil.filter((h) => h.status === undefined && h.pertanyaan).map((h) => h.pertanyaan);
+    return { status: undefined, pertanyaan: pilihMenurutUrutan(kandidat, urutan) };
+}
+
+// Buktikan kriteria ambang: terpenuhi jika cukup banyak gejala Ya, gugur jika sisa gejala yang
+// belum diketahui tidak mungkin lagi mencapai ambang.
+function buktikanKriteria(kriteria, fakta, urutan) {
+    const hasil = kriteria.gejala.map((k) => ({ kode: k, ...buktikanGejala(k, fakta, urutan) }));
+    const ya = hasil.filter((h) => h.status === true).length;
+    const belum = hasil.filter((h) => h.status === undefined).length;
+
+    if (ya >= kriteria.minimal) return { status: true };
+    if (ya + belum < kriteria.minimal) return { status: false };
+
+    const kandidat = hasil.filter((h) => h.status === undefined && h.pertanyaan).map((h) => h.pertanyaan);
+    return { status: undefined, pertanyaan: pilihMenurutUrutan(kandidat, urutan) };
+}
+
+// Buktikan satu aturan: semua kriteria harus terpenuhi (AND). Jika satu kriteria gugur, aturan
+// langsung gugur; jika ada kriteria yang belum pasti, kembalikan pertanyaan pertama.
+function buktikanAturan(aturan, fakta, urutan) {
+    let status = true;
+    let pertanyaan;
+
+    for (const k of aturan.kriteria) {
+        const hasil = buktikanKriteria(k, fakta, urutan);
+        if (hasil.status === false) return { status: false };
+        if (hasil.status === undefined) {
+            status = undefined;
+            if (!pertanyaan) pertanyaan = hasil.pertanyaan;
+        }
+    }
+
+    return { status, pertanyaan };
+}
+
+// Buktikan tujuan: coba semua aturan yang menyimpulkan penyakit target. Jika satu aturan berhasil,
+// tujuan terbukti; jika semua gugur, tujuan gugur; selain itu masih ada subgoal yang belum pasti.
+function buktikanTujuan(target, fakta, urutan) {
+    const aturanTarget = ATURAN.filter((a) => a.penyakit === target);
+    if (aturanTarget.length === 0) return { status: false };
+
+    let adaTerbuka = false;
+    let pertanyaan;
+
+    for (const a of aturanTarget) {
+        const hasil = buktikanAturan(a, fakta, urutan);
+        if (hasil.status === true) return { status: true };
+        if (hasil.status === undefined) {
+            adaTerbuka = true;
+            if (!pertanyaan) pertanyaan = hasil.pertanyaan;
+        }
+    }
+
+    return adaTerbuka ? { status: undefined, pertanyaan } : { status: false };
+}
+
+function pertanyaanBackward(sesi, terbuka, fakta) {
+    const bukti = buktikanTujuan(sesi.target, fakta, sesi.acak);
+    if (bukti.status === undefined && bukti.pertanyaan) return bukti.pertanyaan;
+
+    // Alternatif aturan: kumpulkan pertanyaan dari semua aturan yang masih terbuka, lalu ikuti
+    // urutan acak sesi. Ini membuat goal yang punya beberapa aturan tetap bisa dicoba bergantian.
+    const kandidat = terbuka.flatMap((a) => {
+        const hasil = buktikanAturan(a, fakta, sesi.acak);
+        return hasil.status === undefined && hasil.pertanyaan ? [hasil.pertanyaan] : [];
+    });
+    const kode = pilihMenurutUrutan(kandidat, sesi.acak);
+    if (kode) return kode;
+
+    // Fallback untuk data yang ditambahkan setelah sesi dibuat.
+    const relevan = terbuka.flatMap((a) => gejalaRelevan(a, fakta));
+    return [...sesi.acak, ...relevan].find((k) => relevan.includes(k)) ?? relevan[0];
+}
+
+// Menentukan pertanyaan berikutnya, atau kesimpulan jika inferensi selesai.
+//
+// Forward chaining memakai semua aturan dan working memory hasil penutupan fakta. Aturan yang
+// premisnya terpenuhi di-fire ke working memory; durasi menjadi gerbang akhir. Pertanyaan dipilih
+// dari aturan yang masih terbuka: tuntaskan aturan yang pertanyaan penyaringnya sudah Ya, atau
+// tanyakan penyaring berikutnya sesuai urutan acak.
+//
+// Backward chaining memakai aturan hipotesis saja. Pertanyaan berasal dari pembuktian rekursif
+// tujuan (aturan -> kriteria -> subgoal gejala/fakta antara).
+//
+// Prioritas:
+// 1. durasi untuk aturan yang kriterianya terpenuhi (kecuali penyakit sudah disimpulkan aturan lain),
+// 2. backward: pertanyaan dari pembuktian tujuan,
+// 3. forward: tuntaskan aturan yang penyaringnya sudah terpenuhi, atau tanyakan penyaring berikutnya,
+// 4. gejala krisis yang belum ditanyakan,
+// 5. selesai.
 export function langkahBerikutnya(sesi) {
     const kandidat = aturanKandidat(sesi);
-    const status = new Map(kandidat.map((a) => [a, statusAturan(a, sesi.fakta)]));
-    const terbuka = kandidat.filter((a) => status.get(a) === "terbuka");
+    const fakta = tutupFakta(sesi.fakta);
+    const maju = mesinMaju(sesi.fakta, sesi.durasi, kandidat);
+    const sudah = new Set(maju.penyakit);
+
+    const status = new Map(kandidat.map((a) => [a, statusAturan(a, fakta)]));
+    const terbuka = kandidat.filter((a) => status.get(a) === "terbuka" && !sudah.has(a.penyakit));
     const terpenuhi = kandidat.filter((a) => status.get(a) === "terpenuhi");
     // gangguan tanpa durasi minimal (durasiMinimal 0) tidak perlu ditanyakan durasinya
-    const tanpaDurasi = terpenuhi.filter((a) => a.durasiMinimal > 0 && !Object.hasOwn(sesi.durasi, a.penyakit));
-    const krisis = krisisBelumDitanya(kandidat, sesi.fakta);
-    const sisa = () => new Set([...terbuka.flatMap((a) => gejalaRelevan(a, sesi.fakta)), ...krisis]).size + tanpaDurasi.length + terbuka.length;
+    const tanpaDurasi = terpenuhi.filter((a) => a.durasiMinimal > 0 && !Object.hasOwn(sesi.durasi, a.penyakit) && !sudah.has(a.penyakit));
+    const krisis = krisisBelumDitanya(kandidat, fakta);
+    const sisa = () => new Set([...terbuka.flatMap((a) => gejalaRelevan(a, fakta)), ...krisis]).size + tanpaDurasi.length + terbuka.length;
 
     if (tanpaDurasi.length > 0) {
         return { jenis: "durasi", penyakit: tanpaDurasi[0].penyakit, sisa: sisa() };
     }
 
     if (terbuka.length > 0 && sesi.metode === "backward") {
-        const relevan = gejalaRelevan(terbuka[0], sesi.fakta);
-        // gejala yang tidak ada di urutan acak (data ditambah setelah sesi dibuat) ditanyakan sesudahnya
-        const kode = [...sesi.acak, ...relevan].find((k) => relevan.includes(k));
-        return { jenis: "gejala", kode, sisa: sisa() };
+        const kode = pertanyaanBackward(sesi, terbuka, fakta);
+        if (kode) return { jenis: "gejala", kode, sisa: sisa() };
     }
 
     if (terbuka.length > 0) {
         const fokus = terbuka
-            .filter((a) => statusKriteria(a.kriteria[0], sesi.fakta) === "terpenuhi")
-            .sort((a, b) => waktuAktif(a, sesi) - waktuAktif(b, sesi))[0];
+            .filter((a) => statusKriteria(a.kriteria[0], fakta) === "terpenuhi")
+            .sort((a, b) => waktuAktif(a, sesi, fakta) - waktuAktif(b, sesi, fakta))[0];
         const kode = fokus
-            ? gejalaRelevan(fokus, sesi.fakta)[0]
-            : penyaringBerikutnya(sesi, terbuka);
-        return { jenis: "gejala", kode, sisa: sisa() };
+            ? gejalaRelevan(fokus, fakta)[0]
+            : penyaringBerikutnya(sesi, terbuka, fakta);
+        if (kode) return { jenis: "gejala", kode, sisa: sisa() };
     }
 
     if (krisis.length > 0) {
         return { jenis: "gejala", kode: krisis[0], sisa: sisa() };
     }
 
-    const cukup = (a) => a.durasiMinimal === 0 || sesi.durasi[a.penyakit] >= a.durasiMinimal;
-    const disimpulkan = terpenuhi.filter(cukup).map((a) => a.penyakit);
-    // gangguan residual (misalnya gangguan penyesuaian) hanya disimpulkan jika tidak ada gangguan lain
-    // yang disimpulkan, karena DSM-5-TR mensyaratkan gejalanya tidak memenuhi kriteria gangguan lain
-    const utama = disimpulkan.filter((k) => !PENYAKIT[k].residual);
+    // Gangguan residual (misalnya gangguan penyesuaian) hanya disimpulkan jika tidak ada gangguan
+    // lain yang disimpulkan, karena DSM-5-TR mensyaratkan gejalanya tidak memenuhi kriteria
+    // gangguan lain. Aturan yang durasinya belum cukup dilaporkan terpisah sebagai belumCukup.
+    const utama = maju.penyakit.filter((k) => !PENYAKIT[k].residual);
+    const penyakit = utama.length > 0 ? utama : maju.penyakit;
+    const belumCukup = maju.belumCukup.filter((k) => !(utama.length > 0 && PENYAKIT[k].residual));
     return {
         jenis: "selesai",
-        penyakit: utama.length > 0 ? utama : disimpulkan,
-        belumCukup: terpenuhi.filter((a) => !cukup(a)).map((a) => a.penyakit),
+        penyakit,
+        belumCukup,
         durasi: { ...sesi.durasi }
     };
 }
 
 // urutan jawaban saat pertanyaan penyaring sebuah aturan terpenuhi
-function waktuAktif(aturan, sesi) {
-    const posisi = aturan.kriteria[0].gejala.flatMap(asal).filter((k) => sesi.fakta[k] === true).map((k) => sesi.urutan.indexOf(k));
+function waktuAktif(aturan, sesi, fakta = sesi.fakta) {
+    const posisi = aturan.kriteria[0].gejala.flatMap(asal).filter((k) => fakta[k] === true).map((k) => sesi.urutan.indexOf(k));
     return Math.min(...posisi);
 }
 
-function penyaringBerikutnya(sesi, terbuka) {
-    const relevan = new Set(terbuka.flatMap((a) => statusKriteria(a.kriteria[0], sesi.fakta) === "terbuka"
-        ? a.kriteria[0].gejala.flatMap((k) => belumDijawab(k, sesi.fakta))
+function penyaringBerikutnya(sesi, terbuka, fakta = sesi.fakta) {
+    const relevan = new Set(terbuka.flatMap((a) => statusKriteria(a.kriteria[0], fakta) === "terbuka"
+        ? a.kriteria[0].gejala.flatMap((k) => belumDijawab(k, fakta))
         : []));
     // penyaring baru (data ditambah setelah sesi dibuat) ditaruh di akhir
     const urutan = [...sesi.acak, ...DAFTAR_GEJALA.map((g) => g.kode)];
@@ -324,7 +523,9 @@ export function daftarJawaban(sesi) {
 // Progres yang belum selesai disimpan di IndexedDB agar bisa dilanjutkan setelah browser ditutup,
 // lalu dihapus begitu hasil keluar. Salinannya disimpan di memori supaya bisa dibaca langsung.
 const cacheSesi = {};
-const saluran = globalThis.BroadcastChannel ? new BroadcastChannel("sispak") : null;
+// Jangan membuat BroadcastChannel di luar browser (misalnya saat pengujian Node). Di browser
+// saluran ini menyinkronkan progres antar-tab.
+const saluran = typeof window !== "undefined" && window.BroadcastChannel ? new window.BroadcastChannel("sispak") : null;
 
 function sesiValid(sesi) {
     return sesi && METODE.includes(sesi.metode) && Array.isArray(sesi.urutan)

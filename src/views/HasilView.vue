@@ -19,13 +19,23 @@ const belumCukup = computed(() => entri.value.belumCukup.filter((k) => PENYAKIT[
 const membuatPdf = ref(false);
 const gagalPdf = ref(false);
 const sudahDiunduh = ref(false);
+const tautanPdf = ref(null);
+let urlPdf = null;
 
 async function unduhPdf() {
     membuatPdf.value = true;
     gagalPdf.value = false;
     try {
         const { unduhPdfHasil } = await import("@/lib/pdf");
-        await unduhPdfHasil(entri.value);
+        const hasil = await unduhPdfHasil(entri.value);
+
+        // Simpan URL blob sebagai tautan cadangan. Di beberapa browser ponsel, unduhan otomatis
+        // diblokir tetapi tautan ini tetap bisa dibuka untuk melihat/menyimpan PDF.
+        if (hasil?.url) {
+            if (urlPdf) URL.revokeObjectURL(urlPdf);
+            urlPdf = hasil.url;
+            tautanPdf.value = hasil;
+        }
         sudahDiunduh.value = true;
     } catch (e) {
         console.error(e);
@@ -58,7 +68,10 @@ function cegahTutup(e) {
 }
 
 onMounted(() => window.addEventListener("beforeunload", cegahTutup));
-onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
+onUnmounted(() => {
+    window.removeEventListener("beforeunload", cegahTutup);
+    if (urlPdf) URL.revokeObjectURL(urlPdf);
+});
 </script>
 
 <template>
@@ -108,6 +121,10 @@ onUnmounted(() => window.removeEventListener("beforeunload", cegahTutup));
                     <RouterLink class="btn btn-ghost flex-1 sm:flex-none" to="/konsultasi">Konsultasi lagi</RouterLink>
                 </div>
                 <p v-if="gagalPdf" class="mt-3 text-sm text-no" role="alert">PDF gagal dibuat. Periksa koneksi internet anda lalu coba lagi.</p>
+                <p v-if="tautanPdf" class="mt-3 text-sm text-muted print:hidden">
+                    PDF sudah dibuat. Jika unduhan tidak dimulai,
+                    <a :href="tautanPdf.url" :download="tautanPdf.nama" target="_blank" rel="noopener" class="font-bold">buka PDF di sini</a>.
+                </p>
             </section>
 
             <PesanDukungan class="mb-5" />

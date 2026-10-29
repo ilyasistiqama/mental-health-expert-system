@@ -198,5 +198,27 @@ export async function unduhPdfHasil(entri) {
     // tanggal lokal pengguna (toISOString memakai UTC)
     const w = new Date(entri.waktu);
     const tanggal = `${w.getFullYear()}-${String(w.getMonth() + 1).padStart(2, "0")}-${String(w.getDate()).padStart(2, "0")}`;
-    doc.save(`hasil-konsultasi-${tanggal}.pdf`);
+    const nama = `hasil-konsultasi-${tanggal}.pdf`;
+
+    // Unduhan lewat blob + anchor lebih andal di browser ponsel daripada doc.save().
+    // URL blob juga dikembalikan agar halaman hasil dapat menampilkan tautan cadangan
+    // "buka PDF" bila browser memblokir unduhan otomatis.
+    const blob = doc.output("blob");
+    const url = URL.createObjectURL(blob);
+    const tautan = document.createElement("a");
+    tautan.href = url;
+    tautan.download = nama;
+    tautan.rel = "noopener";
+    document.body.appendChild(tautan);
+
+    // Safari di iPhone/iPad kadang mengabaikan atribut download dan membuka blob URL di tab
+    // yang sama, sehingga halaman hasil hilang. Di sana biarkan pengguna menekan tautan
+    // cadangan; browser ponsel lain tetap mencoba mengunduh otomatis.
+    const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (!iOS) tautan.click();
+
+    tautan.remove();
+
+    return { url, nama };
 }

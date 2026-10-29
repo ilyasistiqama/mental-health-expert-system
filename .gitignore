@@ -1,3 +1,6 @@
 node_modules
 *.log
 .DS_Store
+
+# state lokal Command Code (taste, sesi, dll.)
+.commandcode/
