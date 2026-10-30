@@ -1,4 +1,4 @@
-// Alamat dasar aplikasi, misalnya "/" (npm run dev), "/sispak-gangguan-kecemasan/" (GitHub Pages)
+// Alamat dasar aplikasi, misalnya "/" (npm run dev), "/mental-health-expert-system/" (GitHub Pages)
 // atau "/folder/dist/" (web server lokal). Build untuk GitHub Pages memakai base absolut; build biasa
 // memakai base relatif "./", sehingga alamatnya dihitung dari lokasi file JavaScript (folder assets/).
 // Optional chaining membuat modul ini tetap bisa diimpor di Node untuk pengujian mesin inferensi.

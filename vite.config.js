@@ -33,7 +33,7 @@ const salinHalaman = {
 
 export default defineConfig({
     // relatif supaya hasil build bisa ditaruh di subfolder mana pun; workflow GitHub Pages
-    // mengisi BASE_PATH (misalnya /sispak-gangguan-kecemasan/) agar alamat bersih selalu benar
+    // mengisi BASE_PATH (misalnya /mental-health-expert-system/) agar alamat bersih selalu benar
     base: process.env.BASE_PATH || "./",
     plugins: [
         vue(),

@@ -26,7 +26,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # base absolut sesuai nama repo, misalnya /sispak-gangguan-kecemasan/
+      # base absolut sesuai nama repo, misalnya /mental-health-expert-system/
       - run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
