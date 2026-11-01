@@ -1,0 +1,1050 @@
+[
+  {
+    "code": "G01",
+    "name": "Serangan panik berulang",
+    "question": "Apakah anda pernah beberapa kali mengalami serangan rasa takut atau tidak nyaman yang sangat hebat secara tiba-tiba, memuncak dalam hitungan menit, dan sering muncul tanpa pemicu yang jelas?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G02",
+    "name": "Khawatir berlebihan tentang banyak hal",
+    "question": "Apakah anda merasa khawatir secara berlebihan tentang banyak hal sehari-hari (pekerjaan, sekolah, kesehatan, keluarga, atau keuangan) hampir setiap hari?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G03",
+    "name": "Takut berlebihan pada objek atau situasi tertentu",
+    "question": "Apakah anda memiliki rasa takut yang sangat kuat dan jauh melebihi bahaya sebenarnya terhadap objek atau situasi tertentu, misalnya ketinggian, hewan, darah, jarum suntik, atau naik pesawat?",
+    "references": [
+      "nimh-phobias",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G04",
+    "name": "Obsesi (pikiran berulang yang tidak diinginkan)",
+    "question": "Apakah sering muncul pikiran, bayangan, atau dorongan yang tidak anda inginkan secara berulang dan membuat anda sangat cemas atau tidak nyaman (misalnya takut terkena kotoran atau kuman, takut mencelakai orang lain, atau keharusan segala sesuatu simetris), lalu anda berusaha keras mengabaikan, menekan, atau menetralkannya?",
+    "references": [
+      "samhsa-ocd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G05",
+    "name": "Kompulsi (tindakan berulang)",
+    "question": "Apakah anda merasa terdorong untuk berulang kali melakukan suatu tindakan atau ritual secara berlebihan dan sulit ditahan, misalnya memeriksa pintu atau kompor, mencuci tangan, merapikan barang sampai terasa pas, atau menghitung dan mengulang kata dalam hati, untuk meredakan cemas atau mencegah sesuatu yang buruk terjadi?",
+    "references": [
+      "samhsa-ocd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G06",
+    "name": "Paparan peristiwa traumatis",
+    "question": "Apakah anda mengalami atau menyaksikan langsung kematian, ancaman kematian, cedera berat, atau kekerasan seksual; mengetahui kejadian kekerasan atau kecelakaan seperti itu pada orang terdekat; atau berulang kali terpapar rinciannya karena pekerjaan?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G07",
+    "name": "Takut pada situasi sosial",
+    "question": "Apakah anda hampir selalu merasa sangat takut atau cemas dalam situasi sosial ketika anda mungkin diperhatikan atau dinilai orang lain, misalnya berbicara di depan umum, berkenalan dengan orang baru, atau makan di depan orang lain?",
+    "references": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G08",
+    "name": "Takut terjebak tanpa pertolongan di tempat umum",
+    "question": "Apakah anda merasa sangat takut berada di tempat atau situasi tertentu karena khawatir sulit melarikan diri atau tidak ada yang menolong jika tiba-tiba muncul gejala panik atau gejala yang memalukan?",
+    "references": [
+      "nimh-phobias",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G09",
+    "name": "Cemas berlebihan terhadap perpisahan",
+    "question": "Apakah anda merasa takut atau cemas jika harus berpisah dari orang yang sangat dekat dengan anda, seperti orang tua, pasangan, atau anak, jauh melebihi yang biasanya dirasakan orang seusia anda?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G10",
+    "name": "Jantung berdebar kencang",
+    "question": "Dalam satu serangan panik yang sama, apakah jantung anda berdebar sangat kencang?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G11",
+    "name": "Berkeringat saat serangan",
+    "question": "Dalam satu serangan panik yang sama, apakah anda berkeringat?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G12",
+    "name": "Sesak napas saat serangan",
+    "question": "Dalam serangan yang sama, apakah anda merasa kekurangan napas?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G13",
+    "name": "Nyeri atau rasa tidak nyaman di dada",
+    "question": "Dalam satu serangan panik yang sama, apakah dada anda terasa nyeri atau tidak nyaman?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G14",
+    "name": "Mual saat serangan",
+    "question": "Dalam serangan yang sama, apakah anda mual atau perut terasa tidak nyaman?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G15",
+    "name": "Merasa tidak nyata atau terlepas dari diri",
+    "question": "Dalam satu serangan panik yang sama, apakah anda merasa sekitar anda tidak nyata, atau seperti terlepas dari diri sendiri?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G16",
+    "name": "Takut kehilangan kendali saat serangan",
+    "question": "Dalam serangan yang sama, apakah anda takut kehilangan kendali?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G17",
+    "name": "Kekhawatiran atau perubahan perilaku setelah serangan",
+    "question": "Setelah salah satu serangan panik, apakah kekhawatiran akan serangan berikutnya atau perubahan kebiasaan untuk menghindarinya bertahan setidaknya satu bulan?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G18",
+    "name": "Sulit mengendalikan rasa khawatir",
+    "question": "Apakah anda merasa sulit menghentikan atau mengendalikan rasa khawatir anda tentang berbagai hal?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G19",
+    "name": "Gelisah atau merasa tegang",
+    "question": "Selama periode kekhawatiran yang sama dan pada sebagian besar hari, apakah anda sering merasa gelisah, tegang, atau tidak bisa tenang?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G20",
+    "name": "Mudah lelah",
+    "question": "Selama periode kekhawatiran yang sama dan pada sebagian besar hari, apakah anda mudah merasa lelah walaupun tidak banyak beraktivitas?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G21",
+    "name": "Sulit berkonsentrasi atau pikiran terasa kosong",
+    "question": "Selama periode kekhawatiran yang sama dan pada sebagian besar hari, apakah anda sering sulit berkonsentrasi, atau pikiran tiba-tiba terasa kosong?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G22",
+    "name": "Mudah marah atau tersinggung",
+    "question": "Selama periode kekhawatiran yang sama dan pada sebagian besar hari, apakah anda menjadi lebih mudah marah atau tersinggung?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G23",
+    "name": "Otot terasa tegang atau kaku",
+    "question": "Selama periode kekhawatiran yang sama dan pada sebagian besar hari, apakah otot-otot anda (misalnya leher, bahu, atau punggung) sering terasa tegang atau kaku?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G24",
+    "name": "Tidur gelisah atau tidak nyenyak",
+    "question": "Selama periode kekhawatiran yang sama dan pada sebagian besar hari, apakah tidur anda sering terasa gelisah atau tidak nyenyak, sehingga anda bangun dalam keadaan tidak segar?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G25",
+    "name": "Rasa takut muncul hampir setiap kali",
+    "question": "Jika anda takut pada objek atau situasi tertentu (misalnya hewan, ketinggian, atau jarum suntik), apakah rasa takut itu muncul hampir setiap kali anda berhadapan dengannya?",
+    "references": [
+      "nimh-phobias",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G26",
+    "name": "Menghindari objek atau situasi yang ditakuti",
+    "question": "Apakah anda berusaha menghindari objek atau situasi tertentu yang anda takuti, atau menghadapinya dengan rasa takut yang sangat hebat?",
+    "references": [
+      "nimh-phobias",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G27",
+    "name": "Ingatan trauma yang mengganggu",
+    "question": "Apakah ingatan trauma berulang kali muncul tanpa diinginkan?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G28",
+    "name": "Tekanan emosional saat diingatkan",
+    "question": "Apakah pengingat trauma menimbulkan tekanan emosional yang kuat?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G29",
+    "name": "Menghindari pikiran tentang trauma",
+    "question": "Apakah anda menghindari pikiran atau perasaan terkait trauma?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G30",
+    "name": "Perasaan negatif setelah trauma",
+    "question": "Sejak trauma, apakah perasaan negatif menetap atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G31",
+    "name": "Terasing setelah trauma",
+    "question": "Sejak trauma, apakah anda semakin merasa terpisah dari orang lain?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G32",
+    "name": "Celah ingatan tentang trauma",
+    "question": "Apakah bagian penting trauma sulit diingat, bukan karena cedera, alkohol, atau obat?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G33",
+    "name": "Kewaspadaan berlebihan setelah trauma",
+    "question": "Sejak trauma, apakah kewaspadaan berlebihan muncul atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G34",
+    "name": "Takut dinilai negatif atau dipermalukan",
+    "question": "Apakah anda takut akan bersikap atau menunjukkan kecemasan dengan cara yang memalukan sehingga dinilai negatif atau ditolak oleh orang lain?",
+    "references": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G35",
+    "name": "Menghindari situasi sosial",
+    "question": "Apakah anda menghindari situasi sosial, seperti berbicara di depan umum atau bertemu orang baru, atau menjalaninya dengan rasa cemas yang sangat hebat?",
+    "references": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G36",
+    "name": "Takut naik transportasi umum",
+    "question": "Apakah anda takut naik transportasi umum, seperti bus, kereta, atau pesawat, karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong bila muncul gejala panik, merasa akan pingsan, atau keluhan lain yang menyulitkan atau memalukan?",
+    "references": [
+      "nimh-phobias",
+      "nimh-agoraphobia",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G37",
+    "name": "Takut berada di ruang terbuka",
+    "question": "Apakah anda takut berada di ruang terbuka, seperti lapangan parkir, pasar, atau jembatan, karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong bila muncul gejala panik, merasa akan pingsan, atau keluhan lain yang menyulitkan atau memalukan?",
+    "references": [
+      "nimh-phobias",
+      "nimh-agoraphobia",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G38",
+    "name": "Takut berada di ruang tertutup",
+    "question": "Apakah anda takut berada di ruang tertutup, seperti toko, mal, atau bioskop, karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong bila muncul gejala panik, merasa akan pingsan, atau keluhan lain yang menyulitkan atau memalukan?",
+    "references": [
+      "nimh-phobias",
+      "nimh-agoraphobia",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G39",
+    "name": "Takut mengantre atau berada di keramaian",
+    "question": "Apakah anda takut mengantre atau berada di tengah keramaian karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong bila muncul gejala panik, merasa akan pingsan, atau keluhan lain yang menyulitkan atau memalukan?",
+    "references": [
+      "nimh-phobias",
+      "nimh-agoraphobia",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G40",
+    "name": "Takut keluar rumah sendirian",
+    "question": "Apakah anda takut keluar rumah sendirian karena khawatir sulit menyelamatkan diri atau tidak ada yang menolong bila muncul gejala panik, merasa akan pingsan, atau keluhan lain yang menyulitkan atau memalukan?",
+    "references": [
+      "nimh-phobias",
+      "nimh-agoraphobia",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G41",
+    "name": "Menghindari tempat tersebut atau harus ditemani",
+    "question": "Apakah anda menghindari tempat-tempat seperti transportasi umum, keramaian, atau keluar rumah sendirian, hanya berani jika ditemani, atau menjalaninya dengan rasa takut yang hebat?",
+    "references": [
+      "nimh-phobias",
+      "nimh-agoraphobia",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G42",
+    "name": "Sangat tertekan saat berpisah",
+    "question": "Apakah anda merasa sangat tertekan ketika akan atau sedang berpisah dari orang terdekat atau dari rumah?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G43",
+    "name": "Khawatir orang terdekat celaka",
+    "question": "Apakah anda terus-menerus khawatir orang terdekat akan celaka, sakit parah, atau meninggal?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G44",
+    "name": "Khawatir peristiwa buruk akan memisahkan",
+    "question": "Apakah anda khawatir akan terjadi peristiwa buruk (tersesat, diculik, kecelakaan) yang memisahkan anda dari orang terdekat?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G45",
+    "name": "Enggan pergi jauh dari orang terdekat",
+    "question": "Apakah anda enggan atau menolak pergi ke luar rumah, bekerja, atau bepergian karena takut berpisah?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G46",
+    "name": "Takut sendirian tanpa orang terdekat",
+    "question": "Apakah anda sangat takut atau enggan sendirian tanpa orang terdekat, di rumah atau di tempat lain?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G47",
+    "name": "Mimpi buruk tentang perpisahan",
+    "question": "Apakah anda sering bermimpi buruk tentang perpisahan dengan orang terdekat?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G48",
+    "name": "Keluhan fisik saat berpisah",
+    "question": "Apakah anda mengalami keluhan fisik, seperti sakit kepala, sakit perut, atau mual, ketika akan berpisah dari orang terdekat?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G49",
+    "name": "Mengganggu kehidupan sehari-hari",
+    "question": "Apakah keluhan-keluhan yang anda rasakan membuat anda sangat tertekan, atau mengganggu pekerjaan, sekolah, maupun hubungan sosial anda?",
+    "askLast": true,
+    "educationalOnly": true,
+    "references": [
+      "nice-ng222"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G50",
+    "name": "Sedih, hampa, atau putus asa hampir setiap hari",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah anda merasa sedih, murung, hampa, atau putus asa hampir sepanjang hari dan hampir setiap hari?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G51",
+    "name": "Kehilangan minat atau kesenangan",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah anda kehilangan minat atau tidak lagi merasa senang melakukan hampir semua kegiatan, termasuk hal-hal yang biasanya anda sukai, hampir setiap hari?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G52",
+    "name": "Perubahan nafsu makan atau berat badan",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah nafsu makan anda jauh berkurang atau justru jauh bertambah hampir setiap hari, atau berat badan anda turun atau naik cukup banyak padahal tidak sedang diet?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G53",
+    "name": "Tidur berlebihan",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah hampir setiap hari anda tidur jauh lebih lama dari biasanya?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G54",
+    "name": "Gerak atau bicara melambat, atau sangat gelisah",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah hampir setiap hari gerakan atau cara bicara anda menjadi jauh lebih lambat, atau sebaliknya anda sangat gelisah dan sulit diam, sampai orang lain bisa melihat perubahannya?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G55",
+    "name": "Kehilangan tenaga atau sangat lelah",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah anda merasa sangat lelah atau kehabisan tenaga hampir setiap hari, bahkan untuk kegiatan ringan?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G56",
+    "name": "Merasa tidak berharga atau bersalah berlebihan",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah hampir setiap hari anda merasa tidak berharga atau merasa bersalah secara berlebihan?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G57",
+    "name": "Sulit berkonsentrasi atau mengambil keputusan",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah hampir setiap hari anda sulit berkonsentrasi, misalnya saat membaca atau menonton, atau sulit mengambil keputusan?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G58",
+    "name": "Pikiran tentang kematian atau menyakiti diri",
+    "question": "Belakangan ini, apakah anda berulang kali berpikir tentang kematian, merasa lebih baik mati, atau terpikir untuk menyakiti diri sendiri atau mengakhiri hidup?",
+    "crisis": true,
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G59",
+    "name": "Obsesi atau kompulsi menyita waktu",
+    "question": "Apakah pikiran berulang yang tidak anda inginkan, atau tindakan berulang yang anda rasa harus dilakukan, menyita lebih dari 1 jam setiap hari?",
+    "references": [
+      "samhsa-ocd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G60",
+    "name": "Sulit memulai tidur",
+    "question": "Apakah anda sering sulit memulai tidur, yaitu butuh waktu lama untuk bisa tertidur walaupun sudah berbaring di tempat tidur?",
+    "references": [
+      "nhlbi-insomnia"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G61",
+    "name": "Sering terbangun dan sulit tidur kembali",
+    "question": "Apakah anda sering terbangun di tengah malam lalu sulit tidur kembali?",
+    "references": [
+      "nhlbi-insomnia"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G62",
+    "name": "Bangun terlalu pagi",
+    "question": "Apakah anda sering bangun jauh lebih pagi dari yang anda inginkan lalu tidak bisa tidur lagi?",
+    "references": [
+      "nhlbi-insomnia"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G63",
+    "name": "Sulit tidur minimal 3 malam seminggu",
+    "question": "Apakah kesulitan tidur (sulit tertidur, sering terbangun, atau bangun terlalu pagi) anda alami setidaknya 3 malam dalam seminggu?",
+    "references": [
+      "nhlbi-insomnia"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G64",
+    "name": "Tetap sulit tidur walau ada kesempatan",
+    "question": "Apakah anda tetap sulit tidur walaupun sebenarnya punya cukup waktu dan suasana yang mendukung untuk tidur, bukan karena begadang, kerja malam, atau lingkungan yang bising?",
+    "references": [
+      "nhlbi-insomnia"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G65",
+    "name": "Keluhan muncul setelah peristiwa berat",
+    "question": "Apakah keluhan anda (misalnya sedih, cemas, atau tertekan) mulai muncul dalam 3 bulan setelah anda mengalami peristiwa atau perubahan hidup yang berat, seperti putus hubungan, perceraian, kehilangan pekerjaan, masalah keuangan, pindah tempat tinggal, sakit, atau konflik di rumah, sekolah, maupun tempat kerja?",
+    "references": [
+      "medline-adjustment",
+      "odonnell-2019"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G66",
+    "name": "Terus memikirkan peristiwa berat",
+    "question": "Apakah anda terus-menerus memikirkan, mengkhawatirkan, atau merenungkan suatu peristiwa berat yang anda alami beserta akibatnya, sampai sulit lepas dari pikiran tersebut?",
+    "educationalOnly": true,
+    "references": [
+      "odonnell-2019"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G67",
+    "name": "Tekanan berat terkait peristiwa hidup",
+    "question": "Apakah tekanan akibat peristiwa hidup terasa sangat berat dengan mempertimbangkan keadaan, dukungan, dan latar budaya anda?",
+    "references": [
+      "medline-adjustment",
+      "odonnell-2019"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G68",
+    "name": "Gangguan tidur",
+    "sources": [
+      "G109",
+      "G24"
+    ],
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G69",
+    "name": "Sulit tidur atau tidur berlebihan",
+    "sources": [
+      "G90",
+      "G53"
+    ],
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G70",
+    "name": "Gemetar",
+    "question": "Dalam serangan panik yang sama, apakah tubuh anda gemetar?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G71",
+    "name": "Rasa tercekik",
+    "question": "Dalam serangan panik yang sama, apakah anda merasa tercekik?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G72",
+    "name": "Pusing atau hampir pingsan",
+    "question": "Dalam serangan panik yang sama, apakah anda pusing, limbung, atau hampir pingsan?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G73",
+    "name": "Takut mati saat serangan",
+    "question": "Dalam serangan panik yang sama, apakah anda takut akan mati?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G74",
+    "name": "Menggigil atau terasa panas",
+    "question": "Dalam serangan panik yang sama, apakah anda menggigil atau tiba-tiba terasa panas?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G75",
+    "name": "Kebas atau kesemutan",
+    "question": "Dalam serangan panik yang sama, apakah anda merasa kebas atau kesemutan?",
+    "references": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G76",
+    "name": "Mimpi buruk terkait trauma",
+    "question": "Apakah mimpi mengganggu terkait trauma berulang kali muncul?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G77",
+    "name": "Trauma terasa terjadi kembali",
+    "question": "Apakah trauma terasa terjadi kembali, bukan hanya sebagai ingatan?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G78",
+    "name": "Reaksi tubuh terhadap pengingat trauma",
+    "question": "Apakah pengingat trauma menimbulkan reaksi tubuh yang kuat?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G79",
+    "name": "Menghindari pengingat di sekitar",
+    "question": "Apakah anda menghindari orang, tempat, atau kegiatan pengingat trauma?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G80",
+    "name": "Menyalahkan diri atau orang lain terkait trauma",
+    "question": "Sejak trauma, apakah anda menyalahkan diri atau orang lain secara berlebihan?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G81",
+    "name": "Sulit merasakan emosi positif setelah trauma",
+    "question": "Sejak trauma, apakah kesulitan merasakan emosi positif muncul atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G82",
+    "name": "Keyakinan negatif setelah trauma",
+    "question": "Sejak trauma, apakah keyakinan negatif kuat tentang diri atau dunia menetap?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G83",
+    "name": "Kehilangan minat setelah trauma",
+    "question": "Sejak trauma, apakah minat pada kegiatan penting berkurang?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G84",
+    "name": "Mudah terkejut setelah trauma",
+    "question": "Sejak trauma, apakah reaksi kaget berlebihan muncul atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G85",
+    "name": "Ledakan marah setelah trauma",
+    "question": "Sejak trauma, apakah ledakan marah atau perilaku agresif muncul atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G86",
+    "name": "Perilaku berisiko setelah trauma",
+    "question": "Sejak trauma, apakah perilaku yang membahayakan diri muncul atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G87",
+    "name": "Sulit berkonsentrasi setelah trauma",
+    "question": "Sejak trauma, apakah kesulitan berkonsentrasi muncul atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G88",
+    "name": "Gangguan tidur setelah trauma",
+    "question": "Sejak trauma, apakah kesulitan tidur muncul atau memburuk?",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G89",
+    "name": "Enggan tidur terpisah dari orang terdekat",
+    "question": "Apakah anda berulang kali enggan tidur jauh dari rumah atau tanpa orang terdekat karena takut berpisah?",
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G90",
+    "name": "Sulit tidur hampir setiap hari pada periode suasana hati",
+    "question": "Pada periode keluhan suasana hati yang sama, apakah hampir setiap hari anda sulit memulai tidur, sering terbangun, atau bangun terlalu pagi?",
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G91",
+    "name": "Ketakutan sosial tidak sebanding dengan ancaman",
+    "question": "Apakah ketakutan pada situasi sosial terasa jauh melampaui ancaman sebenarnya, dengan mempertimbangkan lingkungan dan budaya anda?",
+    "references": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G92",
+    "name": "Kecemasan tempat umum hampir selalu muncul",
+    "question": "Apakah situasi tempat umum yang anda takuti hampir selalu menimbulkan cemas, jauh melampaui bahaya sebenarnya?",
+    "references": [
+      "nimh-phobias",
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G93",
+    "name": "Mimpi buruk berulang yang diingat",
+    "question": "Apakah anda berulang kali mengalami mimpi sangat mengganggu tentang ancaman atau bahaya yang masih dapat diingat setelah bangun?",
+    "references": [
+      "aasm-nightmare"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G94",
+    "name": "Cepat sadar penuh setelah mimpi buruk",
+    "question": "Setelah terbangun dari mimpi buruk tersebut, apakah anda cepat sadar penuh dan mengenali keadaan sekitar?",
+    "references": [
+      "aasm-nightmare"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G95",
+    "name": "Dampak mimpi buruk",
+    "question": "Apakah mimpi buruk atau terbangun karenanya membuat anda sangat tertekan, takut tidur, atau mengganggu kegiatan dan hubungan sehari-hari?",
+    "askLast": true,
+    "references": [
+      "aasm-nightmare"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G96",
+    "name": "Sulit tidur pada waktu yang dibutuhkan",
+    "question": "Apakah waktu mulai tidur anda berulang kali jauh lebih larut daripada waktu yang anda inginkan atau perlukan?",
+    "references": [
+      "nhlbi-circadian-types",
+      "nhlbi-circadian-assessment"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G97",
+    "name": "Sulit bangun pada waktu yang dibutuhkan",
+    "question": "Bersamaan dengan tidur yang terlambat, apakah anda berulang kali sulit bangun pada waktu pagi yang diperlukan?",
+    "references": [
+      "nhlbi-circadian-types",
+      "nhlbi-circadian-assessment"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G98",
+    "name": "Dampak jadwal tidur terlambat",
+    "question": "Apakah pola tidur dan bangun yang terlambat tersebut mengganggu sekolah, pekerjaan, tanggung jawab, atau kegiatan sosial anda?",
+    "askLast": true,
+    "references": [
+      "nhlbi-circadian-types",
+      "nhlbi-circadian-assessment"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G99",
+    "name": "Dampak kekhawatiran berlebihan",
+    "question": "Apakah kekhawatiran berlebihan membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G100",
+    "name": "Dampak ketakutan terhadap objek atau situasi tertentu",
+    "question": "Apakah ketakutan terhadap objek atau situasi tertentu membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G101",
+    "name": "Dampak obsesi atau ritual berulang",
+    "question": "Apakah obsesi atau ritual berulang membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "samhsa-ocd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G102",
+    "name": "Dampak keluhan setelah trauma",
+    "question": "Apakah keluhan setelah trauma membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G103",
+    "name": "Dampak ketakutan pada situasi sosial",
+    "question": "Apakah ketakutan pada situasi sosial membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G104",
+    "name": "Dampak ketakutan pada tempat umum atau keluar sendirian",
+    "question": "Apakah ketakutan pada tempat umum atau keluar sendirian membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G105",
+    "name": "Dampak kecemasan saat berpisah",
+    "question": "Apakah kecemasan saat berpisah membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G106",
+    "name": "Dampak keluhan suasana hati dan minat",
+    "question": "Apakah keluhan suasana hati dan minat membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G107",
+    "name": "Dampak kesulitan tidur",
+    "question": "Apakah kesulitan tidur membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "nhlbi-insomnia"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G108",
+    "name": "Dampak keluhan setelah peristiwa hidup yang berat",
+    "question": "Apakah keluhan setelah peristiwa hidup yang berat membuat anda sangat tertekan atau mengganggu pekerjaan, sekolah, hubungan, atau kegiatan penting lainnya?",
+    "askLast": true,
+    "references": [
+      "medline-adjustment",
+      "odonnell-2019"
+    ],
+    "reviewedAt": "2026-11-01"
+  },
+  {
+    "code": "G109",
+    "name": "Sulit tidur selama periode kekhawatiran",
+    "question": "Selama periode kekhawatiran yang sama, apakah hampir setiap hari anda sulit memulai atau mempertahankan tidur?",
+    "references": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01"
+  }
+]

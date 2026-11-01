@@ -7,7 +7,7 @@ import vue from "@vitejs/plugin-vue";
 import { VitePWA } from "vite-plugin-pwa";
 
 // membuang skrip pengalih ke dist/ dari index.html sumber saat build
-const hapusPetunjukSumber = {
+const removeSourceRedirect = {
     name: "hapus-petunjuk-sumber",
     apply: "build",
     transformIndexHtml: (html) => html.replace(/\s*<!-- petunjuk-sumber -->[\s\S]*?<!-- \/petunjuk-sumber -->/, "")
@@ -16,17 +16,17 @@ const hapusPetunjukSumber = {
 // GitHub Pages tidak punya fallback SPA. Setiap halaman dibuatkan salinan index.html (artikel.html, dst.)
 // sehingga /artikel dilayani dengan status 200; 404.html menjadi cadangan untuk alamat lain.
 // Daftar ini harus sama dengan rute di src/router.js.
-const HALAMAN = ["artikel", "konsultasi", "cek-menyeluruh", "cek-gangguan", "hasil", "sumber", "tentang", "forward", "backward"];
-let folderBuild = "dist";
-const salinHalaman = {
+const PAGE_ROUTES = ["artikel", "konsultasi", "cek-menyeluruh", "cek-gangguan", "hasil", "sumber", "tentang", "faq", "forward", "backward"];
+let buildDirectory = "dist";
+const copyRoutePages = {
     name: "salin-halaman",
     apply: "build",
     configResolved: (config) => {
-        folderBuild = resolve(config.root, config.build.outDir);
+        buildDirectory = resolve(config.root, config.build.outDir);
     },
     closeBundle: () => {
-        for (const nama of [...HALAMAN, "404"]) {
-            copyFileSync(resolve(folderBuild, "index.html"), resolve(folderBuild, `${nama}.html`));
+        for (const name of [...PAGE_ROUTES, "404"]) {
+            copyFileSync(resolve(buildDirectory, "index.html"), resolve(buildDirectory, `${name}.html`));
         }
     }
 };
@@ -38,8 +38,8 @@ export default defineConfig({
     plugins: [
         vue(),
         tailwindcss(),
-        hapusPetunjukSumber,
-        salinHalaman,
+        removeSourceRedirect,
+        copyRoutePages,
         // cache offline lewat service worker
         VitePWA({
             // jangan memuat ulang halaman otomatis saat ada versi baru: hasil konsultasi hanya ada di memori
@@ -47,10 +47,11 @@ export default defineConfig({
             injectRegister: false,
             manifest: false,
             workbox: {
-                // tampilan aplikasi (termasuk pembuat PDF) disimpan penuh agar bisa dibuka offline
+                cleanupOutdatedCaches: true,
+                // tampilan aplikasi disimpan penuh agar bisa dibuka offline
                 globPatterns: ["**/*.{js,css,html,svg,woff2}"],
                 navigateFallback: "index.html",
-                // fallback hanya untuk alamat halaman (/artikel), bukan file seperti data/penyakit.json
+                // fallback hanya untuk alamat halaman (/artikel), bukan file seperti data/conditions.json
                 navigateFallbackDenylist: [/\/[^/?]+\.[^/?]+(\?.*)?$/],
                 clientsClaim: true,
                 runtimeCaching: [

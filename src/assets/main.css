@@ -1,44 +1,48 @@
 @import "tailwindcss";
 
-/* Token warna; berganti otomatis mengikuti mode gelap sistem */
+/* Petrol blue, sage and warm neutrals. Contrast decisions: docs/color-design.md. */
 :root {
-    --bg: #f4f7f6;
+    --bg: #f7f6f2;
     --surface: #ffffff;
-    --surface-2: #edf3f1;
-    --text: #1c2b29;
-    --muted: #5b6d6a;
-    --line: #dbe5e2;
-    --primary: #2a7a72;
-    --primary-strong: #1f5f59;
-    --primary-soft: #dcefeb;
+    --surface-2: #eef2ef;
+    --text: #20343c;
+    --muted: #52666f;
+    --line: #d4dedc;
+    --primary: #235f73;
+    --primary-strong: #194a5c;
+    --primary-soft: #e1edf2;
     --on-primary: #ffffff;
-    --accent: #6359c2;
-    --accent-soft: #ebe9fa;
-    --no: #b4534a;
-    --no-soft: #f8e6e3;
-    --warn: #7a5200;
-    --warn-soft: #fff4dc;
+    --accent: #426b59;
+    --accent-soft: #e8f0e8;
+    --no: #a33f3d;
+    --no-soft: #fae9e6;
+    --warn: #795516;
+    --warn-soft: #fbf0d9;
+    --focus: #83551c;
+    --control-line: #788b93;
     color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #0f1716;
-        --surface: #162120;
-        --surface-2: #1c2a28;
-        --text: #e4eeec;
-        --muted: #9db0ac;
-        --line: #2a3a37;
-        --primary: #5cc2b6;
-        --primary-strong: #84d6cc;
-        --primary-soft: #1b3633;
-        --on-primary: #0d1f1d;
-        --accent: #a59ff0;
-        --accent-soft: #25233d;
-        --no: #e48a80;
-        --no-soft: #3a2220;
-        --warn: #f0c870;
-        --warn-soft: #33290f;
+        --bg: #111c22;
+        --surface: #18272e;
+        --surface-2: #21343b;
+        --text: #e8efef;
+        --muted: #afc1c5;
+        --line: #354950;
+        --primary: #8ac9df;
+        --primary-strong: #b0dfed;
+        --primary-soft: #203e4b;
+        --on-primary: #102830;
+        --accent: #b0cdb8;
+        --accent-soft: #263e34;
+        --no: #f0aaa3;
+        --no-soft: #472e2d;
+        --warn: #e8c68b;
+        --warn-soft: #3a301f;
+        --focus: #efd29a;
+        --control-line: #7e959e;
         color-scheme: dark;
     }
 }
@@ -61,9 +65,11 @@
     --color-no-soft: var(--no-soft);
     --color-warn: var(--warn);
     --color-warn-soft: var(--warn-soft);
-    --animate-masuk: masuk 0.3s ease-out;
+    --color-focus: var(--focus);
+    --color-control-line: var(--control-line);
+    --animate-enter: enter 0.3s ease-out;
 
-    @keyframes masuk {
+    @keyframes enter {
         from { opacity: 0; transform: translateY(8px); }
         to { opacity: 1; transform: none; }
     }
@@ -91,7 +97,7 @@
     }
 
     :focus-visible {
-        @apply outline-3 outline-offset-2 outline-accent;
+        @apply outline-3 outline-offset-2 outline-focus;
     }
 }
 
@@ -102,7 +108,7 @@
     }
 
     .card {
-        @apply rounded-2xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(20,40,38,.05),0_10px_30px_rgba(20,40,38,.07)] sm:p-6;
+        @apply rounded-2xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(26,50,61,.04),0_10px_30px_rgba(26,50,61,.06)] sm:p-6;
     }
 
     .btn {
@@ -115,6 +121,10 @@
 
     .btn-ghost {
         @apply border-line bg-surface text-ink hover:bg-surface-2;
+    }
+
+    .btn-neutral {
+        @apply border-control-line bg-surface text-ink hover:bg-surface-2;
     }
 
     .btn-text {

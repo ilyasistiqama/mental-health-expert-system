@@ -1,31 +1,31 @@
 import { ref } from "vue";
 import { registerSW } from "virtual:pwa-register";
-import { BASIS } from "./basis";
+import { BASE_PATH } from "./basePath";
 
-export const adaVersiBaru = ref(false);
-let perbarui = null;
+export const updateAvailable = ref(false);
+let updateServiceWorker = null;
 
 // Kunjungan pertama memuat data sebelum service worker aktif, sehingga data belum masuk cache.
 // Begitu service worker mengendalikan halaman, data diambil ulang lewat service worker agar tersimpan.
-function hangatkanCacheData() {
-    const berkas = ["penyakit.json", "gejala.json", "sumber.json"];
-    berkas.forEach((nama) => fetch(`${BASIS}data/${nama}`, { cache: "no-cache" }).catch(() => {}));
+function warmDataCache() {
+    const files = ["conditions.json", "symptoms.json", "references.json"];
+    files.forEach((name) => fetch(`${BASE_PATH}data/${name}`, { cache: "no-cache" }).catch(() => {}));
 }
 
-export function aktifkanCacheOffline() {
+export function enableOfflineCache() {
     // service worker hanya berjalan di HTTPS atau localhost
     if (!("serviceWorker" in navigator)) return;
 
-    perbarui = registerSW({
+    updateServiceWorker = registerSW({
         immediate: true,
         onNeedRefresh() {
-            adaVersiBaru.value = true;
+            updateAvailable.value = true;
         },
         onRegisteredSW() {
             if (navigator.serviceWorker.controller) {
-                hangatkanCacheData();
+                warmDataCache();
             } else {
-                navigator.serviceWorker.addEventListener("controllerchange", hangatkanCacheData, { once: true });
+                navigator.serviceWorker.addEventListener("controllerchange", warmDataCache, { once: true });
             }
         },
         onRegisterError(e) {
@@ -35,6 +35,6 @@ export function aktifkanCacheOffline() {
 }
 
 // memuat ulang ke versi baru; progres aman karena tersimpan di IndexedDB
-export function pakaiVersiBaru() {
-    perbarui?.(true);
+export function applyUpdate() {
+    updateServiceWorker?.(true);
 }

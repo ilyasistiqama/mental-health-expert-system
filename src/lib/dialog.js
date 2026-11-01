@@ -1,22 +1,22 @@
 import { shallowRef } from "vue";
 
-// dialog konfirmasi yang sedang tampil; dirender oleh DialogKonfirmasi.vue di App.vue
-export const dialogAktif = shallowRef(null);
+// dialog konfirmasi yang sedang tampil; dirender oleh ConfirmationDialog.vue di App.vue
+export const activeDialog = shallowRef(null);
 
 // pengganti confirm() bawaan browser, mengembalikan Promise<boolean>
-export function konfirmasi({ judul, pesan, ya = "Ya", tidak = "Batal", bahaya = false }) {
+export function confirmAction({ title, message, yes = "Ya", no = "Batal", danger = false }) {
     // jika masih ada dialog terbuka, anggap dibatalkan lalu ganti dengan yang baru
-    dialogAktif.value?.selesai(false);
-    return new Promise((selesai) => {
-        dialogAktif.value = {
-            judul,
-            pesan,
-            ya,
-            tidak,
-            bahaya,
-            selesai: (jawaban) => {
-                dialogAktif.value = null;
-                selesai(jawaban);
+    activeDialog.value?.resolve(false);
+    return new Promise((resolve) => {
+        activeDialog.value = {
+            title,
+            message,
+            yes,
+            no,
+            danger,
+            resolve: (answers) => {
+                activeDialog.value = null;
+                resolve(answers);
             }
         };
     });

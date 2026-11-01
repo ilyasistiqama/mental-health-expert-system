@@ -1,0 +1,845 @@
+[
+  {
+    "code": "P0",
+    "name": "Tidak Menunjukkan Kecenderungan pada Gangguan yang Diperiksa",
+    "category": "-",
+    "description": "Berdasarkan jawaban anda, sistem tidak menemukan kecenderungan pada gangguan yang diperiksa. Hasil ini tidak menjamin anda bebas dari gangguan tersebut maupun masalah kesehatan mental lain, karena sistem ini hanya alat skrining yang terbatas. Jika anda tetap merasa cemas, sedih, atau terganggu, sebaiknya tetap berbicara dengan psikolog.",
+    "criteria": [],
+    "minimumDuration": 0,
+    "treatment": [
+      "Jaga pola tidur dan makan yang teratur, serta berolahraga secara rutin.",
+      "Latih teknik relaksasi seperti pernapasan perlahan, dan biasakan meditasi mindfulness.",
+      "Batasi konsumsi alkohol dan hindari narkoba.",
+      "Jika suatu saat rasa cemas atau sedih mulai mengganggu aktivitas sehari-hari, jangan ragu berkonsultasi dengan psikolog atau puskesmas terdekat."
+    ],
+    "classification": "",
+    "references": [
+      "who-anxiety-2026",
+      "who-depression-2026"
+    ]
+  },
+  {
+    "code": "P1",
+    "name": "Gangguan Panik",
+    "category": "Gangguan Kecemasan",
+    "description": "Serangan panik yang berulang dan tidak terduga, yaitu gelombang rasa takut atau tidak nyaman yang sangat hebat dan memuncak dalam hitungan menit, disertai gejala fisik yang kuat. Setelahnya, orang yang mengalaminya terus khawatir akan serangan berikutnya atau mengubah perilaku untuk menghindarinya.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G01"
+        ],
+        "references": [
+          "samhsa-panic"
+        ]
+      },
+      {
+        "symptoms": [
+          "G10",
+          "G11",
+          "G70",
+          "G12",
+          "G71",
+          "G13",
+          "G14",
+          "G72",
+          "G74",
+          "G75",
+          "G15",
+          "G16",
+          "G73"
+        ],
+        "minimum": 4,
+        "references": [
+          "samhsa-panic"
+        ]
+      },
+      {
+        "symptoms": [
+          "G17"
+        ],
+        "references": [
+          "samhsa-panic"
+        ]
+      }
+    ],
+    "minimumDuration": 0,
+    "treatment": [
+      "Psikoterapi berupa terapi kognitif perilaku (CBT) merupakan penanganan utama untuk gangguan panik.",
+      "Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.",
+      "Latihan pernapasan perlahan dan relaksasi dapat membantu meredakan gejala saat serangan muncul."
+    ],
+    "classification": "DSM-5-TR: Panic Disorder · ICD-11: 6B01 · PPDGJ-III: F41.0",
+    "references": [
+      "samhsa-panic",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "nice-cg113",
+      "who-anxiety-2026"
+    ],
+    "evidenceReferences": [
+      "samhsa-panic"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P2",
+    "name": "Gangguan Kecemasan Menyeluruh",
+    "category": "Gangguan Kecemasan",
+    "description": "Kecemasan dan kekhawatiran berlebihan tentang berbagai hal yang berlangsung hampir setiap hari, sulit dikendalikan, dan disertai keluhan seperti gelisah, mudah lelah, sulit berkonsentrasi, mudah marah, otot tegang, atau gangguan tidur.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G02"
+        ],
+        "references": [
+          "apa-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G18"
+        ],
+        "references": [
+          "apa-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G19",
+          "G20",
+          "G21",
+          "G22",
+          "G23",
+          "G68"
+        ],
+        "minimum": 3,
+        "references": [
+          "apa-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G99"
+        ],
+        "references": [
+          "apa-anxiety"
+        ]
+      }
+    ],
+    "minimumDuration": 180,
+    "treatment": [
+      "Psikoterapi berupa terapi kognitif perilaku (CBT) atau relaksasi terapan (applied relaxation) merupakan penanganan utama.",
+      "Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.",
+      "Olahraga teratur, tidur cukup, teknik relaksasi, serta membatasi kafein dan alkohol dapat membantu meringankan gejala."
+    ],
+    "classification": "DSM-5-TR: Generalized Anxiety Disorder · ICD-11: 6B00 · PPDGJ-III: F41.1",
+    "references": [
+      "apa-anxiety",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "nice-cg113",
+      "who-anxiety-2026"
+    ],
+    "evidenceReferences": [
+      "apa-anxiety"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P3",
+    "name": "Fobia Spesifik",
+    "category": "Gangguan Kecemasan",
+    "description": "Ketakutan yang berlebihan dan tidak sebanding dengan bahaya sebenarnya terhadap objek atau situasi tertentu, misalnya hewan, ketinggian, darah, atau jarum suntik. Rasa takut hampir selalu muncul saat berhadapan dengan pemicunya sehingga orang yang mengalaminya berusaha menghindarinya.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G03"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G25"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G26"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G100"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      }
+    ],
+    "minimumDuration": 180,
+    "treatment": [
+      "Psikoterapi, terutama terapi kognitif perilaku dengan pemaparan bertahap terhadap objek atau situasi yang ditakuti (exposure therapy), merupakan penanganan utama.",
+      "Teknik relaksasi dapat membantu mengendalikan rasa takut selama proses terapi.",
+      "Obat umumnya bukan penanganan utama untuk fobia spesifik; bila diperlukan, psikiater atau dokter yang akan menentukannya."
+    ],
+    "classification": "DSM-5-TR: Specific Phobia · ICD-11: 6B03 · PPDGJ-III: F40.2",
+    "references": [
+      "canadian-anxiety",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "who-anxiety-2026"
+    ],
+    "evidenceReferences": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P4",
+    "name": "Gangguan Obsesif-Kompulsif",
+    "category": "Gangguan Obsesif-Kompulsif dan Terkait",
+    "description": "Munculnya obsesi (pikiran, bayangan, atau dorongan berulang yang tidak diinginkan dan menimbulkan cemas) dan/atau kompulsi (tindakan atau ritual berulang yang dirasa harus dilakukan untuk meredakan cemas) yang menyita waktu atau sangat mengganggu. Berbeda dari sekadar suka rapi atau perfeksionis: pada OCD, pikiran dan tindakan tersebut sulit dihentikan dan menimbulkan tekanan. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G04",
+          "G05"
+        ],
+        "minimum": 1,
+        "references": [
+          "samhsa-ocd"
+        ]
+      },
+      {
+        "symptoms": [
+          "G59",
+          "G101"
+        ],
+        "minimum": 1,
+        "references": [
+          "samhsa-ocd"
+        ]
+      }
+    ],
+    "minimumDuration": 0,
+    "treatment": [
+      "Terapi kognitif perilaku dengan teknik exposure and response prevention (ERP) merupakan penanganan utama.",
+      "Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.",
+      "Dukungan keluarga dan edukasi tentang gangguan ini membantu proses pemulihan."
+    ],
+    "classification": "DSM-5-TR: Obsessive-Compulsive Disorder · ICD-11: 6B20 · PPDGJ-III: F42",
+    "references": [
+      "samhsa-ocd",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "nice-cg31"
+    ],
+    "evidenceReferences": [
+      "samhsa-ocd"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P5",
+    "name": "Gangguan Stres Pascatrauma (PTSD)",
+    "category": "Gangguan Terkait Trauma dan Stresor",
+    "description": "Reaksi berkepanjangan setelah mengalami atau menyaksikan peristiwa traumatis, berupa ingatan atau mimpi buruk yang terus muncul, menghindari hal yang mengingatkan peristiwa, perubahan pikiran dan perasaan menjadi negatif, serta selalu waspada atau mudah kaget. Dalam DSM-5-TR, gangguan ini dipisahkan dari kelompok gangguan kecemasan.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G06"
+        ],
+        "references": [
+          "va-ptsd-criteria",
+          "nimh-ptsd"
+        ]
+      },
+      {
+        "symptoms": [
+          "G27",
+          "G76",
+          "G77",
+          "G28",
+          "G78"
+        ],
+        "minimum": 1,
+        "references": [
+          "va-ptsd-criteria",
+          "nimh-ptsd"
+        ]
+      },
+      {
+        "symptoms": [
+          "G29",
+          "G79"
+        ],
+        "minimum": 1,
+        "references": [
+          "va-ptsd-criteria",
+          "nimh-ptsd"
+        ]
+      },
+      {
+        "symptoms": [
+          "G32",
+          "G82",
+          "G80",
+          "G30",
+          "G83",
+          "G31",
+          "G81"
+        ],
+        "minimum": 2,
+        "references": [
+          "va-ptsd-criteria",
+          "nimh-ptsd"
+        ]
+      },
+      {
+        "symptoms": [
+          "G85",
+          "G86",
+          "G33",
+          "G84",
+          "G87",
+          "G88"
+        ],
+        "minimum": 2,
+        "references": [
+          "va-ptsd-criteria",
+          "nimh-ptsd"
+        ]
+      },
+      {
+        "symptoms": [
+          "G102"
+        ],
+        "references": [
+          "va-ptsd-criteria",
+          "nimh-ptsd"
+        ]
+      }
+    ],
+    "minimumDuration": 30,
+    "durationNote": "Keluhan setelah trauma yang belum mencapai satu bulan tetap layak mendapat dukungan. Sistem tidak menentukan apakah keluhan tersebut termasuk kondisi lain.",
+    "treatment": [
+      "Psikoterapi yang berfokus pada trauma merupakan penanganan utama, misalnya cognitive processing therapy (CPT), prolonged exposure (PE), trauma-focused CBT, atau eye movement desensitization and reprocessing (EMDR).",
+      "Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.",
+      "Dukungan sosial dan kelompok dukungan sesama penyintas dapat membantu pemulihan."
+    ],
+    "classification": "DSM-5-TR: Posttraumatic Stress Disorder · ICD-11: 6B40 · PPDGJ-III: F43.1",
+    "references": [
+      "va-ptsd-criteria",
+      "nimh-ptsd",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "nice-ng116",
+      "apa-ptsd-2025"
+    ],
+    "evidenceReferences": [
+      "va-ptsd-criteria",
+      "nimh-ptsd"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P6",
+    "name": "Gangguan Kecemasan Sosial",
+    "category": "Gangguan Kecemasan",
+    "description": "Ketakutan yang kuat dan menetap terhadap situasi sosial ketika seseorang mungkin diperhatikan atau dinilai orang lain, karena takut dipermalukan atau ditolak. Situasi tersebut dihindari atau dijalani dengan kecemasan yang sangat hebat.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G07"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G34"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G91"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G35"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      },
+      {
+        "symptoms": [
+          "G103"
+        ],
+        "references": [
+          "canadian-anxiety"
+        ]
+      }
+    ],
+    "minimumDuration": 180,
+    "treatment": [
+      "Terapi kognitif perilaku (CBT) individual yang dirancang khusus untuk kecemasan sosial merupakan penanganan utama.",
+      "Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.",
+      "Latihan menghadapi situasi sosial secara bertahap dapat membantu meningkatkan rasa percaya diri."
+    ],
+    "classification": "DSM-5-TR: Social Anxiety Disorder · ICD-11: 6B04 · PPDGJ-III: F40.1",
+    "references": [
+      "canadian-anxiety",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "nice-cg159",
+      "who-anxiety-2026"
+    ],
+    "evidenceReferences": [
+      "canadian-anxiety"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P7",
+    "name": "Agorafobia",
+    "category": "Gangguan Kecemasan",
+    "description": "Ketakutan berada di beberapa tempat atau situasi, seperti transportasi umum, ruang terbuka, ruang tertutup, keramaian, atau di luar rumah sendirian, karena khawatir sulit keluar atau mendapat pertolongan bila muncul gejala panik atau keluhan lain yang menyulitkan atau memalukan. Situasi tersebut dapat dihindari atau dijalani dengan kecemasan yang kuat.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G08"
+        ],
+        "references": [
+          "canadian-anxiety",
+          "nimh-phobias"
+        ]
+      },
+      {
+        "symptoms": [
+          "G36",
+          "G37",
+          "G38",
+          "G39",
+          "G40"
+        ],
+        "minimum": 2,
+        "references": [
+          "canadian-anxiety",
+          "nimh-phobias"
+        ]
+      },
+      {
+        "symptoms": [
+          "G92"
+        ],
+        "references": [
+          "canadian-anxiety",
+          "nimh-phobias"
+        ]
+      },
+      {
+        "symptoms": [
+          "G41"
+        ],
+        "references": [
+          "canadian-anxiety",
+          "nimh-phobias"
+        ]
+      },
+      {
+        "symptoms": [
+          "G104"
+        ],
+        "references": [
+          "canadian-anxiety",
+          "nimh-phobias"
+        ]
+      }
+    ],
+    "minimumDuration": 180,
+    "treatment": [
+      "Terapi kognitif perilaku (CBT) dengan pemaparan bertahap terhadap situasi yang ditakuti merupakan penanganan utama.",
+      "Bila diperlukan, psikiater atau dokter dapat meresepkan obat yang sesuai. Jangan mengonsumsi obat apa pun, termasuk obat penenang, tanpa resep dan pengawasan dokter.",
+      "Mulailah menghadapi situasi yang ditakuti secara perlahan, misalnya dengan ditemani orang yang dipercaya."
+    ],
+    "classification": "DSM-5-TR: Agoraphobia · ICD-11: 6B02 · PPDGJ-III: F40.0",
+    "references": [
+      "canadian-anxiety",
+      "nimh-phobias",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "nice-cg113",
+      "who-anxiety-2026"
+    ],
+    "evidenceReferences": [
+      "canadian-anxiety",
+      "nimh-phobias"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P8",
+    "name": "Gangguan Kecemasan Perpisahan",
+    "category": "Gangguan Kecemasan",
+    "description": "Ketakutan atau kecemasan yang berlebihan dan tidak sesuai usia terhadap perpisahan dengan orang terdekat, misalnya terus khawatir orang terdekat celaka, enggan bepergian, takut sendirian, atau mengalami keluhan fisik saat akan berpisah. Gangguan ini dapat dialami anak-anak maupun orang dewasa.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G09"
+        ],
+        "references": [
+          "samhsa-separation"
+        ]
+      },
+      {
+        "symptoms": [
+          "G42",
+          "G43",
+          "G44",
+          "G45",
+          "G46",
+          "G47",
+          "G48",
+          "G89"
+        ],
+        "minimum": 3,
+        "references": [
+          "samhsa-separation"
+        ]
+      },
+      {
+        "symptoms": [
+          "G105"
+        ],
+        "references": [
+          "samhsa-separation"
+        ]
+      }
+    ],
+    "minimumDuration": 180,
+    "durationNote": "Pada anak dan remaja, kriteria durasinya adalah minimal 4 minggu. Konsultasikan dengan psikolog anak bila keluhan dialami anak.",
+    "treatment": [
+      "Psikoterapi, terutama terapi kognitif perilaku (CBT) dengan latihan menghadapi perpisahan secara bertahap, merupakan penanganan utama.",
+      "Pada anak dan remaja, terapi melibatkan orang tua atau keluarga.",
+      "Bila gejala berat, psikiater atau dokter dapat mempertimbangkan obat. Jangan mengonsumsi obat tanpa resep dan pengawasan dokter."
+    ],
+    "classification": "DSM-5-TR: Separation Anxiety Disorder · ICD-11: 6B05 · PPDGJ-III: F93.0",
+    "references": [
+      "samhsa-separation",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "who-anxiety-2026"
+    ],
+    "evidenceReferences": [
+      "samhsa-separation"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P9",
+    "name": "Gangguan Depresi Mayor",
+    "category": "Gangguan Depresi",
+    "description": "Suasana hati sedih, hampa, atau putus asa dan/atau hilangnya minat atau kesenangan yang berlangsung hampir sepanjang hari, hampir setiap hari, selama minimal 2 minggu, disertai keluhan lain seperti perubahan tidur atau nafsu makan, kehilangan tenaga, merasa tidak berharga, sulit berkonsentrasi, atau pikiran tentang kematian. Depresi berbeda dari rasa sedih biasa karena menetap dan mengganggu kehidupan sehari-hari.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G50",
+          "G51"
+        ],
+        "minimum": 1,
+        "references": [
+          "samhsa-depression"
+        ]
+      },
+      {
+        "symptoms": [
+          "G50",
+          "G51",
+          "G52",
+          "G69",
+          "G54",
+          "G55",
+          "G56",
+          "G57",
+          "G58"
+        ],
+        "minimum": 5,
+        "references": [
+          "samhsa-depression"
+        ]
+      },
+      {
+        "symptoms": [
+          "G106"
+        ],
+        "references": [
+          "samhsa-depression"
+        ]
+      }
+    ],
+    "minimumDuration": 14,
+    "durationNote": "Keluhan yang belum berlangsung 2 minggu tetap perlu diperhatikan. Jika keluhan berlanjut atau terasa berat, bicarakan dengan psikolog atau tenaga kesehatan di puskesmas.",
+    "note": "Sebelum menentukan diagnosis, profesional akan memeriksa kemungkinan penyebab fisik (misalnya gangguan tiroid, efek obat, atau zat tertentu) dan menanyakan apakah anda pernah mengalami masa ketika suasana hati sangat meningkat, sangat bersemangat, atau hampir tidak butuh tidur. Ceritakan jika pernah, karena penanganan gangguan bipolar berbeda dari depresi.",
+    "treatment": [
+      "Psikoterapi merupakan penanganan pertama, misalnya terapi kognitif perilaku (CBT), aktivasi perilaku (behavioural activation), psikoterapi interpersonal, atau terapi pemecahan masalah.",
+      "Pada depresi sedang hingga berat, psikiater atau dokter dapat mempertimbangkan obat bersama psikoterapi. Jangan mengonsumsi maupun menghentikan obat apa pun tanpa resep dan pengawasan dokter. Pada anak dan remaja, obat bukan penanganan pertama.",
+      "Tetap melakukan kegiatan yang dulu anda sukai, berolahraga ringan secara teratur, menjaga pola makan dan tidur, tetap terhubung dengan keluarga dan teman, serta menghindari alkohol dan narkoba dapat membantu pemulihan."
+    ],
+    "classification": "DSM-5-TR: Major Depressive Disorder · ICD-11: 6A70–6A71 · PPDGJ-III: F32–F33",
+    "references": [
+      "samhsa-depression",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "kroenke-phq9-2001",
+      "nice-ng222",
+      "who-depression-2026"
+    ],
+    "evidenceReferences": [
+      "samhsa-depression"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P10",
+    "name": "Gangguan Insomnia",
+    "category": "Gangguan Tidur-Bangun",
+    "description": "Kesulitan memulai tidur, mempertahankan tidur, atau bangun terlalu pagi yang terjadi setidaknya 3 malam dalam seminggu selama minimal 3 bulan, walaupun ada cukup kesempatan untuk tidur, dan membuat tertekan atau mengganggu aktivitas di siang hari.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G60",
+          "G61",
+          "G62"
+        ],
+        "minimum": 1,
+        "references": [
+          "nhlbi-insomnia"
+        ]
+      },
+      {
+        "symptoms": [
+          "G63"
+        ],
+        "references": [
+          "nhlbi-insomnia"
+        ]
+      },
+      {
+        "symptoms": [
+          "G64"
+        ],
+        "references": [
+          "nhlbi-insomnia"
+        ]
+      },
+      {
+        "symptoms": [
+          "G107"
+        ],
+        "references": [
+          "nhlbi-insomnia"
+        ]
+      }
+    ],
+    "minimumDuration": 90,
+    "durationNote": "Kesulitan tidur yang berlangsung kurang dari 3 bulan dapat termasuk insomnia jangka pendek, yang sering dipicu stres dan biasanya membaik. Jika berlanjut, konsultasikan dengan dokter atau psikolog.",
+    "note": "Kesulitan tidur juga dapat disebabkan kondisi lain, seperti henti napas saat tidur (ditandai dengkuran keras atau tersedak saat tidur), rasa tidak nyaman di kaki saat berbaring, efek obat, kafein, atau alkohol. Insomnia juga sering menyertai kecemasan atau depresi. Dokter akan memeriksa kemungkinan tersebut.",
+    "treatment": [
+      "Terapi kognitif perilaku untuk insomnia (CBT-I) merupakan penanganan utama dan dianjurkan sebelum obat. Terapi ini melatih kebiasaan dan pola pikir yang membantu tidur, biasanya dalam 4 sampai 8 sesi.",
+      "Obat tidur hanya digunakan dengan resep dan pengawasan dokter, umumnya bila CBT-I belum berhasil dan untuk jangka pendek. Jangan membeli atau mengonsumsi obat tidur sendiri.",
+      "Kebiasaan tidur sehat, seperti jam tidur dan bangun yang teratur, membatasi kafein dan layar sebelum tidur, serta memakai tempat tidur hanya untuk tidur, membantu sebagai pelengkap terapi, tetapi tidak cukup sebagai satu-satunya penanganan."
+    ],
+    "classification": "DSM-5-TR: Insomnia Disorder · ICD-11: 7A00 · PPDGJ-III: F51.0",
+    "references": [
+      "nhlbi-insomnia",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3",
+      "aasm-insomnia-2021",
+      "acp-insomnia-2016"
+    ],
+    "evidenceReferences": [
+      "nhlbi-insomnia"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P11",
+    "name": "Gangguan Penyesuaian",
+    "category": "Gangguan Terkait Trauma dan Stresor",
+    "description": "Keluhan emosional atau perilaku yang muncul dalam 3 bulan setelah peristiwa hidup yang berat dapat menjadi bahan diskusi tentang penyesuaian diri. Beratnya tekanan perlu dipahami sesuai keadaan dan budaya seseorang. Keluhan dapat berlanjut jika pemicu masih ada; rasa duka yang wajar tidak otomatis berarti gangguan.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G65"
+        ],
+        "references": [
+          "medline-adjustment",
+          "odonnell-2019"
+        ]
+      },
+      {
+        "symptoms": [
+          "G67",
+          "G108"
+        ],
+        "minimum": 1,
+        "references": [
+          "medline-adjustment",
+          "odonnell-2019"
+        ]
+      }
+    ],
+    "minimumDuration": 0,
+    "note": "Gangguan penyesuaian hanya disimpulkan jika keluhan anda tidak lebih tepat dijelaskan oleh gangguan lain, seperti depresi atau gangguan kecemasan; profesional akan memastikannya. Jika peristiwa yang anda alami adalah kematian orang terdekat, rasa duka yang wajar bukan gangguan, tetapi tetap bicarakan dengan psikolog bila duka terasa sangat berat atau berkepanjangan.",
+    "treatment": [
+      "Psikoterapi, misalnya terapi kognitif perilaku (CBT), konseling suportif, atau terapi pemecahan masalah, umumnya digunakan untuk membantu menghadapi peristiwa dan menyesuaikan diri, walaupun penelitiannya masih terbatas.",
+      "Latihan mengelola stres, seperti teknik relaksasi, serta dukungan dari keluarga, teman, atau kelompok dukungan dapat membantu pemulihan.",
+      "Obat bukan penanganan utama; bila keluhan berat, psikiater atau dokter yang akan menentukannya. Jangan mengonsumsi obat tanpa resep dan pengawasan dokter."
+    ],
+    "classification": "DSM-5-TR: Adjustment Disorders · ICD-11: 6B43 · PPDGJ-III: F43.2",
+    "references": [
+      "medline-adjustment",
+      "odonnell-2019",
+      "dsm5tr",
+      "icd11",
+      "ppdgj3"
+    ],
+    "evidenceReferences": [
+      "medline-adjustment",
+      "odonnell-2019"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "DSM-5-summary"
+  },
+  {
+    "code": "P12",
+    "name": "Mimpi buruk berulang",
+    "category": "Gangguan Tidur-Bangun",
+    "description": "Mimpi sangat mengganggu yang berulang, diingat setelah bangun, dan menimbulkan tekanan atau mengganggu keseharian layak dibahas dengan profesional. Mimpi buruk tidak selalu berkaitan dengan trauma. Topik ini membantu menceritakan pengalaman tidur, bukan menetapkan gangguan mimpi buruk.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G93"
+        ],
+        "references": [
+          "aasm-nightmare"
+        ]
+      },
+      {
+        "symptoms": [
+          "G94"
+        ],
+        "references": [
+          "aasm-nightmare"
+        ]
+      },
+      {
+        "symptoms": [
+          "G95"
+        ],
+        "references": [
+          "aasm-nightmare"
+        ]
+      }
+    ],
+    "minimumDuration": 0,
+    "treatment": [],
+    "classification": "",
+    "references": [
+      "aasm-nightmare"
+    ],
+    "note": "Ceritakan frekuensi mimpi, dampaknya, serta obat atau zat yang digunakan kepada dokter atau psikolog. Kebingungan berkepanjangan setelah bangun atau perilaku saat tidur juga perlu diperiksa; jawaban Tidak pada topik ini bukan jaminan tidak ada masalah tidur.",
+    "evidenceReferences": [
+      "aasm-nightmare"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "ICSD-3-summary"
+  },
+  {
+    "code": "P13",
+    "name": "Pola tidur-bangun terlambat",
+    "category": "Gangguan Tidur-Bangun",
+    "description": "Pola berulang berupa baru bisa tidur jauh lebih larut dan sulit bangun pada waktu yang diperlukan dapat mengganggu kegiatan sehari-hari. Topik ini membantu membahas jadwal tidur dengan tenaga kesehatan, bukan menentukan gangguan ritme sirkadian. Penilaian dapat memerlukan catatan tidur serta pemeriksaan oleh tenaga kesehatan.",
+    "criteria": [
+      {
+        "symptoms": [
+          "G96"
+        ],
+        "references": [
+          "nhlbi-circadian-types",
+          "nhlbi-circadian-assessment"
+        ]
+      },
+      {
+        "symptoms": [
+          "G97"
+        ],
+        "references": [
+          "nhlbi-circadian-types",
+          "nhlbi-circadian-assessment"
+        ]
+      },
+      {
+        "symptoms": [
+          "G98"
+        ],
+        "references": [
+          "nhlbi-circadian-types",
+          "nhlbi-circadian-assessment"
+        ]
+      }
+    ],
+    "minimumDuration": 90,
+    "treatment": [],
+    "classification": "",
+    "references": [
+      "nhlbi-circadian-types",
+      "nhlbi-circadian-assessment"
+    ],
+    "note": "Catat jam tidur, bangun, tidur siang, jadwal kerja, serta konsumsi kafein untuk dibahas dengan dokter. Jadwal kerja malam, perjalanan lintas zona waktu, kebiasaan, obat, dan kondisi fisik perlu dipertimbangkan. Penilaian dapat memerlukan buku harian tidur dan pemeriksaan; pertanyaan Ya/Tidak ini tidak mencukupi.",
+    "durationNote": "Pola yang belum berlangsung 3 bulan tetap dapat dibicarakan bila mengganggu. Ambang ini tidak perlu ditunggu untuk mencari bantuan.",
+    "evidenceReferences": [
+      "nhlbi-circadian-types",
+      "nhlbi-circadian-assessment"
+    ],
+    "reviewedAt": "2026-11-01",
+    "ruleBasis": "educational-topic"
+  }
+]
